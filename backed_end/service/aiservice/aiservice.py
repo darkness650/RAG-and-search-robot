@@ -61,7 +61,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
             )
         #初始化大模型
         llm = ChatOpenAI(
-            api_key=os.getenv("OPEN_API_KEY"),
+            api_key="sk-2005a529a0684314bb0a16516d9e14f2",
             base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
             model="qwen-max",
             temperature=0.5
@@ -141,13 +141,4 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
                               stream_mode="values")
         return (output["messages"][-1].content)
 
-
-#做测试用的
-if __name__ == "__main__":
-    while True:
-        user_input = input("User: ")
-        if user_input.lower() in ["quit", "exit", "q"]:
-            print("Goodbye!")
-            break
-        print("output:",service(user_input, thread_id="1", internet=True, RAG=True))
 
