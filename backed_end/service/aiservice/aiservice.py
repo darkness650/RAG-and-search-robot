@@ -14,6 +14,7 @@ from backed_end.service.node.CustomToolNode import CustomToolNode
 from backed_end.service.state.chat_manager import ChatMemoryManager
 from backed_end.service.state.state import State
 from backed_end.service.tools.fileRAG_tool import RAG_tool
+from backed_end.service.tools.internet_tool import gettools
 from backed_end.service.tools.search_tool import reliable_duckduckgo_search
 
 
@@ -50,6 +51,8 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
                     description="使用 DuckDuckGo 进行可靠的搜索，使用英文搜索更加准确"
                 )
             )
+            tools.extend(gettools())
+
         if RAG:
             retriever = RAG_tool(thread_id)
             tools.append(

@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from collections.abc import AsyncGenerator
 
 
-DATABASE_URL = "mysql+aiomysql://myuser:12345678@localhost:3306/dbabc"
+DATABASE_URL = "mysql+aiomysql://root:Aa17526909261@localhost:3306/machine"
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 async_session = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
