@@ -1,0 +1,34 @@
+.header {
+  height:80px;
+  width:100%;
+  display:flex;
+  justify-content: flex-start;
+  background-color: rgb(255,255,255);
+  padding:0;
+
+  .occupyposition{
+    width:200px;
+   
+    justify-content: center;
+  }
+  .logo{
+    width:15%;
+   
+    background-image: url(../assets/1752128535234.png);
+    background-size:contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display:inline-block;
+  }
+  .right-area{
+    flex:1;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .right-title{
+    font-weight:800;
+  }
+}
