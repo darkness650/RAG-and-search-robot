@@ -9,7 +9,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # 文档检索工具函数
 def RAG_tool(thread_id:str):
-    dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'resource'))
+    dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'resource',thread_id))
     os.makedirs(os.path.dirname(dir), exist_ok=True)
     docs=[]
     for filename in os.listdir(dir):

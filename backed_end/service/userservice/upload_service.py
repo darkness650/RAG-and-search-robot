@@ -33,8 +33,8 @@ def upload_file_service(file: UploadFile,username:str):
     mime_type = mime_type or "application/octet-stream"
 
     # ✅ 写入上传日志
-    with open(LOG_FILE, "a", encoding="utf-8") as log:
-        log.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 用户 {username} 上传: {unique_filename}\n")
+    # with open(LOG_FILE, "a", encoding="utf-8") as log:
+    #     log.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 用户 {username} 上传: {unique_filename}\n")
 
     return {
         "filename": unique_filename,

@@ -11,12 +11,21 @@ async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_cur
              web_search:Annotated[bool,Form()]=False,files:Optional[List[UploadFile]]=File(None)):
     has_file = bool(files and len(files) > 0)
     uploaded_file_paths = []
-    if has_file:
-        for file in files:
-            file_info = upload_service.upload_file_service(file,user.username)
-            uploaded_file_paths.append(file_info["filepath"])
-    result = service(question, user.username, web_search, has_file)
-    for path in uploaded_file_paths:
-        if os.path.exists(path):
-            os.remove(path)
+    try:
+        if has_file:
+            for file in files:
+                file_info = upload_service.upload_file_service(file, user.username)
+                uploaded_file_paths.append(file_info["filepath"])
+                await file.close()
+
+        result = await service(question, user.username, web_search, has_file)
+
+    finally:
+        for path in uploaded_file_paths:
+            try:
+                if os.path.exists(path):
+                    os.remove(path)
+            except Exception as e:
+                print(f"❗ Failed to delete file {path}: {e}")
+
     return {"result": result}
