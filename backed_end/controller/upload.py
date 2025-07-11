@@ -5,12 +5,6 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-
-
-
-
-router = APIRouter()
-
 @router.post("/", summary="上传文件")
 async def upload_files(files: List[UploadFile] = File(...)):
     results = []

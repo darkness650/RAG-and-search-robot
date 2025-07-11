@@ -7,6 +7,7 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.tools import Tool, create_retriever_tool
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from langgraph.constants import START, END
 from langgraph.graph import StateGraph
 
@@ -19,7 +20,7 @@ from backed_end.service.tools.search_tool import reliable_duckduckgo_search
 
 
 # 2. 修改 service 函数
-def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
+async def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
     """
     主服务函数，用于处理用户输入并返回 AI 响应。
     :param question: 用户的问题
@@ -33,7 +34,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
     db_path = r"../service/SQLite/checkpoints.sqlite"
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
     #使用sqlite数据库做检查点
-    with SqliteSaver.from_conn_string(db_path) as checkpointer:
+    async with AsyncSqliteSaver.from_conn_string(db_path) as checkpointer:
         graph_builder = StateGraph(State)
 
         # 初始化 Memory 管理器
@@ -51,7 +52,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
                     description="使用 DuckDuckGo 进行可靠的搜索，使用英文搜索更加准确"
                 )
             )
-            tools.extend(gettools())
+            tools.extend(await gettools())
 
         if RAG:
             retriever = RAG_tool(thread_id)
@@ -72,8 +73,8 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
         #拉取 React Agent 的提示模板
         prompt = hub.pull("hwchase17/react-chat")
         #对提示词做工具个性化改造
-        prompt+=("你必须尽可能使用工具，如果你可以使用文档检索工具，请先调用文档检索工具查看是否有你需要的信息，如果你可以使用搜索引擎，请使用 DuckDuckGo 进行搜索，使用英文搜索更加准确。"
-                 "如果可以调用文档检索则试图调用文档检索，若查询出结果，则不要使用搜索引擎工具，若未检索出内容，若可调用搜索引擎工具，则调用搜索引擎查询，若调用搜索引擎工具失败三次则停止调用搜索引擎，使用目前已知的信息回答")
+        prompt+=("你必须尽可能使用工具，如果你可以使用文档检索工具，请先调用文档检索工具查看是否有你需要的信息，如果你可以使用搜索引擎，请使用 DuckDuckGo 进行搜索。若调用duckduckgo搜索且搜索到网址，必须调用browser工具访问网址获取具体信息"
+                 "如果可以调用文档检索则试图调用文档检索，若查询出结果，则不要使用搜索引擎工具，若未检索出内容，请立刻停止使用文档检索工具，若可调用搜索引擎工具，则调用搜索引擎查询，若搜索到具体网址但没有搜索到具体内容，必须使用browser工具访问网站获得具体的信息，若调用搜索引擎工具失败三次则停止调用搜索引擎，使用目前已知的信息回答")
         # 创建 React Agent
         agent = create_react_agent(
             tools=tools,
@@ -90,7 +91,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
         )
 
         # 创建chatbot节点
-        def chatbot(state: State) -> Dict[str, Any]:
+        async def chatbot(state: State) -> Dict[str, Any]:
             # 压缩历史消息
             condensed_messages = memory_manager.condense_history(state["messages"], llm)
 
@@ -102,7 +103,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
             input_messages = [{"role": "user", "content": condensed_messages[-1].content}]
 
             # 执行 Agent
-            response = agent_executor.invoke({
+            response = await agent_executor.ainvoke({
                 "input": condensed_messages[-1].content,
                 "chat_history": condensed_messages[:-1]
             })
@@ -115,7 +116,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
 
 
         #条件边的条件
-        def custom_condition(state: State):
+        async def custom_condition(state: State):
             last_message = state["messages"][-1]
             if hasattr(last_message, "tool_calls") and last_message.tool_calls:
                 return "tools"
@@ -139,7 +140,7 @@ def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
             interrupt_after=["tools"]
         )
 
-        output = graph.invoke({"messages": [HumanMessage(content=question)]},
+        output = await graph.ainvoke({"messages": [HumanMessage(content=question)]},
                               config=config,
                               stream_mode="values")
         return (output["messages"][-1].content)
