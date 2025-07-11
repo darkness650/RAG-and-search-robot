@@ -1,0 +1,62 @@
+.IOTRelease_parentContainer {
+  display: flex;
+  flex-direction: column;//flex里面用于布局方向的设置可以设置为横着的，此处是竖着的
+  height: 100%;
+
+   .IOTRelease_tableContainer {
+    flex : 1;//水平竖直方向都占满
+    overflow-y: auto;//竖直方向上超出的话设置滚动条
+   }
+}
+
+.disabledTable {
+  opacity: 0.5;//0全透明 1不透明
+  pointer-events: none;//鼠标事件点击没反应
+}
+
+.ant-collapse-header-text{
+  font-size: 14px;
+  font-weight: 700;
+  }
+
+.statusTag {
+  background:#e6f4fd;
+  color: #3666ac;
+  cursor: pointer//手形  
+}
+
+.progress-container {
+  position: relative;
+  padding-bottom: 2px;// 为动画线条留出空间
+  
+  .data-row{
+    margin-bottom: 0;
+  }
+  
+  .refresh-line {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(to right, #1890ff, #52c41a);
+    animation: refreshProgress 6s linear infinite;//6s重复一次，渐变无限循环
+    opacity: 0.7;
+  }
+}
+
+
+@keyframes  refreshProgress {
+  0% {
+    width:0;
+    opacity: 0.7;
+  }
+
+  90% {
+   width: 100%;
+   opacity: 0.7;
+  }
+   100%{
+    width: 100%;
+    opacity:0;
+   }
+}
