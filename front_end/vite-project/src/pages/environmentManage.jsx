@@ -252,15 +252,23 @@ const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
       <div className="topbar">这是个神秘对话框</div>
       <div className="left">这边建议您不要随便点击哦</div>
       
-      {/* 聊天结果区域 */}
-      <div id="chat-container" className="result" onClick={handleResultClick}>
+      {/* 聊天结果区域，保留原有className和配色，只加外层flex布局 */}
+      <div id="chat-container" className="result">
         {messages.map((msg, index) => (
-          <div 
-            key={index} 
-            className={msg.type === 'user' ? 'user-question' : msg.type === 'error' ? 'ai-answer error' : 'ai-answer'}
+          <div
+            key={index}
+            style={{
+              display: 'flex',
+              justifyContent: msg.type === 'user' ? 'flex-end' : 'flex-start',
+              marginBottom: 16
+            }}
           >
-            <div dangerouslySetInnerHTML={{ __html: msg.content }} />
-            <div className="timestamp">{msg.timestamp}</div>
+            <div
+              className={msg.type === 'user' ? 'user-question' : msg.type === 'error' ? 'ai-answer error' : 'ai-answer'}
+            >
+              <div dangerouslySetInnerHTML={{ __html: msg.content }} />
+              <div className="timestamp">{msg.timestamp}</div>
+            </div>
           </div>
         ))}
       </div>

@@ -32,3 +32,85 @@
     font-weight:800;
   }
 }
+
+
+
+
+
+
+// 侧边栏动画
+.sider-hidden {
+  transform: translateX(-180px);
+  transition: transform 0.3s ease;
+}
+
+.sider-visible {
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+// 顶部导航栏动画
+.header-hidden {
+  transform: translateY(-60px);
+  transition: transform 0.3s ease;
+}
+
+.header-visible {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+// 侧边栏控制按钮 - 固定在左侧中间
+.sider-toggle {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 60px;
+  background-color: #1890ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: left 0.3s ease;
+}
+
+// 顶部导航栏控制按钮 - 固定在内容区域顶部中间
+.header-toggle {
+  position: absolute;
+  top: 0;
+  left: 56%;
+  transform: translateX(-0%);
+  width: 60px;
+  height: 24px;
+  background-color: #1890ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 4px 4px;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+// 箭头图标样式
+.toggle-icon {
+  font-size: 16px;
+}
+
+.chat-history {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f6f8fa;
+  border-radius: 8px;
+  min-height: 120px;
+  max-height: 40vh;
+  overflow-y: auto;
+  font-size: 14px;
+}
