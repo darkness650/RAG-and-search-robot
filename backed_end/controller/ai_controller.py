@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from fastapi import Query
 
 from fastapi import APIRouter, Depends, Form, File, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -18,7 +19,7 @@ router = APIRouter()
 async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_current_active_user)],
              session: Annotated[AsyncSession, Depends(get_session)],
              web_search:Annotated[bool,Form()]=False,files:Optional[List[UploadFile]]=File(None),
-             chat_id: Optional[int] = Form(None)):
+             chat_id: Optional[str] = Form(None)):
     has_file = bool(files and len(files) > 0)
     uploaded_file_paths = []
     if chat_id is None:
@@ -27,7 +28,7 @@ async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_cur
         result = await session.execute(statement)
         existing_chats = result.scalars().all()
         chat_count = len(existing_chats) + 1
-        chat_id = int(datetime.utcnow().timestamp() * 1000)
+        chat_id = str(int(datetime.utcnow().timestamp() * 1000))
         chat_name = f"{user.username}的对话({chat_count})"
 
         new_chat = ChatList(
@@ -75,16 +76,16 @@ async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_cur
     }
 
 @router.post("/history")
-async def history(chat_id: str,user: Annotated[User, Depends(get_current_active_user)],
-                  session: Annotated[AsyncSession, Depends(get_session)]):
-    history_list = await show_history_message(chat_id)
+async def history(user: Annotated[User, Depends(get_current_active_user)],
+                  session: Annotated[AsyncSession, Depends(get_session)],chat_id: str= Query(...)):
+    history_list = await show_history_message(str(chat_id))
 
     # 获取 chat_name
     statement = select(ChatList).where(ChatList.chat_id == int(chat_id))
     result = await session.execute(statement)
     chat = result.scalar_one_or_none()
     chat_name = chat.chat_name if chat else "未知对话"
-
+    print("chat_id", chat_id)
     return {
         "chat_id": chat_id,
         "chat_name": chat_name,

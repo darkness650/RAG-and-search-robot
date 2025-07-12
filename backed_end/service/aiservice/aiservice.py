@@ -107,8 +107,8 @@ async def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str
                 "input": condensed_messages[-1].content,
                 "chat_history": condensed_messages[:-1]
             })
-            if(len(state["messages"])>5):
-                return {"messages": [AIMessage(content="Answer:"+response["output"])]}
+            # if(len(state["messages"])>5):
+            #     return {"messages": [AIMessage(content="Answer:"+response["output"])]}
             # 返回 AI 响应
             return {"messages": [AIMessage(content=response["output"])]}
         tool_node = CustomToolNode(tools=tools)
