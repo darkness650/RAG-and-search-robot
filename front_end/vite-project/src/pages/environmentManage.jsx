@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import "./IOT/environmentManage.css";
 // 导入Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -14,7 +15,8 @@ import {
   faFileWord, 
   faFileExcel, 
   faFilePowerpoint, 
-  faFile 
+  faFile ,
+  faHistory,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -28,10 +30,13 @@ library.add(
   faFileWord, 
   faFileExcel, 
   faFilePowerpoint, 
-  faFile
+  faFile,
+  faHistory,
 );
 
 const ChatWidget = () => {
+  const location = useLocation();
+  
   // 管理聊天消息的状态
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -41,9 +46,18 @@ const ChatWidget = () => {
   const [uploadSuccess, setUploadSuccess] = useState(false); // 上传成功状态
   // 新增：联网搜索状态
   const [webSearch, setWebSearch] = useState(false);
-// 新增：标记上传成功动画是否结束
-const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
+  // 新增：标记上传成功动画是否结束
+  const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
+  // 新增：保存当前会话的chat_id
+  const [chatId, setChatId] = useState(location.state?.chatId || null);
   // 处理文件选择和拖放
+
+
+
+
+
+
+
   const handleFileChange = (e) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -184,6 +198,11 @@ const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
       
       // 使用切换的webSearch状态
       formData.append('web_search', webSearch);
+      
+      // 传递chat_id，让后端知道这是继续已有对话还是新建对话
+      if (chatId) {
+        formData.append('chat_id', chatId);
+      }
 
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
       const res = await fetch('http://10.158.36.225:8080/ai/chat', {
@@ -197,9 +216,16 @@ const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
       if (!res.ok) throw new Error(`HTTP错误，状态码: ${res.status}`);
       const data = await res.json();
       
-      const formattedAnswer = data.result
-        .replace(/\n/g, '<br>')
-        .replace(/\\n/g, '<br>');
+      console.log('发送消息API返回数据:', data);
+      
+      // 如果是新建对话，保存返回的chat_id
+      if (!chatId && data.chat_id) {
+        setChatId(data.chat_id);
+      }
+      
+      // 从新的API格式中获取AI回复
+      const aiMessage = data.history && data.history.length > 0 ? data.history[0] : null;
+      const formattedAnswer = aiMessage ? aiMessage.content.replace(/\n/g, '<br>').replace(/\\n/g, '<br>') : '抱歉，没有收到回复';
 
       setMessages(prev => [...prev, {
         type: 'ai',
@@ -228,6 +254,124 @@ const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
     }
   };
 
+  // 处理从侧边栏传递过来的聊天ID
+  useEffect(() => {
+    if (location.state?.chatId) {
+      const chatId = location.state.chatId;
+      const chatName = location.state.chatName;
+      
+      // 获取该聊天的历史记录
+      const fetchChatHistory = async () => {
+        try {
+          const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+          console.log('获取聊天历史，chatId:', chatId);
+          
+          if (!token) {
+            console.log('没有token，使用测试数据');
+            const testMessages = {
+              '1': [
+                { type: 'user', content: '你好，我想了解一下这个项目', timestamp: '10:00:00' },
+                { type: 'ai', content: '你好！这是一个基于React和Ant Design的前端项目，主要用于IOT设备管理。有什么我可以帮助你的吗？', timestamp: '10:00:30' },
+                { type: 'user', content: '能介绍一下主要功能吗？', timestamp: '10:01:00' },
+                { type: 'ai', content: '主要功能包括：<br>1. IOT设备发布管理<br>2. 环境配置管理<br>3. 问题汇总和跟踪<br>4. AI智能对话助手<br>5. 文件上传和管理', timestamp: '10:01:30' }
+              ],
+              '2': [
+                { type: 'user', content: '如何添加新的IOT设备？', timestamp: '11:00:00' },
+                { type: 'ai', content: '添加IOT设备的步骤：<br>1. 点击"新增"按钮<br>2. 填写设备基本信息<br>3. 上传相关文档<br>4. 提交审核<br>5. 等待审批通过', timestamp: '11:00:45' }
+              ],
+              '3': [
+                { type: 'user', content: '项目开发中遇到了一些技术问题', timestamp: '12:00:00' },
+                { type: 'ai', content: '请详细描述一下你遇到的技术问题，我会尽力帮你解决。可以包括：<br>- 错误信息<br>- 复现步骤<br>- 期望结果', timestamp: '12:00:30' },
+                { type: 'user', content: 'React组件状态管理的问题', timestamp: '12:01:00' },
+                { type: 'ai', content: 'React状态管理建议：<br>1. 使用useState管理简单状态<br>2. 使用useReducer管理复杂状态<br>3. 使用Context API进行跨组件状态共享<br>4. 考虑使用Redux或Zustand等状态管理库', timestamp: '12:01:45' }
+              ],
+              '4': [
+                { type: 'user', content: '如何优化前端性能？', timestamp: '13:00:00' },
+                { type: 'ai', content: '前端性能优化建议：<br>1. 代码分割和懒加载<br>2. 图片压缩和CDN加速<br>3. 减少不必要的重渲染<br>4. 使用React.memo和useMemo<br>5. 优化打包配置', timestamp: '13:00:40' }
+              ]
+            };
+            
+            const messages = testMessages[chatId] || [
+              { type: 'ai', content: `欢迎来到 ${chatName}！这是一个测试对话。`, timestamp: new Date().toLocaleTimeString() }
+            ];
+            
+            setMessages(messages);
+            return;
+          }
+          
+          console.log('开始请求API: http://10.158.36.225:8080/ai/history');
+          const res = await fetch(`http://10.158.36.225:8080/ai/history?chat_id=${chatId}`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          console.log('API响应状态:', res.status);
+          
+          if (!res.ok) {
+            const errorText = await res.text();
+            console.error('API响应错误:', res.status, errorText);
+            throw new Error(`获取历史记录失败: ${res.status} - ${errorText}`);
+          }
+          
+          const historyData = await res.json();
+          console.log('历史记录数据:', historyData);
+          console.log('historyData类型:', typeof historyData);
+          console.log('historyData是否为数组:', Array.isArray(historyData));
+          
+          // 检查数据格式并格式化消息
+          let messagesArray = historyData;
+          if (!Array.isArray(historyData)) {
+            // 如果不是数组，可能数据在某个字段中
+            if (historyData.history && Array.isArray(historyData.history)) {
+              messagesArray = historyData.history;
+            } else if (historyData.messages && Array.isArray(historyData.messages)) {
+              messagesArray = historyData.messages;
+            } else if (historyData.data && Array.isArray(historyData.data)) {
+              messagesArray = historyData.data;
+            } else {
+              console.error('无法找到消息数组，使用空数组');
+              messagesArray = [];
+            }
+          }
+          
+          const formattedMessages = messagesArray.map(msg => ({
+            type: msg.role === 'user' ? 'user' : 'ai',
+            content: msg.content,
+            timestamp: msg.timestamp || new Date().toLocaleTimeString()
+          }));
+          
+          console.log('格式化后的消息:', formattedMessages);
+          setMessages(formattedMessages);
+          
+        } catch (e) {
+          console.error('加载聊天历史失败:', e);
+          // 如果API失败，使用测试数据
+          const testMessages = {
+            '1': [
+              { type: 'user', content: '你好，我想了解一下这个项目', timestamp: '10:00:00' },
+              { type: 'ai', content: '你好！这是一个基于React和Ant Design的前端项目，主要用于IOT设备管理。有什么我可以帮助你的吗？', timestamp: '10:00:30' }
+            ],
+            '2': [
+              { type: 'user', content: '如何添加新的IOT设备？', timestamp: '11:00:00' },
+              { type: 'ai', content: '添加IOT设备的步骤：<br>1. 点击"新增"按钮<br>2. 填写设备基本信息<br>3. 上传相关文档<br>4. 提交审核<br>5. 等待审批通过', timestamp: '11:00:45' }
+            ]
+          };
+          
+          const messages = testMessages[chatId] || [
+            { type: 'ai', content: `欢迎来到 ${chatName}！API调用失败，显示测试数据。`, timestamp: new Date().toLocaleTimeString() }
+          ];
+          
+          setMessages(messages);
+        }
+      };
+      
+      fetchChatHistory();
+    }
+  }, [location.state]);
+
   // 自动滚动到最新消息
   useEffect(() => {
     const chatContainer = document.getElementById('chat-container');
@@ -249,18 +393,30 @@ const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
 
   return (
     <div className="chat-widget">
-      <div className="topbar">这是个神秘对话框</div>
-      <div className="left">这边建议您不要随便点击哦</div>
+      <div className="topbar">这是个神秘对话框
+       
+      </div>
+      <div className="left">这边建议您不要随便点击哦
+     
+      </div>
       
-      {/* 聊天结果区域 */}
-      <div id="chat-container" className="result" onClick={handleResultClick}>
+      {/* 聊天结果区域，保留原有className和配色，只加外层flex布局 */}
+      <div id="chat-container" className="result">
         {messages.map((msg, index) => (
-          <div 
-            key={index} 
-            className={msg.type === 'user' ? 'user-question' : msg.type === 'error' ? 'ai-answer error' : 'ai-answer'}
+          <div
+            key={index}
+            style={{
+              display: 'flex',
+              justifyContent: msg.type === 'user' ? 'flex-end' : 'flex-start',
+              marginBottom: 16
+            }}
           >
-            <div dangerouslySetInnerHTML={{ __html: msg.content }} />
-            <div className="timestamp">{msg.timestamp}</div>
+            <div
+              className={msg.type === 'user' ? 'user-question' : msg.type === 'error' ? 'ai-answer error' : 'ai-answer'}
+            >
+              <div dangerouslySetInnerHTML={{ __html: msg.content }} />
+              <div className="timestamp">{msg.timestamp}</div>
+            </div>
           </div>
         ))}
       </div>
