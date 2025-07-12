@@ -26,7 +26,7 @@ def RAG_tool(thread_id:str):
     splits=RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunked_docs=splits.split_documents(docs)
     embeddings = OpenAIEmbeddings(
-        api_key="ZHIPU_API_KEY",
+        api_key="097b54d662eb4183b0e3e91efa44d760.kPUL6Pka6zM0oXpu",
         base_url="https://open.bigmodel.cn/api/paas/v4",
         model="embedding-3",
     )

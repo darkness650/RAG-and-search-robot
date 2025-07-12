@@ -65,7 +65,7 @@ async def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str
             )
         #初始化大模型
         llm = ChatOpenAI(
-            api_key="OPEN_API_KEY",
+            api_key="sk-2005a529a0684314bb0a16516d9e14f2",
             base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
             model="qwen-max",
             temperature=0.5
