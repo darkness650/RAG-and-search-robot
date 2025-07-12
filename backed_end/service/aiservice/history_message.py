@@ -2,10 +2,10 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
 
-async def show_history_message(session_id: str)->list:
+async def show_history_message(chat_id: str)->list:
     db_path=r"../service/SQLite/checkpoints.sqlite"
     async with AsyncSqliteSaver.from_conn_string(db_path) as checkpointer:
-        history_generator = checkpointer.alist({"configurable": {"thread_id": session_id}})
+        history_generator = checkpointer.alist({"configurable": {"thread_id": chat_id}})
         history = [message async for message in history_generator]
         print(history)
         conversation = []
