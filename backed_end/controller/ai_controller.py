@@ -15,8 +15,9 @@ from typing import Annotated, Optional, List
 from backed_end.service.aiservice.history_message import show_history_message
 from backed_end.service.userservice import upload_service
 router = APIRouter()
-@router.post("/chat")
+@router.post("/chat/{model}")
 async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_current_active_user)],
+             model:str,
              session: Annotated[AsyncSession, Depends(get_session)],
              web_search:Annotated[bool,Form()]=False,files:Optional[List[UploadFile]]=File(None),
              chat_id: Optional[str] = Form(None)):
@@ -52,7 +53,7 @@ async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_cur
                 uploaded_file_paths.append(file_info["filepath"])
                 await file.close()
 
-        response_text = await service(question, str(chat_id), web_search, has_file)
+        response_text = await service(question, str(chat_id), model, web_search, has_file)
 
 
     finally:

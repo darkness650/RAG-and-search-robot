@@ -20,7 +20,7 @@ from backed_end.service.tools.search_tool import reliable_duckduckgo_search
 
 
 # 2. 修改 service 函数
-async def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
+async def service(question: str, thread_id: str, model:str, internet: bool,RAG:bool) -> str:
     """
     主服务函数，用于处理用户输入并返回 AI 响应。
     :param question: 用户的问题
@@ -67,7 +67,7 @@ async def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str
         llm = ChatOpenAI(
             api_key="sk-2005a529a0684314bb0a16516d9e14f2",
             base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-            model="qwen-max",
+            model=model,
             temperature=0.5
         )
         #拉取 React Agent 的提示模板
