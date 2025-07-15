@@ -3,7 +3,7 @@ from langchain_community.tools.playwright.utils import create_async_playwright_b
 from playwright.async_api import async_playwright
 
 
-async def gettools():
+async def get_browser_tools():
     playwright = await async_playwright().start()  # ✅ 直接 await，不涉及事件循环嵌套
     browser = await playwright.chromium.launch()
         # ignore_default_args=True,

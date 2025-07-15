@@ -2,10 +2,6 @@ import requests
 import time
 from urllib.parse import quote
 
-from langchain_core.tools import tool, Tool
-
-
-@tool(description="使用 DuckDuckGo 进行搜索，返回标题、内容和 URL。支持异步 request_id 轮询。")
 def reliable_duckduckgo_search(query, max_results=10, delay=1.5, get_result_func=None, max_retries=3, interval=1.5):
     """
     更可靠的 DuckDuckGo 搜索实现，支持异步 request_id 轮询。
@@ -128,12 +124,7 @@ def make_async_search_tool(tool_func, get_result_func, name="async_search_tool",
             return "查询超时，请稍后重试。"
         return result
 
-    # 用 langchain Tool 包装
-    return Tool(
-        name=name,
-        func=wrapped,
-        description=description
-    )
+
 
 # 自定义异常
 class RatelimitException(Exception):

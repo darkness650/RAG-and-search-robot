@@ -6,21 +6,23 @@ from langchain.agents import create_react_agent, AgentExecutor
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.tools import Tool, create_retriever_tool
 from langchain_openai import ChatOpenAI
-from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from langgraph.constants import START, END
 from langgraph.graph import StateGraph
 
+from backed_end.config.database import SQLITE_URL
+from backed_end.service.aiservice.history_message import show_history_message
 from backed_end.service.node.CustomToolNode import CustomToolNode
 from backed_end.service.state.chat_manager import ChatMemoryManager
 from backed_end.service.state.state import State
 from backed_end.service.tools.fileRAG_tool import RAG_tool
-from backed_end.service.tools.internet_tool import gettools
+from backed_end.service.tools.handle_file import handle_file
+from backed_end.service.tools.internet_tool import get_browser_tools
 from backed_end.service.tools.search_tool import reliable_duckduckgo_search
 
 
 # 2. 修改 service 函数
-async def service(question: str, thread_id: str, model:str, internet: bool,RAG:bool) -> str:
+async def service(question: str, thread_id: str, internet: bool,RAG:bool) -> str:
     """
     主服务函数，用于处理用户输入并返回 AI 响应。
     :param question: 用户的问题
@@ -31,10 +33,9 @@ async def service(question: str, thread_id: str, model:str, internet: bool,RAG:b
     """
     #配置检查点
     config = {"configurable": {"thread_id": thread_id}}
-    db_path = r"../service/SQLite/checkpoints.sqlite"
-    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    os.makedirs(os.path.dirname(SQLITE_URL), exist_ok=True)
     #使用sqlite数据库做检查点
-    async with AsyncSqliteSaver.from_conn_string(db_path) as checkpointer:
+    async with AsyncSqliteSaver.from_conn_string(SQLITE_URL) as checkpointer:
         graph_builder = StateGraph(State)
 
         # 初始化 Memory 管理器
@@ -52,22 +53,24 @@ async def service(question: str, thread_id: str, model:str, internet: bool,RAG:b
                     description="使用 DuckDuckGo 进行可靠的搜索，使用英文搜索更加准确"
                 )
             )
-            tools.extend(await gettools())
+            tools.extend(await get_browser_tools())
 
         if RAG:
+            handle_file(thread_id)
             retriever = RAG_tool(thread_id)
-            tools.append(
-                create_retriever_tool(
-                    retriever=retriever,
-                    name="文档检索",
-                    description="用于检索用户提出的问题并基于检索到的文档内容进行回复",
+            if retriever:
+                tools.append(
+                    create_retriever_tool(
+                        retriever=retriever,
+                        name="文档检索",
+                        description="用于检索用户提出的问题并基于检索到的文档内容进行回复",
+                    )
                 )
-            )
         #初始化大模型
         llm = ChatOpenAI(
-            api_key="sk-2005a529a0684314bb0a16516d9e14f2",
+            api_key=os.getenv("OPEN_API_KEY"),
             base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-            model=model,
+            model="qwen-max",
             temperature=0.5
         )
         #拉取 React Agent 的提示模板
@@ -107,8 +110,8 @@ async def service(question: str, thread_id: str, model:str, internet: bool,RAG:b
                 "input": condensed_messages[-1].content,
                 "chat_history": condensed_messages[:-1]
             })
-            # if(len(state["messages"])>5):
-            #     return {"messages": [AIMessage(content="Answer:"+response["output"])]}
+            if(len(state["messages"])>5):
+                return {"messages": [AIMessage(content="Answer:"+response["output"])]}
             # 返回 AI 响应
             return {"messages": [AIMessage(content=response["output"])]}
         tool_node = CustomToolNode(tools=tools)
@@ -143,6 +146,18 @@ async def service(question: str, thread_id: str, model:str, internet: bool,RAG:b
         output = await graph.ainvoke({"messages": [HumanMessage(content=question)]},
                               config=config,
                               stream_mode="values")
+        print(output["messages"][-1].content)
         return (output["messages"][-1].content)
 
 
+if __name__ == "__main__":
+    import asyncio
+
+    # while True:
+    #     question = input("请输入问题：")
+    #     if question.lower() == "exit":
+    #         break
+    #     thread_id = "3"
+    #     asyncio.run(show_history_message(thread_id))
+    #     asyncio.run(service(question, thread_id,True,True))
+    asyncio.run(show_history_message("3"))

@@ -9,9 +9,10 @@ from sqlmodel import select
 from backed_end.config.database import get_session
 from backed_end.pojo.ChatList import ChatList
 from backed_end.pojo.User import User
-from backed_end.service.aiservice.aiservice import service
 from backed_end.config.user_mannage import get_current_active_user
 from typing import Annotated, Optional, List
+
+from backed_end.service.aiservice.graph_service import service
 from backed_end.service.aiservice.history_message import show_history_message
 from backed_end.service.userservice import upload_service
 router = APIRouter()
