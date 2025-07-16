@@ -11,7 +11,7 @@ from typing_extensions import TypedDict
 
 # 初始化LLM用于总结生成
 SUMMARY_LLM = ChatOpenAI(
-            api_key=os.getenv("OPEN_API_KEY"),
+            api_key="sk-2005a529a0684314bb0a16516d9e14f2",
             base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
             model="deepseek-r1",
             temperature=0.5

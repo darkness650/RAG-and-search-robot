@@ -1,6 +1,9 @@
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
+from backed_end.config.database import SQLITE_URL
+
+
 def extract_conversations(messages):
     """
     从多轮会话消息中提取每轮的用户提问和AI最终回答
@@ -23,8 +26,15 @@ def extract_conversations(messages):
                 for ai_msg in reversed(ai_responses):
                     if ai_msg and not ai_msg.startswith("Transferring"):
                         conversations.append({
-                            "user": current_user_msg,
-                            "ai": ai_msg
+                            "role": "user",
+                            "content": current_user_msg,
+                            "timestamp": msg.get("timestamp", None)
+
+                        })
+                        conversations.append({
+                            "role": "ai",
+                            "content": ai_msg,
+                            "timestamp": msg.get("timestamp", None)
                         })
                         break
 
@@ -43,15 +53,22 @@ def extract_conversations(messages):
         for ai_msg in reversed(ai_responses):
             if ai_msg and not ai_msg.startswith("Transferring"):
                 conversations.append({
-                    "user": current_user_msg,
-                    "ai": ai_msg
+                    "role":"user",
+                    "content":current_user_msg,
+                    "timestamp": msg.get("timestamp", None)
+
+                })
+                conversations.append({
+                    "role":"ai",
+                    "content": ai_msg,
+                    "timestamp": msg.get("timestamp", None)
                 })
                 break
 
     return conversations
 async def show_history_message(session_id: str)->list:
-    db_path=r"../SQLite/checkpoints.sqlite"
-    async with AsyncSqliteSaver.from_conn_string(db_path) as checkpointer:
+
+    async with AsyncSqliteSaver.from_conn_string(SQLITE_URL) as checkpointer:
         history_generator = checkpointer.alist({"configurable": {"thread_id": session_id}})
         history = [message async for message in history_generator]
         conversation = []

@@ -7,6 +7,7 @@ from backed_end.pojo.ChatList import ChatList, RenameChatRequest, DeleteChatRequ
 from backed_end.pojo.User import User
 from backed_end.config.database import get_session
 from backed_end.config.user_mannage import get_current_active_user
+from backed_end.service.aiservice.delete_message_aiservice import delete_message
 
 
 async def get_chat_list(user: Annotated[User, Depends(get_current_active_user)],
@@ -71,6 +72,7 @@ async def delete_chat_service(data: DeleteChatRequest, user: Annotated[User, Dep
 
     await session.delete(chat)
     await session.commit()
+    await delete_message(chat.chat_id)
     return {"message": "Chat deleted successfully"}
 
 
