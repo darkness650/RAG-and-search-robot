@@ -10,7 +10,7 @@ from backed_end.service.tools.fileRAG_tool import RAG_tool
 
 async def get_rag_agent(thread_id:str):
     llm = ChatOpenAI(
-        api_key=os.getenv("OPEN_API_KEY"),
+        api_key="sk-2005a529a0684314bb0a16516d9e14f2",
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         model="qwen-turbo",
         temperature=0

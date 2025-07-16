@@ -6,7 +6,7 @@ from langgraph.prebuilt import create_react_agent
 
 def get_plan_agent():
     llm= ChatOpenAI(
-        api_key=os.getenv("OPEN_API_KEY"),
+        api_key="sk-2005a529a0684314bb0a16516d9e14f2",
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         model="qwen-plus",
         temperature=0

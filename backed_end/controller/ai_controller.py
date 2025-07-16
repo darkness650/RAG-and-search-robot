@@ -1,17 +1,15 @@
 import os
 from datetime import datetime
 from fastapi import Query
-
 from fastapi import APIRouter, Depends, Form, File, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
-
+from starlette.responses import StreamingResponse
 from backed_end.config.database import get_session
 from backed_end.pojo.ChatList import ChatList
 from backed_end.pojo.User import User
 from backed_end.config.user_mannage import get_current_active_user
 from typing import Annotated, Optional, List
-
 from backed_end.service.aiservice.graph_service import service
 from backed_end.service.aiservice.history_message import show_history_message
 from backed_end.service.userservice import upload_service
@@ -54,7 +52,12 @@ async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_cur
                 uploaded_file_paths.append(file_info["filepath"])
                 await file.close()
 
-        response_text = await service(question, str(chat_id), model, web_search, has_file)
+        # response_text = await service(question, str(chat_id), model, web_search, has_file)
+        async def event_generator():
+            async for chunk in service(question, str(chat_id), model, web_search, has_file):
+                yield chunk  # 每个 chunk 是一段文本
+
+        return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
     finally:
@@ -65,17 +68,17 @@ async def ai(question: Annotated[str,Form()],user:Annotated[User,Depends(get_cur
             except Exception as e:
                 print(f"❗ Failed to delete file {path}: {e}")
 
-    return {
-        "chat_id": chat_id,
-        "chat_name": chat_name,
-        "history": [
-            {
-                "role": "ai",
-                "content": response_text,
-                "timestamp": int(datetime.utcnow().timestamp() * 1000)
-            }
-        ]
-    }
+    # return {
+    #     "chat_id": chat_id,
+    #     "chat_name": chat_name,
+    #     "history": [
+    #         {
+    #             "role": "ai",
+    #             "content": response_text,
+    #             "timestamp": int(datetime.utcnow().timestamp() * 1000)
+    #         }
+    #     ]
+    # }
 
 @router.post("/history")
 async def history(user: Annotated[User, Depends(get_current_active_user)],
