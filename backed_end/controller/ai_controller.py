@@ -5,6 +5,8 @@ from fastapi import APIRouter, Depends, Form, File, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
 from starlette.responses import StreamingResponse, JSONResponse
+from sympy.strategies.core import switch
+
 from backed_end.config.database import get_session
 from backed_end.pojo.ChatList import ChatList
 from backed_end.pojo.User import User
@@ -128,7 +130,7 @@ async def ai(question: Annotated[str, Form()], user: Annotated[User, Depends(get
 async def newai(user: Annotated[User, Depends(get_current_active_user)],
                 session: Annotated[AsyncSession, Depends(get_session)],
                 role: Optional[str] = Form(None)):
-    statement = select(ChatList).where(ChatList.username == user.username)
+    statement = select(ChatList).where(ChatList.username == user.username).where(ChatList.role == role)
     result = await session.execute(statement)
     existing_chats = result.scalars().all()
     chat_count = len(existing_chats) + 1
@@ -136,7 +138,13 @@ async def newai(user: Annotated[User, Depends(get_current_active_user)],
     if role is None:
         chat_name = f"{user.username}的对话({chat_count})"
     else:
-        chat_name = f"与{role}的对话({chat_count})"
+        role_names = {
+            "role1": "琼琚",
+            "role2": "红绡仙",
+            "role3": "侍女",
+            "role4": "铃兰"
+        }
+        chat_name = f"与{role_names.get(role, '神秘角色')}的对话({chat_count})"
 
     new_chat = ChatList(
         chat_id=chat_id,
