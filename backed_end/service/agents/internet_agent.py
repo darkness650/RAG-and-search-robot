@@ -4,8 +4,10 @@ from langchain import hub
 
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
+from langchain_tavily import TavilySearch
 from langgraph.prebuilt import create_react_agent
 
+from backed_end.config.api_key import OPEN_API_KEY
 from backed_end.service.tools.internet_tool import get_browser_tools
 from backed_end.service.tools.search_tool import reliable_duckduckgo_search
 
@@ -16,9 +18,9 @@ async def get_internet_agent():
     :return: 一个包含互联网代理助手配置的字典
     """
     llm = ChatOpenAI(
-        api_key="sk-2005a529a0684314bb0a16516d9e14f2",
+        api_key=OPEN_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        model="qwen-plus",
+        model="qwen-max",
         temperature=0
     )
     tools= []  # 这里可以添加具体的工具列表

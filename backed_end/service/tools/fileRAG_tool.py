@@ -2,6 +2,8 @@ from langchain_community.vectorstores import Neo4jVector
 from langchain_huggingface import HuggingFaceEmbeddings
 from neo4j import GraphDatabase
 
+from backed_end.config.api_key import NEO4J_SECRET, NEO4J_URL
+
 
 def RAG_tool(thread_id: str):
     # 创建唯一的索引名称和节点标签
@@ -9,9 +11,9 @@ def RAG_tool(thread_id: str):
     node_label = f"Document_{thread_id}"
 
     # Neo4j 连接配置
-    url = "bolt://localhost:7687"
+    url = NEO4J_URL
     username = "neo4j"
-    password = "Aa17526909261"
+    password = NEO4J_SECRET
 
     # 1. 检查索引是否存在
     driver = GraphDatabase.driver(url, auth=(username, password))

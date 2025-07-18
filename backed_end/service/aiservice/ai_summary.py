@@ -4,6 +4,8 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import SystemMessagePromptTemplate
 from langchain_openai import ChatOpenAI
 
+from backed_end.config.api_key import OPEN_API_KEY
+
 
 async def ai_summary(message:str):
     """
@@ -12,7 +14,7 @@ async def ai_summary(message:str):
     :return: 摘要后的消息内容
     """
     llm = ChatOpenAI(
-        api_key=os.getenv("OPEN_API_KEY"),
+        api_key=OPEN_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         model="deepseek-r1",
         temperature=0.5

@@ -3,10 +3,12 @@ import os
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 
+from backed_end.config.api_key import OPEN_API_KEY
+
 
 def get_plan_agent():
     llm= ChatOpenAI(
-        api_key="sk-2005a529a0684314bb0a16516d9e14f2",
+        api_key=OPEN_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         model="qwen-plus",
         temperature=0

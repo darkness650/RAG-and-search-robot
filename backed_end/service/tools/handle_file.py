@@ -1,14 +1,19 @@
 import os
-from langchain_community.document_loaders import TextLoader, Docx2txtLoader, PyPDFLoader
+from langchain_community.document_loaders import TextLoader, Docx2txtLoader, PyPDFLoader, UnstructuredHTMLLoader
 from langchain_community.vectorstores import Neo4jVector
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from neo4j import GraphDatabase
 
+from backed_end.config.api_key import NEO4J_URL, NEO4J_SECRET
 
-def handle_file(thread_id):
+
+def handle_file(thread_id:str,file_path:bool=False):
     # 设置文件目录
-    dir_path = os.path.join("../resource", thread_id)
+    if file_path:
+        dir_path = os.path.join("../resource", thread_id)
+    else:
+        dir_path = os.path.join("../ai_generator_resource", thread_id)
     if not os.path.exists(dir_path):
         print(f"No directory found for thread {thread_id}")
         return
@@ -27,8 +32,12 @@ def handle_file(thread_id):
             elif filename.endswith(".pdf"):
                 loader = PyPDFLoader(file_path)
                 docs.extend(loader.load())
+            elif filename.endswith(".html"):
+                loader=UnstructuredHTMLLoader(file_path)
+                docs.extend(loader.load())
         except Exception as e:
             print(f"Error loading {file_path}: {str(e)}")
+            print(e)
 
     if not docs:
         print(f"No valid documents found for thread {thread_id}")
@@ -52,9 +61,9 @@ def handle_file(thread_id):
     )
 
     # Neo4j连接配置
-    neo4j_url = "bolt://localhost:7687"
+    neo4j_url = NEO4J_URL
     neo4j_username = "neo4j"
-    neo4j_password = "Aa17526909261"
+    neo4j_password = NEO4J_SECRET
 
     # 为每个文档块添加thread_id元数据
     for doc in chunked_docs:
@@ -98,3 +107,6 @@ def handle_file(thread_id):
     )
 
     print(f"Added {len(chunked_docs)} chunks to index {index_name} for thread {thread_id}")
+
+if __name__ == '__main__':
+    handle_file("2")
