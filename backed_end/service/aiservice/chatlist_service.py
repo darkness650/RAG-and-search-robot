@@ -11,17 +11,20 @@ from backed_end.service.aiservice.delete_message_aiservice import delete_message
 
 
 async def get_chat_list(user: Annotated[User, Depends(get_current_active_user)],
-                        session: Annotated[AsyncSession, Depends(get_session)]):
+                        session: Annotated[AsyncSession, Depends(get_session)],
+                        role: str):
     # 如果是admin，查看全部
     if user.role == "admin":
         statement = (
             select(ChatList)
+            .where(ChatList.role == role)
             .order_by(desc(ChatList.is_starred), desc(ChatList.created_at))
         )
     else:
         statement = (
             select(ChatList)
             .where(ChatList.username == user.username)
+            .where(ChatList.role == role)
             .order_by(desc(ChatList.is_starred), desc(ChatList.created_at))
         )
 
