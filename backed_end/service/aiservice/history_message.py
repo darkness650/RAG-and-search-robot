@@ -1,3 +1,5 @@
+import asyncio
+
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from backed_end.config.database import SQLITE_URL
 
@@ -104,12 +106,9 @@ async def show_history_message(session_id: str)->list:
                         "content": msg["content"],
                         "timestamp": checkpoint['ts']
                     })
-                if not graphservice:
-                    return conversation
+            if not graphservice:
+                return conversation
         messages= extract_conversations(conversation)
-        for msg in messages:
-            print(msg)
         return messages
-
 
 
