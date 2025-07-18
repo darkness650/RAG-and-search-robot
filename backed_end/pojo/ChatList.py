@@ -12,6 +12,7 @@ class ChatList(SQLModel, table=True):
     chat_name:str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     is_starred: bool = Field(default=False)
+    role : str = Field(default="user")
 
     # class Config:
     #     arbitrary_types_allowed = True
