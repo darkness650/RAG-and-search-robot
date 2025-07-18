@@ -54,6 +54,9 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
             output_mode="last_message",
             # state_schema=State
         ).compile(checkpointer=checkpointer)
+
+        yield f"data: __chat_id__:{thread_id}\n\n"
+
         async for event in supervisor.astream_events(
                 {
                     "messages": HumanMessage(content=question),

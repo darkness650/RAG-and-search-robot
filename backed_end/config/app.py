@@ -33,7 +33,8 @@ app.add_middleware(
     allow_origins=["*"],  # 允许所有前端域名访问，生产环境建议写具体域名
     allow_credentials=True,
     allow_methods=["*"],  # 允许所有方法
-    allow_headers=["*"],  # 允许所有请求头
+    allow_headers=["*"],
+    expose_headers=["X-Chat-Id"]# 允许所有请求头
 )
 app.include_router(ai_controller.router,prefix="/ai", tags=["ai"],dependencies=[Depends(get_current_active_user)])
 app.include_router(User.router, prefix="/users", tags=["用户"],dependencies=[Depends(get_current_active_user)])

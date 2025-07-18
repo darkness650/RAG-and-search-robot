@@ -33,6 +33,7 @@ async def get_chat_list(user: Annotated[User, Depends(get_current_active_user)],
             "chat_name": chat.chat_name,
             "created_at": chat.created_at.isoformat(),
             "is_starred": chat.is_starred,
+            "role": chat.role,
         }
         for chat in chat_list
     ]

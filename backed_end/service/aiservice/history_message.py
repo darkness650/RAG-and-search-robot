@@ -1,6 +1,4 @@
-from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
-
 from backed_end.config.database import SQLITE_URL
 
 
@@ -72,6 +70,7 @@ async def show_history_message(session_id: str)->list:
         history_generator = checkpointer.alist({"configurable": {"thread_id": session_id}})
         history = [message async for message in history_generator]
         conversation = []
+        graphservice=True
         if not history: return []
         checkpoint = history[0].checkpoint
         # 提取消息列表（如果存在）
@@ -96,6 +95,17 @@ async def show_history_message(session_id: str)->list:
                         "content": content,
                         "timestamp": checkpoint['ts']
                     })
+                else:
+                    graphservice = False
+                    role = msg["role"]
+                    if role == "assistant": role = "ai"
+                    conversation.append({
+                        "role": role,
+                        "content": msg["content"],
+                        "timestamp": checkpoint['ts']
+                    })
+                if not graphservice:
+                    return conversation
         messages= extract_conversations(conversation)
         for msg in messages:
             print(msg)
