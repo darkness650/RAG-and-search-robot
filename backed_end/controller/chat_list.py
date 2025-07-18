@@ -10,14 +10,16 @@ from backed_end.service.aiservice.chatlist_service import get_chat_list, rename_
 
 router = APIRouter()
 
-@router.get("/")
+
+@router.get("/{role}")
 async def chat_list(user: Annotated[User, Depends(get_current_active_user)],
-                        session: Annotated[AsyncSession, Depends(get_session)]):
-    return await get_chat_list(user, session)
+                    session: Annotated[AsyncSession, Depends(get_session)],
+                    role: str):
+    return await get_chat_list(user, session,role)
 
 
 @router.patch("/rename")
-async def rename_chat(data: RenameChatRequest=Body(...),
+async def rename_chat(data: RenameChatRequest = Body(...),
                       user: User = Depends(get_current_active_user),
                       session: AsyncSession = Depends(get_session)):
     print(f"收到请求数据：{data}")
@@ -33,6 +35,6 @@ async def delete_chat(data: DeleteChatRequest = Body(...),
 
 @router.patch("/star")
 async def star_chat(data: StarChatRequest = Body(...),
-                    user: User= Depends(get_current_active_user),
-                    session: AsyncSession= Depends(get_session)):
+                    user: User = Depends(get_current_active_user),
+                    session: AsyncSession = Depends(get_session)):
     return await star_chat_service(data, user, session)

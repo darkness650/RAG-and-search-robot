@@ -126,19 +126,24 @@ async def ai(question: Annotated[str, Form()], user: Annotated[User, Depends(get
 
 @router.post("/newchat")
 async def newai(user: Annotated[User, Depends(get_current_active_user)],
-                session: Annotated[AsyncSession, Depends(get_session)], ):
+                session: Annotated[AsyncSession, Depends(get_session)],
+                role: Optional[str] = Form(None)):
     statement = select(ChatList).where(ChatList.username == user.username)
     result = await session.execute(statement)
     existing_chats = result.scalars().all()
     chat_count = len(existing_chats) + 1
     chat_id = str(int(datetime.utcnow().timestamp() * 1000))
-    chat_name = f"{user.username}的对话({chat_count})"
+    if role is None:
+        chat_name = f"{user.username}的对话({chat_count})"
+    else:
+        chat_name = f"与{role}的对话({chat_count})"
 
     new_chat = ChatList(
         chat_id=chat_id,
         username=user.username,
         chat_name=chat_name,
-        created_at=datetime.utcnow()
+        created_at=datetime.utcnow(),
+        role = role  # 添加角色信息，如果有的话
     )
     session.add(new_chat)
     await session.commit()
