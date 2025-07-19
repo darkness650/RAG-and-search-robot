@@ -1,0 +1,390 @@
+/* 古风对话框核心样式 */
+.demoone-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  /* background: #bfa76a url('../../../assets/demobackground.png') center/cover no-repeat; */
+  z-index: 0;
+}
+.bg-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  background: #000;
+}
+.demoone-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  position: relative;
+  
+  z-index: 1;
+}
+.demoone-chat-box {
+  width: 925px;
+  min-height: 873px;
+  margin: 0px 0px 0px 190px;
+  background: rgba(180, 140, 70, 0.18);
+  border: 4px solid #bfa76a;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #bfa76a44, 0 0 0 8px #fffbe6 inset;
+  position: relative;
+  padding: 32px 24px 80px 24px;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  
+}
+.demoone-chat-messages {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-bottom: 12px;
+  opacity: 0.79;
+}
+.demoone-chat-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+.demoone-chat-row-ai {
+  justify-content: flex-start;
+}
+.demoone-chat-row-user {
+  justify-content: flex-end;
+}
+.demoone-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8px;
+  align-self: flex-start;
+}
+.demoone-avatar img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 3px solid #e6d8b6;
+  box-shadow: 0 2px 8px #bfa76a88;
+  background: #fffbe6;
+}
+.demoone-name {
+  font-size: 15px;
+  color: #fffbe6;
+  margin-top: 2px;
+  text-shadow: 0 1px 4px #bfa76a, 0 0 2px #fffbe6;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+}
+.demoone-bubble {
+  max-width: 400px;
+  padding: 12px 22px;
+  border-radius: 16px;
+  font-size: 20px;
+  line-height: 2.1;
+  letter-spacing: 2px;
+  word-break: break-all;
+  position: relative;
+  box-shadow: 0 2px 8px #bfa76a44;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+}
+.demoone-bubble-ai {
+  background: #fffbe6;
+  color: #7c5a1a;
+  border: 2.5px solid #bfa76a;
+  margin-left: 8px;
+}
+.demoone-bubble-user {
+  background: #fffbe6;
+  color: #7c5a1a;
+  border: 2.5px solid #bfa76a;
+  margin-right: 8px;
+}
+.demoone-bubble-ai:after {
+  content: '';
+  position: absolute;
+  left: -18px;
+  top: 18px;
+  width: 18px;
+  height: 18px;
+  background: #fffbe6;
+  border-left: 2.5px solid #bfa76a;
+  border-bottom: 2.5px solid #bfa76a;
+  border-bottom-left-radius: 12px;
+  transform: rotate(-30deg);
+}
+.demoone-bubble-user:after {
+  content: '';
+  position: absolute;
+  right: -18px;
+  top: 18px;
+  width: 18px;
+  height: 18px;
+  background: #fffbe6;
+  border-right: 2.5px solid #bfa76a;
+  border-bottom: 2.5px solid #bfa76a;
+  border-bottom-right-radius: 12px;
+  transform: rotate(30deg);
+}
+.demoone-chat-input-area {
+  display: flex;
+  align-items: center;
+  margin-top: 18px;
+  background: #fffbe6;
+  border-radius: 12px;
+  padding: 10px 16px;
+  box-shadow: 0 2px 8px #bfa76a33;
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 80px;
+}
+.demoone-chat-input {
+  flex: 1;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  color: #7c5a1a;
+}
+.demoone-chat-send {
+  margin-left: 18px;
+  font-size: 18px;
+  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
+  color: #7c5a1a;
+  border: none;
+  border-radius: 10px;
+  padding: 7px 22px;
+  cursor: pointer;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  box-shadow: 0 2px 8px #bfa76a33;
+  transition: background 0.2s;
+}
+.demoone-chat-send:hover {
+  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
+}
+.demoone-bottom-btns {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px 0 18px 0;
+  background: none;
+}
+.demoone-btn-main {
+  font-size: 26px;
+  color: #fffbe6;
+  background: #bfa76a;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 48px;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  letter-spacing: 6px;
+  box-shadow: 0 2px 8px #bfa76a99;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: background 0.2s;
+}
+.demoone-btn-main:hover {
+  background: #e6d8b6;
+  color: #bfa76a;
+}
+.demoone-btn-skip {
+  font-size: 20px;
+  color: #bfa76a;
+  background: #fffbe6;
+  border: 2px solid #bfa76a;
+  border-radius: 10px;
+  padding: 8px 28px;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  letter-spacing: 3px;
+  box-shadow: 0 2px 8px #bfa76a33;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.demoone-btn-skip:hover {
+  background: #bfa76a;
+  color: #fffbe6;
+}
+
+  
+.demoone-flex-container {
+  display: flex;
+  height: 100%;
+  min-height: 600px; /* 可根据实际页面高度调整 */
+  background: none;
+}
+
+.demoone-chat-area {
+  flex: 1;
+  /* 保持原有聊天区样式 */
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.demoone-left-float {
+  position: absolute;
+  left: -170px; /* 可根据实际调整 */
+  top: 0;
+  bottom: 0;
+  width: 350px; /* 可根据实际调整 */
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+  background: url('../../../assets/demotwo.png') center center / cover no-repeat;
+  border-radius: 16px 0 0 16px;
+  box-shadow: 2px 0 8px #bfa76a33;
+  opacity: 0;
+}
+
+.demoone-history-area {
+  width: 200px;
+  margin:0px 0  0 0;
+  background: #e5d7b5;
+  border-left: 3px solid #bfa76a;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 10px 0;
+  box-shadow: -2px 0 8px #bfa76a33;
+  min-width: 180px;
+  max-height:95vh;
+  overflow: hidden;
+}
+
+.history-header {
+  font-size: 20px;
+  color: #7c5c2b;
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: 'FZKai-Z03', '楷体', serif;
+  letter-spacing: 2px;
+  font-weight: bold;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid #bfa76a;
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 6px;
+  max-height: 100vh;
+}
+
+.history-item {
+  background: #f5ecd7;
+  border: 2px solid #bfa76a;
+  border-radius: 8px;
+  color: #7c5c2b;
+  font-size: 16px;
+  padding: 8px 0;
+  margin: 0 4px;
+  cursor: pointer;
+  font-family: 'FZKai-Z03', '楷体', serif;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  outline: none;
+  box-shadow: 0 2px 4px #bfa76a22;
+}
+
+.history-item.active,
+.history-item:hover {
+  background: #e0cfa7;
+  border-color: #a68b4c;
+  color: #a67c2d;
+}
+
+.history-empty {
+  color: #bfa76a;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 15px;
+  font-family: 'FZKai-Z03', '楷体', serif;
+  opacity: 0.7;
+}
+
+/* 开场动画相关样式迁移自demothree.css */
+.demoone-mask {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.2s;
+  opacity: 1;
+  pointer-events: auto;
+}
+.demoone-mask.mask-fadeout {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s;
+}
+.demoone-story-text {
+  color: #FFD700;
+  font-size: 28px;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  text-align: center;
+  max-width: 70vw;
+  line-height: 2.2;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #bfa76a, 0 0 2px #fffbe6;
+  margin: 0 auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.demoone-start-btn {
+  position: absolute;
+  right: 48px;
+  bottom: 48px;
+  font-size: 22px;
+  padding: 16px 38px;
+  border-radius: 28px;
+  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
+  color: #2d2d2d;
+  border: none;
+  box-shadow: 0 4px 24px #0006;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s, opacity 0.5s;
+  opacity: 1;
+  z-index: 10;
+}
+.demoone-start-btn:hover {
+  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
+  transform: scale(1.04);
+}
+.demoone-start-btn.btn-fadeout {
+  opacity: 0;
+  transition: opacity 1.2s;
+  pointer-events: none;
+}
+.demoone-bg,
+.demoone-content {
+  opacity: 0;
+  transition: opacity 2s;
+}
+.bg-fadein {
+  opacity: 1 !important;
+  transition: opacity 1s;
+}
+.content-fadein {
+  opacity: 1 !important;
+  transition: opacity 3s 0.8s;
+}

@@ -1,7 +1,7 @@
 .chat-widget {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #f7f1f1,#afd9df);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-repeat: no-repeat;
   background-size: 100% 100vh;
   padding-bottom: 100px;
@@ -41,11 +41,11 @@
   left: 50%;
   transform: translateX(-50%);
   min-width: 800px;
-  max-width: 800px;
+  max-width: 1200px;
   min-height: 40px;
   max-height: 600px;
   color: #333;
-  font-size: 22px;
+  font-size: 18px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   text-align: left;
@@ -74,6 +74,12 @@
   width: 800px;
   padding-bottom: 20px;
   z-index:100;
+  transition: left 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* 侧边栏收起时，给body加.sider-collapsed类，左移200px */
+body.sider-collapsed .question-container {
+  left: calc(32% - 100px);
 }
 
 .question {
@@ -96,9 +102,6 @@
   box-sizing: border-box;
   border-radius: 10px 0 0 10px; /* 左圆角 */
 }
-
-
-
 
 .custom-file-upload {
  /* 关键：作为 flex 子元素，先继承父元素的居中 */
@@ -127,15 +130,10 @@
   display: none;
 }
 
-
-
-
-
-
 /* 提交按钮 */
 .question .submit {
   width: 15%;
-  
+  height:100%;
   font-size: 15px;
   border: none;
   background: #ada0ee;
@@ -143,23 +141,6 @@
   border-radius: 0 10px 10px 0; /* 右圆角 */
   cursor: pointer;
   
-}
-
-
-
-
-
-
-
-.question .submit {
-  width: 15%;
-  height: 100%;
-  font-size: 15px;
-  border: none;
-  background: #ada0ee;
-  color: #fff;
-  border-radius: 0 10px 10px 0;
-  cursor: pointer;
 }
 
 .question .submit:disabled {
@@ -180,13 +161,15 @@
 }
 
 .user-question {
-  background-color: bisque;
+  background-color: rgba(227, 242, 253, 0.8);
+  backdrop-filter: blur(10px);
   margin-left: 100px;
   text-align: right;
 }
 
 .ai-answer {
-  background-color: #f1f8e9;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
   margin-right: 100px;
 }
 
@@ -199,7 +182,6 @@
   color: #777;
   margin-top: 5px;
 }
-
 
 /* 文件上传组件样式 */
 .file-upload-container {
@@ -386,3 +368,115 @@
   box-sizing: border-box; /* 包含边框在内的尺寸计算 */
 }
 
+/* 模型选择器样式 */
+.model-selector {
+  position: relative;
+  display: inline-block;
+  margin: 10px 0 0 20px;
+}
+
+/* 模型选择按钮样式 */
+.selectbutton {
+  background-color: #ada0ee;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.selectbutton:hover {
+  background-color: #9a88d4;
+  transform: translateY(-2px);
+}
+
+/* 模型下拉菜单样式 */
+.model-dropdown {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-left: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+/* 模型选项按钮样式 */
+.model-option {
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.model-option:hover {
+  background-color: #f0f0f0;
+  padding-left: 20px;
+}
+
+.model-option.active {
+  background-color: #f4d9e0;
+  color: #333;
+  font-weight: bold;
+}
+
+/* 选中模型指示器 */
+.selected-model-indicator {
+  font-size: 14px;
+  margin-left: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+/* 调整顶部栏布局 */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selectbutton{
+  display:inline-block;
+}
+
+.result-initial {
+  min-width: 400px !important;
+  max-width: 500px !important;
+  padding: 32px 24px !important;
+  min-height: 120px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.question-container-initial {
+  width: 400px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.chat-initial-tip {
+  color: #888;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: 1px;
+  font-weight: 500;
+  opacity: 0.85;
+  user-select: none;
+}

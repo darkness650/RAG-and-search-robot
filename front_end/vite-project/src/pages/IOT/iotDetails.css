@@ -1,0 +1,237 @@
+.iot-details-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-image: url('../../assets/demobackground.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.iot-details-content {
+  position: relative;
+  z-index: 1;
+}
+
+.activity-cards-demo {
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 100px 0 0 0;
+  z-index: 1;
+  position: relative;
+}
+.activity-card-demo {
+  width: 280px;
+  min-height: 600px;
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 22px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10), 0 1.5px 0 #e6d8b6 inset;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  padding: 32px 18px 24px 18px;
+  transition: box-shadow 0.2s;
+  /* 移除 background-blend-mode 和 background，保证卡片本身无透明度 */
+  /* background-blend-mode: lighten; */
+  /* background: linear-gradient(180deg, #f9f6f1 80%, #e6e0d0 100%); */
+  border-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q10,0 20,20 Q30,40 40,20" stroke="%23e6d8b6" stroke-width="3" fill="none"/></svg>') 20 stretch;
+  padding-top: 18px;
+}
+
+/* 人物照片背景层 */
+.activity-card-demo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('../../assets/image.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* 渐变叠加层 */
+.activity-card-demo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, #f9f6f1 80%, #e6e0d0 100%);
+  pointer-events: none;
+  opacity: 0.85;
+  border-radius: 22px;
+}
+
+/* 保证卡片内容在最上层 */
+.activity-card-demo > *:not(.card-bg-img) {
+  position: relative;
+  z-index: 2;
+}
+
+
+.activity-card-demo .cloud-top {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 32px;
+  z-index: 2;
+  opacity: 0.92;
+  pointer-events: none;
+}
+.activity-card-demo::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 18px;
+  background: linear-gradient(90deg, #e6d8b6 0%, #fffbe6 50%, #e6d8b6 100%);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  opacity: 0.7;
+}
+.activity-card-demo::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 30px;
+  background: linear-gradient(90deg, #e6d8b6 0%, #fffbe6 50%, #e6d8b6 100%);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  opacity: 0.7;
+}
+.activity-card-title-demo {
+  font-size: 20px;
+  color: #2d2d2d;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  margin-top: -18px;
+  text-align: center;
+  text-shadow: 0 2px 6px #f5e9d6;
+ 
+}
+.seal {
+  display: inline-block;
+  background: #b22222;
+  color: #fff;
+  font-size: 13px;
+  border-radius: 4px;
+  padding: 2px 7px 2px 7px;
+  margin-left: 8px;
+  font-family: 'STKaiti', serif;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  box-shadow: 0 1px 4px #b22222aa;
+  border: 1.5px solid #fff0;
+  transform: rotate(-8deg);
+}
+.activity-card-date-demo {
+  font-size: 15px;
+  color: #8c6d3f;
+  margin-bottom: 32px;
+  text-align: center;
+  background: rgba(255,255,255,0.7);
+  border-radius: 8px;
+  padding: 4px 0;
+}
+.activity-card-btn-demo {
+  margin-top: auto;
+  margin-bottom: -8px;
+  color: #fff;
+  font-size: 16px;
+  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
+  border-radius: 16px;
+  padding: 2px 0;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 2px 8px #e6d8b6;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  letter-spacing: 1px;
+  transition: background 0.2s;
+}
+.activity-card-btn-demo:hover {
+  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
+}
+
+.card-bg-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  pointer-events: none;
+  border-radius: 22px;
+}
+.card-bg-img-one   { background-image: url('../../assets/demoone.gif'); }
+.card-bg-img-two   { background-image: url('../../assets/demotwo.gif'); }
+.card-bg-img-three { background-image: url('../../assets/demothree.gif'); }
+.card-bg-img-four  { background-image: url('../../assets/demofour.gif'); }
+
+/* 遮罩层和按钮动画 */
+.iot-details-mask {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 4s;
+  opacity: 1;
+  pointer-events: auto;
+}
+.iot-details-mask.mask-fadeout {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 4s;
+}
+.iot-details-start-btn {
+  font-size: 26px;
+  padding: 22px 48px;
+  border-radius: 32px;
+  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
+  color: #2d2d2d;
+  border: none;
+  box-shadow: 0 4px 24px #0006;
+  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s, opacity 0.5s;
+  opacity: 1;
+}
+.iot-details-start-btn:hover {
+  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
+  transform: scale(1.04);
+}
+.iot-details-start-btn.btn-fadeout {
+  opacity: 0;
+  transition: opacity 1.2s;
+  pointer-events: none;
+}
+
+/* 背景和内容渐现动画 */
+.iot-details-bg,
+.iot-details-content {
+  opacity: 0;
+  transition: opacity 3s;
+}
+.bg-fadein {
+  opacity: 1 !important;
+  transition: opacity 3s;
+}
+.content-fadein {
+  opacity: 1 !important;
+  transition: opacity 3s 0.88s;
+}
+

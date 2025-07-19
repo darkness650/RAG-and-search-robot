@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import "./IOT/environmentManage.css";
 // 导入Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { 
   faCloudUpload, 
   faCheck, 
@@ -34,9 +35,56 @@ library.add(
   faHistory,
 );
 
+const ChatInitialTip = () => {
+  const [tipText, setTipText] = useState('');
+
+  useEffect(() => {
+    // 生成1-5的随机数
+    const randomNum = Math.floor(Math.random() * 11) + 1;
+    
+    // 根据随机数设置提示文案
+    let text = '';
+    if (randomNum === 1) {
+      text = "你正在做什麼？";
+    } else if (randomNum === 2) {
+      text = "隨時準備好就可以開始了。";
+    } else if (randomNum === 3) {
+      text = "今天的議程是什麼？";
+    } else if (randomNum === 4) {
+      text = "你今天在想什麼？";
+    } else if (randomNum === 5) {
+      text = "我們該從哪裡開始？";
+    }else if (randomNum === 6) {
+      text = "你的代码又报错了吗？";
+    } else if (randomNum === 7) {
+      text = "这代码之内，多看一眼都是错。";
+    } else if (randomNum === 8) {
+      text = "入夜后别乱走，偏殿的灯笼是给bug留的。";
+    } else if (randomNum === 9) {
+      text = "如山的代码里，藏着多少运行不了的程序。";
+    }else if (randomNum === 10) {
+      text = "代码里的逻辑，比人心清楚多了。";
+    } else if (randomNum === 11) {
+      text = "我可以為你做什麼？";
+    } 
+    setTipText(text);
+  }, []);
+
+  return (
+    <div className="chat-initial-tip">{tipText}</div>
+  );
+};
+
+
+
+
+
+
+
+
 const ChatWidget = () => {
   const location = useLocation();
-  
+  const navigate = useNavigate();
   // 管理聊天消息的状态
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -50,12 +98,38 @@ const ChatWidget = () => {
   const [uploadSuccessFinished, setUploadSuccessFinished] = useState(false);
   // 新增：保存当前会话的chat_id
   const [chatId, setChatId] = useState(location.state?.chatId || null);
-  // 处理文件选择和拖放
+  
+  // // 处理文件选择和拖放
+
+  const [isModelOpen, setIsModelOpen] = useState(false); // 模型选择菜单是否展开
+  const [selectedModel, setSelectedModel] = useState('GPT-4'); // 当前选中的模型
+  const [modelUrlSuffix, setModelUrlSuffix] = useState('qwen-max'); // 当前模型对应的URL后缀
+  const modelRef = useRef(null); // 用于点击外部关闭菜单
+  
+
+  
+  // 模型与URL后缀的映射关系 - 核心修改
+  const modelMappings = [
+    { name: 'GPT-4', suffix: 'qwen-max' },
+    { name: 'Claude', suffix: 'deepseek-r1' },
+    { name: '文心一言', suffix: 'abab6.5t-chat' }
+  ];
 
 
 
+     // 点击外部关闭模型选择菜单
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modelRef.current && !modelRef.current.contains(event.target)) {
+        setIsModelOpen(false);
+      }
+    };
 
-
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
 
   const handleFileChange = (e) => {
@@ -161,6 +235,19 @@ const ChatWidget = () => {
   const handleToggleWebSearch = () => {
     setWebSearch(prev => !prev);
   };
+  
+
+  // 处理模型选择 - 同步更新URL后缀
+  const handleModelSelect = (modelName) => {
+    // 根据选择的模型名称找到对应的URL后缀
+    const selected = modelMappings.find(item => item.name === modelName);
+    if (selected) {
+      setSelectedModel(modelName);
+      setModelUrlSuffix(selected.suffix); // 更新URL后缀
+    }
+    setIsModelOpen(false);
+  };
+
 
   // 发送消息的函数
   const handleSendMessage = async () => {
@@ -177,6 +264,11 @@ const ChatWidget = () => {
       const fileInfo = `[附带 ${fileList.length} 个文件: ${fileNames}]`;
       content = content ? `${content} ${fileInfo}` : fileInfo;
     }
+    
+
+     // 添加当前选中的模型信息
+     content += ` [使用模型: ${selectedModel}]`;
+
 
     // 添加用户消息到聊天记录
     setMessages(prev => [...prev, {
@@ -205,7 +297,10 @@ const ChatWidget = () => {
       }
 
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/ai/chat', {
+
+       // 动态拼接URL - 核心修改点
+       const baseUrl = 'http://10.158.36.225:8080/ai/chat';
+      const res = await fetch(`${baseUrl}/${modelUrlSuffix}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -214,24 +309,76 @@ const ChatWidget = () => {
       });
 
       if (!res.ok) throw new Error(`HTTP错误，状态码: ${res.status}`);
-      const data = await res.json();
+      // const data = await res.json();
       
-      console.log('发送消息API返回数据:', data);
+      // console.log('发送消息API返回数据:', data);
       
-      // 如果是新建对话，保存返回的chat_id
-      if (!chatId && data.chat_id) {
-        setChatId(data.chat_id);
-      }
+      // // 如果是新建对话，保存返回的chat_id
+      // if (!chatId && data.chat_id) {
+      //   setChatId(data.chat_id);
+       
+      // }
       
-      // 从新的API格式中获取AI回复
-      const aiMessage = data.history && data.history.length > 0 ? data.history[0] : null;
-      const formattedAnswer = aiMessage ? aiMessage.content.replace(/\n/g, '<br>').replace(/\\n/g, '<br>') : '抱歉，没有收到回复';
+      // // 从新的API格式中获取AI回复
+      // const aiMessage = data.history && data.history.length > 0 ? data.history[0] : null;
+      // const formattedAnswer = aiMessage ? aiMessage.content.replace(/\n/g, '<br>').replace(/\\n/g, '<br>') : '抱歉，没有收到回复';
 
-      setMessages(prev => [...prev, {
-        type: 'ai',
-        content: formattedAnswer,
-        timestamp
-      }]);
+      // setMessages(prev => [...prev, {
+      //   type: 'ai',
+      //   content: formattedAnswer,
+      //   timestamp
+      // }]);
+    
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let aiAnswer = "";  // 当前累积的AI回答内容
+      
+      // 每次读取后更新显示
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+      
+        const chunk = decoder.decode(value, { stream: true });
+        // 处理所有 data: 前缀和换行，拼接成一段
+        const cleanedChunk = chunk
+          .split('\n')
+          .map(line => line.replace(/^data:\s*/, ''))
+          .join('')
+          .replace(/\n/g, '');
+
+        // ✅ 检查是否含有 chat_id
+        if (!chatId && cleanedChunk.startsWith("__chat_id__:")) {
+          const newChatId = cleanedChunk.replace("__chat_id__:", "").trim();
+          setChatId(newChatId);
+          continue;
+        }
+        // 过滤掉包含chat_id的chunk后，再添加到aiAnswer中
+        if (!cleanedChunk.startsWith("__chat_id__:")) {
+          aiAnswer += cleanedChunk;
+        }
+      
+        setMessages(prev => {
+          let newMessages = [...prev];
+          // 找到最后一条 AI 消息
+          const lastAiIndex = [...prev].reverse().findIndex(msg => msg.type === 'ai' && msg.timestamp === timestamp);
+          const realIndex = lastAiIndex === -1 ? -1 : prev.length - 1 - lastAiIndex;
+          if (realIndex === -1) {
+            newMessages.push({
+              type: 'ai',
+              content: aiAnswer.replace(/\n/g, '<br>'),
+              timestamp
+            });
+          } else {
+            newMessages[realIndex] = {
+              ...newMessages[realIndex],
+              content: aiAnswer.replace(/\n/g, '<br>')
+            };
+          }
+          return newMessages;
+        });
+      }
+
 
     } catch (e) {
       console.error('请求失败:', e);
@@ -259,10 +406,23 @@ const ChatWidget = () => {
     if (location.state?.chatId) {
       const chatId = location.state.chatId;
       const chatName = location.state.chatName;
+      // 如果是新建对话，保存返回的chat_id
+     
+      
+       setChatId(chatId);
+       
       
       // 获取该聊天的历史记录
       const fetchChatHistory = async () => {
         try {
+          
+          // setChatId(chatId);
+          // // 如果是新建对话，保存返回的chat_id
+      // if (!chatId && data.chat_id) {
+      //   setChatId(data.chat_id);
+       
+      // }
+          
           const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
           console.log('获取聊天历史，chatId:', chatId);
           
@@ -354,10 +514,7 @@ const ChatWidget = () => {
               { type: 'user', content: '你好，我想了解一下这个项目', timestamp: '10:00:00' },
               { type: 'ai', content: '你好！这是一个基于React和Ant Design的前端项目，主要用于IOT设备管理。有什么我可以帮助你的吗？', timestamp: '10:00:30' }
             ],
-            '2': [
-              { type: 'user', content: '如何添加新的IOT设备？', timestamp: '11:00:00' },
-              { type: 'ai', content: '添加IOT设备的步骤：<br>1. 点击"新增"按钮<br>2. 填写设备基本信息<br>3. 上传相关文档<br>4. 提交审核<br>5. 等待审批通过', timestamp: '11:00:45' }
-            ]
+            
           };
           
           const messages = testMessages[chatId] || [
@@ -387,38 +544,76 @@ const ChatWidget = () => {
     };
   }, [fileList]);
 
-  const handleResultClick = () => {
-    window.location.href = 'https://www.bilibili.com/video/av362497019/?vd_source=882dfb6e4d0ed7bb6e995d8ce8be71d4';
-  };
-
   return (
     <div className="chat-widget">
+      
+      
+       {/* 模型选择按钮及下拉菜单 */}
+       <div className="model-selector" ref={modelRef}>
+        <button 
+          className='selectbutton'
+          onClick={() => setIsModelOpen(!isModelOpen)}
+        >
+          模型选择
+          <FontAwesomeIcon 
+            icon="chevron-down" 
+            className={`ml-1 transition-transform duration-300 ${isModelOpen ? 'transform rotate-180' : ''}`} 
+          />
+        </button>
+        
+        {/* 模型选择下拉菜单 */}
+        {isModelOpen && (
+          <div className="model-dropdown">
+            {modelMappings.map((model, index) => (
+              <button 
+                key={index}
+                className={`model-option ${selectedModel === model.name ? 'active' : ''}`}
+                onClick={() => handleModelSelect(model.name)}
+              >
+                {model.name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      
+{/*       
       <div className="topbar">这是个神秘对话框
        
-      </div>
-      <div className="left">这边建议您不要随便点击哦
+      </div> */}
+      <div className="left">
      
       </div>
       
       {/* 聊天结果区域，保留原有className和配色，只加外层flex布局 */}
-      <div id="chat-container" className="result">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            style={{
-              display: 'flex',
-              justifyContent: msg.type === 'user' ? 'flex-end' : 'flex-start',
-              marginBottom: 16
-            }}
-          >
+      <div
+        id="chat-container"
+        className={`result${messages.length === 0 ? ' result-initial' : ''}`}
+      
+        style={messages.length === 0 ? { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 } : {}}
+      >
+        {messages.length === 0 ? (
+          <ChatInitialTip key={chatId || 'no-chat'} />
+        ) : (
+          messages.map((msg, index) => (
             <div
-              className={msg.type === 'user' ? 'user-question' : msg.type === 'error' ? 'ai-answer error' : 'ai-answer'}
+              key={index}
+              style={{
+                display: 'flex',
+                justifyContent: msg.type === 'user' ? 'flex-end' : 'flex-start',
+                marginBottom: 16
+              }}
             >
-              <div dangerouslySetInnerHTML={{ __html: msg.content }} />
-              <div className="timestamp">{msg.timestamp}</div>
+              <div
+                className={msg.type === 'user' ? 'user-question' : msg.type === 'error' ? 'ai-answer error' : 'ai-answer'}
+              >
+                <div dangerouslySetInnerHTML={{ __html: msg.content }} />
+                <div className="timestamp">{msg.timestamp}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
       
       {/* 输入区域 */}
