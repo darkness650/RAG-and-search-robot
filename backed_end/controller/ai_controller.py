@@ -12,7 +12,8 @@ from backed_end.pojo.ChatList import ChatList
 from backed_end.pojo.User import User
 from backed_end.config.user_mannage import get_current_active_user
 from typing import Annotated, Optional, List
-
+import re
+from backed_end.service.aiservice.ai_summary import ai_summary
 from backed_end.service.aiservice.chat_with_roles import chat_with_roles
 from backed_end.service.aiservice.graph_service import service
 from backed_end.service.aiservice.history_message import show_history_message
@@ -31,8 +32,9 @@ async def ai(question: Annotated[str, Form()], user: Annotated[User, Depends(get
     uploaded_file_paths = []
     if chat_id is None:
         # 没有传chat_id ➔ 创建新的
-        statement = select(ChatList).where(ChatList.username == user.username)
+        statement = select(ChatList).where(ChatList.username == user.username).where(ChatList.role == "user")
         result = await session.execute(statement)
+        await session.commit()
         existing_chats = result.scalars().all()
         chat_count = len(existing_chats) + 1
         chat_id = str(int(datetime.utcnow().timestamp() * 1000))
@@ -48,21 +50,27 @@ async def ai(question: Annotated[str, Form()], user: Annotated[User, Depends(get
         await session.commit()
     else:
         # 有chat_id ➔ 继续已有对话
-        statement = select(ChatList).where(ChatList.chat_id == chat_id)
+        statement = select(ChatList).where(ChatList.chat_id == chat_id).where(ChatList.role == user.role)
         result = await session.execute(statement)
+        await session.commit()
         chat = result.scalar_one_or_none()
-        chat_name = chat.chat_name if chat else f"{user.username}的对话"
-
+        # 判断是否查到了记录
+        pattern = rf"^{re.escape(user.username)}的对话\(\d+\)$"
+        if chat and not re.fullmatch(pattern, chat.chat_name.strip()):
+            chat.chat_name = ai_summary(question)
+            await session.commit()  # 提交更改
+        else:
+            chat_name = f"{user.username}的对话"  # 未找到就使用默认名称
     try:
         if has_file:
             for file in files:
-                file_info = upload_service.upload_file_service(file, user.username)
+                file_info = upload_service.upload_file_service(file, chat_id)
                 uploaded_file_paths.append(file_info["filepath"])
                 await file.close()
 
         # response_text = await service(question, str(chat_id), model, web_search, has_file)
         async def event_generator():
-            async for chunk in service(question, str(chat_id), model, web_search, has_file):
+            async for chunk in service(question, str(chat_id), model, web_search, has_file,user.email):
                 yield chunk  # 每个 chunk 是一段文本
 
         return StreamingResponse(event_generator(), media_type="text/event-stream", headers={
@@ -71,12 +79,13 @@ async def ai(question: Annotated[str, Form()], user: Annotated[User, Depends(get
 
 
     finally:
-        for path in uploaded_file_paths:
-            try:
-                if os.path.exists(path):
-                    os.remove(path)
-            except Exception as e:
-                print(f"❗ Failed to delete file {path}: {e}")
+        pass
+        # for path in uploaded_file_paths:
+        #     try:
+        #         if os.path.exists(path):
+        #             os.remove(path)
+        #     except Exception as e:
+        #         print(f"❗ Failed to delete file {path}: {e}")
 
 
 # @router.post("/newchat/{model}")
@@ -132,6 +141,7 @@ async def newai(user: Annotated[User, Depends(get_current_active_user)],
                 role: Optional[str] = Form(None)):
     statement = select(ChatList).where(ChatList.username == user.username).where(ChatList.role == role)
     result = await session.execute(statement)
+    await session.commit()
     existing_chats = result.scalars().all()
     chat_count = len(existing_chats) + 1
     chat_id = str(int(datetime.utcnow().timestamp() * 1000))
@@ -139,10 +149,12 @@ async def newai(user: Annotated[User, Depends(get_current_active_user)],
         chat_name = f"{user.username}的对话({chat_count})"
     else:
         role_names = {
-            "role1": "琼琚",
+            "role1": "凌霜妃",
             "role2": "红绡仙",
-            "role3": "侍女",
-            "role4": "铃兰"
+            "role3": "瑶姬",
+            "role4": "铃兰",
+            "role5": "云娘",
+            "role6": "云蝶",
         }
         chat_name = f"与{role_names.get(role, '神秘角色')}的对话({chat_count})"
 
@@ -182,6 +194,7 @@ async def ai1(question: Annotated[str, Form()], user: Annotated[User, Depends(ge
         # 没有传chat_id ➔ 创建新的
         statement = select(ChatList).where(ChatList.username == user.username)
         result = await session.execute(statement)
+        await session.commit()
         existing_chats = result.scalars().all()
         chat_count = len(existing_chats) + 1
         chat_id = str(int(datetime.utcnow().timestamp() * 1000))
@@ -200,6 +213,7 @@ async def ai1(question: Annotated[str, Form()], user: Annotated[User, Depends(ge
         # 有chat_id ➔ 继续已有对话
         statement = select(ChatList).where(ChatList.chat_id == chat_id)
         result = await session.execute(statement)
+        await session.commit()
         chat = result.scalar_one_or_none()
         chat_name = chat.chat_name if chat else f"{user.username}的对话"
     try:
@@ -223,6 +237,7 @@ async def history(user: Annotated[User, Depends(get_current_active_user)],
     # 获取 chat_name
     statement = select(ChatList).where(ChatList.chat_id == chat_id)
     result = await session.execute(statement)
+    await session.commit()
     chat = result.scalar_one_or_none()
     chat_name = chat.chat_name if chat else "未知对话"
     print("chat_id", chat_id)

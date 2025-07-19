@@ -7,3 +7,10 @@ class UserCreate(BaseModel):
     disabled:bool = False
     email: Optional[str] = None
     phone_number: Optional[str] = None
+
+
+class UserRegister(BaseModel):
+    username: str
+    password: str
+    email: str
+    code: str

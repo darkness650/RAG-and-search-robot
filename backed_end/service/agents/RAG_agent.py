@@ -29,7 +29,7 @@ async def get_rag_agent(thread_id:str):
             model=llm,
             tools=[rag_tool],
             prompt="you are a helpful assistant that can answer questions based on the provided documents."
-                   "you must search for information by calling tool "
+                   "you must search for information by calling tool,you mustn't answer the question without calling tools,"
                    "please do so to find relevant information before answering in Chinese.you must search for information in Chinese, If you cannot find relevant information, please return 'I don't know' instead of answering it by yourself.",
             name="RAG_agent",
 

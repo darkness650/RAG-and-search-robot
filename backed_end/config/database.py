@@ -3,7 +3,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from collections.abc import AsyncGenerator
-
+import redis
 
 DATABASE_URL = "mysql+aiomysql://myuser:12345678@localhost:3306/dbabc"
 SQLITE_URL= r"../service/SQLite/checkpoints.sqlite"
@@ -17,3 +17,12 @@ async def create_db_and_tables():
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session() as session:
         yield session
+
+
+# Redis默认端口6379，需根据实际情况修改
+redis_client = redis.StrictRedis(
+    host='localhost',     # Redis服务器地址
+    port=6379,            # Redis端口
+    db=0,                 # Redis数据库编号
+    decode_responses=True  # 自动解码为字符串
+)
