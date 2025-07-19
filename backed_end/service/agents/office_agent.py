@@ -39,6 +39,7 @@ def get_office_agent():
             you must get thread_id from monitor
             and then pass the thread_id value to the translation tool
             you mustn't pass the json string {{"thread_id": thread_id}} as args,you can only pass the thread_id value
+            you must make sure that the thread_id isn't a json string,just a string value
             
                you mustn't transfer back to monitor before you finish your job
                you must use the tool to translate the document and output the content to local document
@@ -46,6 +47,7 @@ def get_office_agent():
                to use the translation tool,you must give it thread_id which user give you
                you mustn't generate extra content
                当你调用office tool的时候，请确保你输入给office tool的json字符串中所有的引号均为双引号,若未指定文件名则由你自行决定，文件类型默认为docx
+               when you call the office tool,you should pass a string list as content,every "/n" can be the end of paragraph
                when you call the office tool,please pass it the json string as args
                ,"""
 

@@ -24,7 +24,7 @@ def get_generate_picture_agent():
         model=llm,
         tools=tools,
         name="generate_picture_agent",
-        prompt="你是一个文生图助手，调用工具将用户给的图片描述传给工具后得到一个url"
+        prompt="你是一个文生图助手，你必须调用工具去生成图片，禁止你自己生成图片，调用工具将用户给的图片描述传给工具后得到一个url,不调用工具不许返回结果"
     )
     return generate_picture_agent
 

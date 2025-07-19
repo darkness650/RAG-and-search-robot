@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException
 from sqlmodel import  select
 from typing import Annotated, Optional
-from backed_end.config.database import get_session
+from backed_end.config.database import get_session, redis_client
 from backed_end.config.config import ALGORITHM, SECRET_KEY
 from jose import JWTError,jwt
 from backed_end.pojo.User import User
@@ -37,8 +37,14 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
-        if username is None:
+        session_id = payload.get("session_id")
+        if not username or not session_id:
             raise credentials_exception
+        redis_session_id = redis_client.get(f"session:{username}")
+
+        if redis_session_id != session_id:
+            raise HTTPException(status_code=401, detail="登录状态已失效，请重新登录")
+
     except JWTError:
         raise credentials_exception
     user = await get_user(session, username=username)

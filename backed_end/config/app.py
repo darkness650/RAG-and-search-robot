@@ -17,6 +17,7 @@ from backed_end.controller import User
 from backed_end.controller import token
 from backed_end.controller import sign_up
 from backed_end.controller import chat_list
+from backed_end.controller import logout
 
 
 @asynccontextmanager
@@ -41,3 +42,4 @@ app.include_router(User.router, prefix="/users", tags=["用户"],dependencies=[D
 app.include_router(chat_list.router, prefix="/chat_list", tags=["聊天列表"],dependencies=[Depends(get_current_active_user)])
 app.include_router(token.router,prefix="/token",tags=["登录"])
 app.include_router(sign_up.router,prefix="/sign_up",tags=["注册"])
+app.include_router(logout.router,prefix="/logout",tags=["登出"],dependencies=[Depends(get_current_active_user)])

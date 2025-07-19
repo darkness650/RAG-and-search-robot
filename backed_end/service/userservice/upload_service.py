@@ -19,8 +19,8 @@ def get_unique_filename(filename: str, directory: str) -> str:
 
     return unique_name
 
-def upload_file_service(file: UploadFile,username:str):
-    user_dir = os.path.join(UPLOAD_DIR, username)
+def upload_file_service(file: UploadFile,chat_id:str):
+    user_dir = os.path.join(UPLOAD_DIR, chat_id)
     os.makedirs(user_dir, exist_ok=True)
 
     unique_filename = get_unique_filename(file.filename, user_dir)

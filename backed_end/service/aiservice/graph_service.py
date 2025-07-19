@@ -19,8 +19,8 @@ from backed_end.service.tools.handle_file import handle_file
 
 
 async def service(question: str, thread_id: str, model:str,internet: bool, RAG: bool,email:str) -> str:
-    # if RAG:
-    #     handle_file(thread_id)
+    if RAG:
+        handle_file(thread_id,True)
 
     config = {"configurable": {"thread_id": thread_id}}
 
@@ -59,10 +59,11 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
             ),
             prompt="""
                 你是一个智能体管理者，你需要根据用户的问题来分配任务给不同的智能体。
-                you must try to use agent to solve user's question.Don't answer the question by yourself.
+                you must use agent to solve user's question.you mustn't answer the question by yourself.
                 if you use an agent,you must wait for the agent to finish its work.
                 if you think the question is too complex,you can use the plan_agent to divide the question into smaller tasks.
                 you must use agents to complete these tasks.
+                if user ask you to summary something,you must use summary_agent to get the summary.
                 you can use bilibili_agent to get video information from bilibili url
                 you can use the translation monitor to finish translation task,if you use it,when you get his answer,you can return directly.
                 you can use the summary_agent to get summary about an article.
@@ -83,7 +84,7 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
             supervisor_name="monitor"
         ).compile(checkpointer=checkpointer)
 
-        # yield f"data: __chat_id__:{thread_id}\n\n"
+        yield f"data: __chat_id__:{thread_id}\n\n"
 
         async for event in supervisor.astream_events(
                 {
@@ -94,8 +95,8 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
         ):
             if event["event"] == "on_chat_model_stream" and event["metadata"]["ls_model_name"]==model:# and event["data"]["chunk"].response_metadata["model_name"]=="qwen-plus":
                 for chunk in event["data"]["chunk"].content:
-                    # yield f"data: {chunk}\n\n"
-                    print(chunk,end="",flush=True)
+                    yield f"data: {chunk}\n\n"
+                    # print(chunk,end="",flush=True)
 
         #     elif event["event"] == "on_tool_start":
         #         tool_name = event["name"]

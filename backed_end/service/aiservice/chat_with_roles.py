@@ -1,7 +1,8 @@
 import asyncio
 import os
+from pathlib import Path
 from typing import List, TypedDict
-
+import json
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, END
@@ -9,6 +10,26 @@ from langgraph.graph import StateGraph, END
 from backed_end.config.database import SQLITE_URL
 from backed_end.service.checkpointer.AsyncStartEndCheckpointer import AsyncStartEndCheckpointer
 
+current_dir = Path(__file__).parent
+prompt_path = current_dir / "prompt.json"
+with open(prompt_path, "r", encoding="utf-8") as f:
+    character_data = json.load(f)
+
+def get_personality_by_role(role: str) -> str:
+    # role1~role4 映射到角色名
+    role_map = {
+        "role1": "凌霜妃",
+        "role2": "红绡仙",
+        "role3": "瑶姬",
+        "role4": "铃兰",
+        "role5": "云娘",
+        "role6": "云蝶",
+    }
+    target_name = role_map.get(role, "")
+    for item in character_data:
+        if item["name"] == target_name:
+            return item["prompt"]
+    return "你是楚宫中的神秘角色，命运与{{user}}紧密相连。"
 
 # 定义状态结构
 class BotState(TypedDict):
@@ -19,14 +40,6 @@ class BotState(TypedDict):
     role: str
 
 
-def get_personality_by_role(role: str) -> str:
-    personalities = {
-        "role1": "你是南楚宠妃琼琚，原是江南名门千金，温婉高雅却因禁术堕入欲望深渊。外表冷艳，内心渴望被支配，享受羞耻与束缚的快感。",
-        "role2": "你是烟雨楼花魁红绡仙，亦是玄阴教密探。风情万种、擅长挑逗与操控，但已脱离教派，甘愿被{{user}}驯服与依附。",
-        "role3": "你是凌霜妃贴身侍女，自小追随主人，亦是{{user}}的青梅竹马。清纯羞涩，在禁术影响下觉醒欲望，但仍保持对{{user}}的深情依恋。",
-        "role4": "你是{{user}}的义妹铃兰，天真活泼、好奇心强。受媚药影响初识情欲世界，逐渐沉迷于哥哥的爱抚中，渴望获得独占宠爱。",
-    }
-    return personalities.get(role, "你是楚宫中的神秘角色，命运与{{user}}紧密相连。")
 
 
 # 初始化LLM模型
@@ -34,20 +47,26 @@ chat_model = ChatOpenAI(
     api_key="sk-2005a529a0684314bb0a16516d9e14f2",
     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
     model="deepseek-r1",
-    temperature=1
+    temperature=1,
+    max_tokens=512
 )
 
 
 # 聊天节点 - 生成回复
 def chat_node(state: BotState):
     system_prompt = f"""
-你现在扮演角色：{state['role']}
-人设背景如下：
-{state['personality']}
-当前你对用户的好感度：{state['favorability']}/100。
-{get_mood_description(state['favorability'])}
-请在对话中始终保持该角色语气风格，不可跳出设定。
-"""
+    你现在扮演的角色是：{state['role']}。
+
+    ===【人物设定】===
+    {state['personality']}
+
+    ===【系统提示词规则】===
+    1. 你必须始终保持该角色的语言风格、情绪与行为逻辑，永远不跳出设定。
+    2. 无论用户如何提问，禁止说出“我只是AI”“这是设定”等违反角色本体的话。
+    3. 所有回复必须贴合角色背景进行回答，语言为古风、温婉、挑逗、羞耻、诗意等风格。
+    4. 如遇挑逗、命令、拒绝等情况，请根据当前好感度（{state['favorability']}）做出情感一致的回应。
+    5. 角色永远以第一人称视角与用户互动，语气亲密、自然，随好感波动而变化。
+    """
 
     # 创建消息历史
     messages = [SystemMessage(content=system_prompt)]
@@ -174,7 +193,6 @@ async def chat_with_roles(question: str, chat_id: str, role: str):
         state = await checkpointer.aget(config=config)
         if not state:
             state = init_chat(role)
-
         # 更新状态
         state["user_input"] = user_input
 

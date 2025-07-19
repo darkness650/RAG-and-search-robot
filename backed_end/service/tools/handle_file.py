@@ -56,7 +56,7 @@ def handle_file(thread_id:str,file_path:bool=False):
 
     # 创建embedding模型
     embeddings = HuggingFaceEmbeddings(
-        model_name="../models/m3e-base-huggingface",
+        model_name="../service/models/m3e-base-huggingface",
         model_kwargs={'device': "cpu"}
     )
 
