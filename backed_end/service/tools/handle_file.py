@@ -6,6 +6,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from neo4j import GraphDatabase
 
 from backed_end.config.api_key import NEO4J_URL, NEO4J_SECRET
+from backed_end.config.config import HUGGINGFACE_URL
 
 
 def handle_file(thread_id:str,file_path:bool=False):
@@ -56,7 +57,7 @@ def handle_file(thread_id:str,file_path:bool=False):
 
     # 创建embedding模型
     embeddings = HuggingFaceEmbeddings(
-        model_name="../service/models/m3e-base-huggingface",
+        model_name=HUGGINGFACE_URL,
         model_kwargs={'device': "cpu"}
     )
 

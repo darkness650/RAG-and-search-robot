@@ -3,6 +3,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from neo4j import GraphDatabase
 
 from backed_end.config.api_key import NEO4J_SECRET, NEO4J_URL
+from backed_end.config.config import HUGGINGFACE_URL
 
 
 def RAG_tool(thread_id: str):
@@ -40,7 +41,7 @@ def RAG_tool(thread_id: str):
     # 2. 索引存在，创建检索器
     try:
         embeddings = HuggingFaceEmbeddings(
-            model_name="../service/models/m3e-base-huggingface",
+            model_name=HUGGINGFACE_URL,
             model_kwargs={'device': "cpu"}
         )
 

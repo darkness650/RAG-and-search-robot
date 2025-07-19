@@ -32,7 +32,7 @@ def get_biliili_agent():
         model=llm,
         tools=tools,
         name="bilibili_agent",
-        prompt="you are bilibili agent, you can help user to get information from bilibili video",
+        prompt="you are bilibili agent, you musy call the tool to get information,you mustn't answer any question by yourself",
     )
     return bilibili_agent
 

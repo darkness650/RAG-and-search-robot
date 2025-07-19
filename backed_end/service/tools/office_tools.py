@@ -23,10 +23,13 @@ class OfficeWriterTool(BaseTool):
         使用的时候请注意将所有单引号变为双引号
         输入样例：
         {
-            "file_type":"docx",
-            "file_name":"example",
-            "content":["para1","para2","para3"],
-            "thread_id":"2"
+        "input_str":"
+            {
+                "file_type":"docx",
+                "file_name":"example",
+                "content":["para1","para2","para3"],
+                "thread_id":"2"
+            }"
         }
         """
     )

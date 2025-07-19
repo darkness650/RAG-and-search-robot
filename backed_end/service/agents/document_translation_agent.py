@@ -12,7 +12,7 @@ from backed_end.service.tools.handle_file import handle_file
 
 
 async def get_document_translation_agent(thread_id:str,target_email:str):
-    email_agent = get_email_agent()
+    email_agent = get_email_agent(target_email,thread_id)
     office_agent = get_office_agent()
  #   translation_agent = get_translation_agent(thread_id)
     handle_file_agent=get_handlefile_agent(thread_id)
@@ -29,7 +29,9 @@ async def get_document_translation_agent(thread_id:str,target_email:str):
         # state_schema=State,
         supervisor_name="translation_monitor",
         prompt=f"""
-                you are a supervisor that monitor three agents,please divide tasks to them and finish the task.
+                you are a supervisor that monitor three agents,you must divide tasks to them and finish the task.
+                you must call agents to accomplish the job
+                you mustn't return directly without calling agents
                 you just divide tasks to agents,don't care any other problem,even if user gives incomplete information,agents can handle it
                 if you get a task,please use office_agent to translate and get local office document,use email_agent to send email whether the user ask you to send email or not
                 thread_id:{thread_id}         target_email:{target_email}

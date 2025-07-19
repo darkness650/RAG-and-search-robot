@@ -13,7 +13,7 @@ def get_office_agent():
     llm = ChatOpenAI(
         api_key=OPEN_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        model="qwen-max",
+        model="qwen-max-latest",
         temperature=0
     )
     tools=[OfficeWriterTool(),
@@ -25,9 +25,7 @@ def get_office_agent():
         输入应为 JSON 字符串，包含："
         "thread_id": 会话id，主管会给, 
         输入样例：
-        {
-            "thread_id": "2", 
-        }
+        "thread_id": "2", 
         """ )]
     office_agent=create_react_agent(
         model=llm,
@@ -47,8 +45,8 @@ def get_office_agent():
                to use the translation tool,you must give it thread_id which user give you
                you mustn't generate extra content
                当你调用office tool的时候，请确保你输入给office tool的json字符串中所有的引号均为双引号,若未指定文件名则由你自行决定，文件类型默认为docx
+               when you call the office tool,you must pass it the output of translation tool as content
                when you call the office tool,you should pass a string list as content,every "/n" can be the end of paragraph
-               when you call the office tool,please pass it the json string as args
                ,"""
 
     )

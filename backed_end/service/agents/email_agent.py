@@ -7,7 +7,7 @@ from backed_end.config.api_key import OPEN_API_KEY
 from backed_end.service.tools.email_tools import sendemail
 
 
-def get_email_agent():
+def get_email_agent(email:str,thread_id:str):
     llm = ChatOpenAI(
         api_key=OPEN_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
@@ -19,7 +19,9 @@ def get_email_agent():
         model=llm,
         tools=tools,
         name="email_agent",
-        prompt="you are email_agent,you are responsible to send email to correct emailbox,you can get target emailbox and thread_id in config",
+        prompt=f"you are email_agent,you must call the tools to send email to target mailbox,"
+               "you mustn't return directly without calling tools"
+               f"you need to pass email:{email} and thread_id:{thread_id} to the tool ",
     )
     return office_agent
 if __name__ == '__main__':

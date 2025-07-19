@@ -6,7 +6,7 @@ from collections.abc import AsyncGenerator
 import redis
 
 DATABASE_URL = "mysql+aiomysql://myuser:12345678@localhost:3306/dbabc"
-SQLITE_URL= r"../service/SQLite/checkpoints.sqlite"
+SQLITE_URL= r"../SQLite/checkpoints.sqlite"
 engine = create_async_engine(DATABASE_URL, echo=True)
 async_session = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
