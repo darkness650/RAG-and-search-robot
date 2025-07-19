@@ -20,6 +20,9 @@ const Login = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('用户名或密码错误，请重试');
 
+  // 登录成功动画控制
+  const [showLoginSuccess, setShowLoginSuccess] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -163,24 +166,31 @@ const loginAPI = async (email, password) => {
       const data = await loginAPI(email, password);
      
       // 登录成功：根据后端返回结构调整（后端返回的是 access_token 字段）
-      if (data.access_token) { // 👈 修改这里，匹配后端返回的字段名
-        // 保存token到本地存储
-        
+      if (data.access_token) {
         remember 
           ? localStorage.setItem('auth_token', data.access_token) 
           : sessionStorage.setItem('auth_token', data.access_token);
-        
-        // 立即跳转（无需等待3秒）
-        navigate('/environmentManage'); // 核心：跳转到目标路径); // 👈 使用 useNavigate 进行跳转
+        localStorage.setItem('fullscreen_mode', 'true');
+        // 显示登录成功动画
+        setShowLoginSuccess(true);
+        setTimeout(() => {
+          setShowLoginSuccess(false);
+          navigate('/environmentManage');
+        }, 2000);
+        return; // 不再立即跳转
       }
     } catch (error) {
-      // 显示错误信息
       setErrorMessage(error.message || '登录失败，请重试');
       setIsError(true);
     } finally {
-      // 隐藏加载状态
       setIsLoading(false);
     }
+  };
+
+  // 登录成功动画手动跳转
+  const handleLoginSuccessJump = () => {
+    setShowLoginSuccess(false);
+    navigate('/environmentManage');
   };
 
 
@@ -377,6 +387,27 @@ const loginAPI = async (email, password) => {
                 className="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 hover:btn-hover"
               >
                 重新登录
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 登录成功动画（2秒自动跳转，按钮可立即跳转） */}
+      {showLoginSuccess && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl transform transition-all duration-300 scale-100">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 mb-4">
+                <i className="fa fa-check text-2xl"></i>
+              </div>
+              <h3 className="text-lg font-medium text-neutral-700 mb-2">登录成功</h3>
+              <p className="text-neutral-500 mb-6">您已成功登录，正在跳转至首页...</p>
+              <button 
+                onClick={handleLoginSuccessJump}
+                className="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 hover:btn-hover"
+              >
+                立即跳转
               </button>
             </div>
           </div>

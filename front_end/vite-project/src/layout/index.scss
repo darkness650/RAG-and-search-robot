@@ -1,10 +1,14 @@
 .header {
+  position: relative; // 新增，便于header-toggle绝对定位
   height:80px;
   width:100%;
   display:flex;
   justify-content: flex-start;
   background-color: rgb(255,255,255);
   padding:0;
+  transition: height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.8s cubic-bezier(0.4,0,0.2,1);
+  opacity: 1;
+  overflow: hidden;
 
   .occupyposition{
     width:200px;
@@ -21,43 +25,58 @@
     cursor: pointer;
     display:inline-block;
   }
-  .right-area{
-    flex:1;
-    
+  .header-toggle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 24px;
+    background-color: #1890ff;
+    color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    border-radius: 0 0 4px 4px;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  .right-area{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    z-index: 2;
+    transition: left 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
   }
   .right-title{
     font-weight:800;
+    font-size: 22px;
+    white-space: nowrap;
   }
 }
 
-
-
-
+.header.header-hidden {
+  height: 0 !important;
+  opacity: 0 !important;
+  padding: 0 !important;
+  transition: height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.8s cubic-bezier(0.4,0,0.2,1) !important;
+}
 
 
 // 侧边栏动画
 .sider-hidden {
   transform: translateX(-180px);
-  transition: transform 0.3s ease;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
 }
 
 .sider-visible {
   transform: translateX(0);
-  transition: transform 0.3s ease;
-}
-
-// 顶部导航栏动画
-.header-hidden {
-  transform: translateY(-60px);
-  transition: transform 0.3s ease;
-}
-
-.header-visible {
-  transform: translateY(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
 }
 
 // 侧边栏控制按钮 - 固定在左侧中间
@@ -82,10 +101,7 @@
 
 // 顶部导航栏控制按钮 - 固定在内容区域顶部中间
 .header-toggle {
-  position: absolute;
-  top: 0;
-  left: 56%;
-  transform: translateX(-0%);
+  /* 移除position: absolute和top/left/transform相关 */
   width: 60px;
   height: 24px;
   background-color: #1890ff;
@@ -97,6 +113,14 @@
   cursor: pointer;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+// 固定header-toggle在页面顶部水平居中
+.fixed-header-toggle {
+  position: fixed;
+  top: 0;
+  z-index: 101;
+  transition: left 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
 }
 
 // 箭头图标样式
@@ -113,4 +137,26 @@
   max-height: 40vh;
   overflow-y: auto;
   font-size: 14px;
+}
+
+.history-item-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.history-action-icon {
+  display: none;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.history-item-label:hover .history-action-icon {
+  display: inline-flex;
+}
+
+.sider-history-scroll {
+  max-height: 70vh;
+  overflow-y: auto;
 }

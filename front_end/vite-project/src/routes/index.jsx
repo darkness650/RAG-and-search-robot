@@ -6,13 +6,15 @@ const IOT = lazy(() => import("@/pages/IOT"));
 const IOTPage = lazy(() => import("@/pages/IOT/page"));
 const IOTAddEdit = lazy(() => import("@/pages/IOT/itoAddEdit"));
 const IOTDetails = lazy(() => import("@/pages/IOT/iotDetails"));
-const IOTProblemSummary = lazy(() => import("@/pages/IOT/component/problemSummary"));
-const IOTTypeReview = lazy(() => import("@/pages/IOT/component/typeReview"));
+const IOTDemoone = lazy(() => import("@/pages/IOT/component/demoone"));
+const IOTDemotwo = lazy(() => import("@/pages/IOT/component/demotwo"));
+const IOTDemothree = lazy(() => import("@/pages/IOT/component/demothree"));
+const IOTDemofour = lazy(() => import("@/pages/IOT/component/demofour"));
 const IOTTypeServiceList = lazy(() => import("@/pages/IOT/component/typeServiceList"));
-const IOTTypePreRelease = lazy(() => import("@/pages/IOT/component/typePreRelease"));
+
 const IOTTypePreReleaseArea = lazy(() => import("@/pages/IOT/component/preReleaseComponents/areaPage"));
 const IOTTypeVerify = lazy(() => import("@/pages/IOT/component/typeVerify"));
-const IOTOfficiallyReleased = lazy(() => import("@/pages/IOT/component/typeOfficially"));
+
 const EnvironmentManage = lazy(() => import("@/pages/environmentManage"));
 
 const routes =[
@@ -42,30 +44,37 @@ const routes =[
 						element: <IOTAddEdit />,
 					},
 					{
-						path: 'IOTProblemSummary',
+						path: 'IOTDemoone',
 						name: "IOT提单问题汇总",
-						element: <IOTProblemSummary />,
+						element: <IOTDemoone />,
+					},
+					{
+						path: 'IOTDemotwo',
+						name: "IOT发布—线上发布验收状态页面",
+						element: <IOTDemotwo />,
+					},
+					{
+						path: `IOTDemothree`,
+						name: "IOT发布—预发布状态页面",
+						element: <IOTDemothree />,
+					},
+					{
+						path: 'IOTDemofour',
+						name: "IOT发布—发布评审状态页面",
+						element: <IOTDemofour />,
 					},
 					{
 						path: 'IOTDetails/:id',
 						name: "IOT发布详情页面",
 						element: <IOTDetails />,
 					},
-					{
-						path: 'IOTtype_Review/:id',
-						name: "IOT发布—发布评审状态页面",
-						element: <IOTTypeReview />,
-					},
+					
 					{
 						path: 'IOTtype_ServiceList/:id',
 						name: "IOT发布—服务列表页面",
 						element: <IOTTypeServiceList />,
 					},
-					{
-						path: `IOTtype_PreRelease/:id`,
-						name: "IOT发布—预发布状态页面",
-						element: <IOTTypePreRelease />,
-					},
+			
 					{
 						path: `IOTtype_PreRelease/:id/area`,
 						name: "IOT发布—预发布状态页面",
@@ -76,22 +85,25 @@ const routes =[
 						name: "IOT发布—预发布验证状态页面",
 						element: <IOTTypeVerify />,
 					},
-					{
-						path: 'IOTOfficiallyReleased/:id',
-						name: "IOT发布—线上发布验收状态页面",
-						element: <IOTOfficiallyReleased />,
-					},
-					{
-						path: 'IOTAccept/:id',
-						name: "IOT发布—线上发布验收状态页面",
-						element: <IOTOfficiallyReleased />,
-					},
+				
+					// {
+					// 	path: 'IOTAccept/:id',
+					// 	name: "IOT发布—线上发布验收状态页面",
+					// 	element: <IOTOfficiallyReleased />,
+					// },
 				],
+			},
+			{
+				path: 'IOTDetails',
+				
+				title:'虚拟对话',
+				hidden: true,
+				element: <IOTDetails />,
 			},
 			{
 				path:'environmentManage',
 				element:<EnvironmentManage/>,
-				title:'对话界面',
+				title:'新对话',
 				requiresLogin: true,
 			},
 			{
@@ -101,6 +113,7 @@ const routes =[
 				
 				hidden: true,
 			},//直接重定向到IOT
+   
 		],
 	},
 ];
