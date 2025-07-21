@@ -160,3 +160,32 @@
   max-height: 70vh;
   overflow-y: auto;
 }
+
+.logout-btn {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 38px;
+  min-width: 80px;
+  padding: 0 24px;
+  background: #fff;
+  color: #bfa76a;
+  border: 1.5px solid #e6d8b6;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(191, 167, 106, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, border-color 0.2s, color 0.2s, background 0.2s;
+  z-index: 10;
+}
+.logout-btn:hover, .logout-btn:focus {
+  border-color: #ffd700;
+  color: #ffd700;
+  background: #fffbe6;
+  box-shadow: 0 0 8px 2px #ffe9a3aa, 0 2px 8px #e6d8b633;
+}

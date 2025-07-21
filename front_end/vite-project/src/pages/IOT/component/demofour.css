@@ -1,261 +1,9 @@
-/* .demoone-bg {
+/* 日式庭院风格对话框核心样式 */
+.demofour-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   margin: 0 !important;
   padding: 0 !important;
-  background-image: url('../../assets/demobackground.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 0;
-}
-
-.demoone-content {
-  position: relative;
-  z-index: 1;
-}
-
-.activity-cards-demo {
-  display: flex;
-  gap: 100px;
-  justify-content: center;
-  align-items: flex-start;
-  margin: 100px 0 0 0;
-  z-index: 1;
-  position: relative;
-}
-.activity-card-demo {
-  width: 280px;
-  min-height: 600px;
-  border-width: 6px;
-  border-style: solid;
-  border-radius: 22px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.10), 0 1.5px 0 #e6d8b6 inset;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
-  padding: 32px 18px 24px 18px;
-  transition: box-shadow 0.2s;
-  border-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q10,0 20,20 Q30,40 40,20" stroke="%23e6d8b6" stroke-width="3" fill="none"/></svg>') 20 stretch;
-  padding-top: 18px;
-}
-
-.activity-card-demo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image: url('../../assets/image.png');
-  background-size: cover;
-  background-position: center;
-  opacity: 1;
-  pointer-events: none;
-}
-
-.activity-card-demo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(180deg, #f9f6f1 80%, #e6e0d0 100%);
-  pointer-events: none;
-  opacity: 0.85;
-  border-radius: 22px;
-}
-
-.activity-card-demo > *:not(.card-bg-img) {
-  position: relative;
-  z-index: 2;
-}
-
-.activity-card-demo .cloud-top {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 32px;
-  z-index: 2;
-  opacity: 0.92;
-  pointer-events: none;
-}
-.activity-card-demo::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 18px;
-  background: linear-gradient(90deg, #e6d8b6 0%, #fffbe6 50%, #e6d8b6 100%);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  opacity: 0.7;
-}
-.activity-card-demo::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0; height: 30px;
-  background: linear-gradient(90deg, #e6d8b6 0%, #fffbe6 50%, #e6d8b6 100%);
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  opacity: 0.7;
-}
-.activity-card-title-demo {
-  font-size: 20px;
-  color: #2d2d2d;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
-  margin-top: -18px;
-  text-align: center;
-  text-shadow: 0 2px 6px #f5e9d6;
- 
-}
-.seal {
-  display: inline-block;
-  background: #b22222;
-  color: #fff;
-  font-size: 13px;
-  border-radius: 4px;
-  padding: 2px 7px 2px 7px;
-  margin-left: 8px;
-  font-family: 'STKaiti', serif;
-  letter-spacing: 1px;
-  vertical-align: middle;
-  box-shadow: 0 1px 4px #b22222aa;
-  border: 1.5px solid #fff0;
-  transform: rotate(-8deg);
-}
-.activity-card-date-demo {
-  font-size: 15px;
-  color: #8c6d3f;
-  margin-bottom: 32px;
-  text-align: center;
-  background: rgba(255,255,255,0.7);
-  border-radius: 8px;
-  padding: 4px 0;
-}
-.activity-card-btn-demo {
-  margin-top: auto;
-  margin-bottom: -8px;
-  color: #fff;
-  font-size: 16px;
-  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
-  border-radius: 16px;
-  padding: 2px 0;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 2px 8px #e6d8b6;
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  letter-spacing: 1px;
-  transition: background 0.2s;
-}
-.activity-card-btn-demo:hover {
-  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
-}
-
-.card-bg-img {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 1;
-  pointer-events: none;
-  border-radius: 22px;
-}
-.card-bg-img-one   { background-image: url('../../assets/demoone.gif'); }
-.card-bg-img-two   { background-image: url('../../assets/demotwo.gif'); }
-.card-bg-img-three { background-image: url('../../assets/demothree.gif'); }
-.card-bg-img-four  { background-image: url('../../assets/demofour.gif'); }
-
-.demoone-mask {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 1.2s;
-  opacity: 1;
-  pointer-events: auto;
-}
-.demoone-mask.mask-fadeout {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s;
-}
-.demoone-story-text {
-  color: #FFD700;
-  font-size: 28px;
-  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
-  text-align: center;
-  max-width: 70vw;
-  line-height: 2.2;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 8px #bfa76a, 0 0 2px #fffbe6;
-  margin: 0 auto;
-  white-space: pre-wrap;
-  word-break: break-all;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.demoone-start-btn {
-  position: absolute;
-  right: 48px;
-  bottom: 48px;
-  font-size: 22px;
-  padding: 16px 38px;
-  border-radius: 28px;
-  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
-  color: #2d2d2d;
-  border: none;
-  box-shadow: 0 4px 24px #0006;
-  font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
-  letter-spacing: 3px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s, opacity 0.5s;
-  opacity: 1;
-  z-index: 10;
-}
-.demoone-start-btn:hover {
-  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
-  transform: scale(1.04);
-}
-.demoone-start-btn.btn-fadeout {
-  opacity: 0;
-  transition: opacity 1.2s;
-  pointer-events: none;
-}
-.demoone-bg,
-.demoone-content {
-  opacity: 0;
-  transition: opacity 3s;
-}
-.bg-fadein {
-  opacity: 1 !important;
-  transition: opacity 3s;
-}
-.content-fadein {
-  opacity: 1 !important;
-  transition: opacity 3s 0.88s;
-}
-/* .demoone-hide-toggle {
-  /* 这里你可以写隐藏侧边栏和顶栏的样式，比如： */
-  /* display: none !important; */
-   
-/* 古风对话框核心样式 */
-.demoone-bg {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  margin: 0 !important;
-  padding: 0 !important;
-  /* background: #bfa76a url('../../../assets/demobackground.png') center/cover no-repeat; */
   z-index: 0;
 }
 .bg-video {
@@ -268,68 +16,85 @@
   pointer-events: none;
   background: #000;
 }
-.demoone-content {
+.demofour-content {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
   position: relative;
-  
   z-index: 1;
+ 
 }
-.demoone-chat-box {
+
+/* 聊天框 - 采用淡雅的日式庭院风格 */
+.demofour-chat-box {
   width: 820px;
-  min-height: 802px;
-  margin: -5px 0 0px 170px;
-  background: rgba(180, 140, 70, 0.18);
-  border: 4px solid #bfa76a;
-  border-radius: 18px;
-  box-shadow: 0 4px 32px #bfa76a44, 0 0 0 8px #fffbe6 inset;
+  min-height: 95vh;
+  margin: 15px 0 0px 240px;
+  background: rgba(28, 40, 54, 0.82); /* 深蓝夜色，半透明 */
+  border-radius: 22px;
+  box-shadow: 0 4px 32px #bfa76a33;
   position: relative;
   padding: 32px 24px 80px 24px;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
-  
+  color: #f5ecd7;
+  backdrop-filter: blur(2px);
+  transition: backdrop-filter 0.3s, background 0.3s;
+  z-index: 1;
+  opacity: 0.7;
 }
-.demoone-chat-messages {
+
+
+.demofour-chat-messages {
   max-height: 600px;
   overflow-y: auto;
   padding-bottom: 12px;
-  opacity: 0.79;
+  opacity: 0.9;
 }
-.demoone-chat-row {
+
+.demofour-chat-row {
   display: flex;
   align-items: flex-start;
   margin-bottom: 18px;
 }
-.demoone-chat-row-ai {
+
+.demofour-chat-row-ai {
   justify-content: flex-start;
 }
-.demoone-chat-row-user {
+
+.demofour-chat-row-user {
   justify-content: flex-end;
 }
-.demoone-avatar {
+
+.demofour-avatar {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 8px;
   align-self: flex-start;
 }
-.demoone-avatar img {
+
+.demofour-avatar img {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  border: 3px solid #e6d8b6;
-  box-shadow: 0 2px 8px #bfa76a88;
-  background: #fffbe6;
+  /* 淡棕色边框，更加柔和 */
+  border: 2px solid #a0a0a0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #fafafa;
 }
-.demoone-name {
+
+.demofour-name {
   font-size: 15px;
-  color: #fffbe6;
+  /* 淡灰色文字，更加柔和 */
+  color: #666666;
   margin-top: 2px;
-  text-shadow: 0 1px 4px #bfa76a, 0 0 2px #fffbe6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
+  font-weight: 500;
 }
-.demoone-bubble {
+
+.demofour-bubble {
   max-width: 400px;
   padding: 12px 22px;
   border-radius: 16px;
@@ -338,86 +103,114 @@
   letter-spacing: 2px;
   word-break: break-all;
   position: relative;
-  box-shadow: 0 2px 8px #bfa76a44;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
 }
-.demoone-bubble-ai {
-  background: #fffbe6;
-  color: #7c5a1a;
-  border: 2.5px solid #bfa76a;
+
+/* 对话气泡 - 采用淡雅的色调 */
+.demofour-bubble-ai {
+  /* 淡米色背景，更加柔和 */
+  background: rgba(250, 250, 245, 0.9);
+  /* 深灰色文字，更加柔和 */
+  color: #555555;
+  /* 淡灰色边框 */
+  border: 1px solid #d0d0d0;
   margin-left: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.demoone-bubble-user {
-  background: #fffbe6;
-  color: #7c5a1a;
-  border: 2.5px solid #bfa76a;
+
+.demofour-bubble-user {
+  /* 淡蓝色背景，更加柔和 */
+  background: rgba(240, 248, 255, 0.8);
+  color: #555555;
+  border: 1px solid #c0c0c0;
   margin-right: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.demoone-bubble-ai:after {
+
+.demofour-bubble-ai:after {
   content: '';
   position: absolute;
   left: -18px;
   top: 18px;
   width: 18px;
   height: 18px;
-  background: #fffbe6;
-  border-left: 2.5px solid #bfa76a;
-  border-bottom: 2.5px solid #bfa76a;
+  background: rgba(250, 250, 245, 0.9);
+  border-left: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
   border-bottom-left-radius: 12px;
   transform: rotate(-30deg);
 }
-.demoone-bubble-user:after {
+
+.demofour-bubble-user:after {
   content: '';
   position: absolute;
   right: -18px;
   top: 18px;
   width: 18px;
   height: 18px;
-  background: #fffbe6;
-  border-right: 2.5px solid #bfa76a;
-  border-bottom: 2.5px solid #bfa76a;
+  background: rgba(240, 248, 255, 0.8);
+  border-right: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
   border-bottom-right-radius: 12px;
   transform: rotate(30deg);
 }
-.demoone-chat-input-area {
+
+/* 输入区域 - 采用淡雅的色调 */
+.demofour-chat-input-area {
   display: flex;
   align-items: center;
   margin-top: 18px;
-  background: #fffbe6;
+  /* 淡米色背景，更加柔和 */
+  background: rgba(250, 250, 245, 0.9);
   border-radius: 12px;
   padding: 10px 16px;
-  box-shadow: 0 2px 8px #bfa76a33;
+  /* 淡灰色阴影 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
   left: 24px;
   right: 24px;
   bottom: 80px;
+  border: 1px solid #d0d0d0;
 }
-.demoone-chat-input {
+
+.demofour-chat-input {
   flex: 1;
   font-size: 18px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
-  color: #7c5a1a;
+  color: #555555;
 }
-.demoone-chat-send {
+
+.demofour-chat-input::placeholder {
+  color: #999999;
+  opacity: 0.7;
+}
+
+.demofour-chat-send {
   margin-left: 18px;
   font-size: 18px;
-  background: linear-gradient(90deg, #e6d8b6 0%, #bfa76a 100%);
-  color: #7c5a1a;
+  /* 淡米色背景，与跳过按钮一致 */
+  background: #f9f6e7;
+  color: #a68b4c;
   border: none;
   border-radius: 10px;
-  padding: 7px 22px;
+  padding: 7px 28px;
   cursor: pointer;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
-  box-shadow: 0 2px 8px #bfa76a33;
-  transition: background 0.2s;
+  box-shadow: 0 2px 8px #e6d8b633;
+  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
 }
-.demoone-chat-send:hover {
-  background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
+
+.demofour-chat-send:hover,
+.demofour-chat-send:focus {
+  background: #f9f6e7;
+  color: #bfa76a;
+  box-shadow: 0 0 8px 2px #ffe9a3aa, 0 2px 8px #e6d8b633;
 }
-.demoone-bottom-btns {
+
+.demofour-bottom-btns {
   position: absolute;
   left: 0; right: 0; bottom: 0;
   display: flex;
@@ -426,133 +219,160 @@
   padding: 16px 0 18px 0;
   background: none;
 }
-.demoone-btn-main {
+
+.demofour-btn-main {
   font-size: 26px;
-  color: #fffbe6;
-  background: #bfa76a;
+  color: #666666;
+  /* 淡米色背景，与跳过按钮一致 */
+  background: #f9f6e7;
   border: none;
   border-radius: 10px;
   padding: 8px 48px;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
   letter-spacing: 6px;
-  box-shadow: 0 2px 8px #bfa76a99;
+  box-shadow: 0 2px 8px #e6d8b633;
   cursor: pointer;
   margin-right: 12px;
-  transition: background 0.2s;
+  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
 }
-.demoone-btn-main:hover {
-  background: #e6d8b6;
+
+.demofour-btn-main:hover,
+.demofour-btn-main:focus {
+  background: #f9f6e7;
   color: #bfa76a;
+  box-shadow: 0 0 8px 2px #ffe9a3aa, 0 2px 8px #e6d8b633;
 }
-.demoone-btn-skip {
+
+.demofour-btn-skip {
   font-size: 20px;
-  color: #bfa76a;
-  background: #fffbe6;
-  border: 2px solid #bfa76a;
+  color: #666666;
+  /* 淡米色背景，更加柔和 */
+  background: #f9f6e7;
+  border: none;
   border-radius: 10px;
   padding: 8px 28px;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
   letter-spacing: 3px;
-  box-shadow: 0 2px 8px #bfa76a33;
+  box-shadow: 0 2px 8px #e6d8b633;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.demoone-btn-skip:hover {
-  background: #bfa76a;
-  color: #fffbe6;
+  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
 }
 
-  
-.demoone-flex-container {
+.demofour-btn-skip:hover,
+.demofour-btn-skip:focus {
+  background: #f9f6e7;
+  color: #bfa76a;
+  box-shadow: 0 0 8px 2px #ffe9a3aa, 0 2px 8px #e6d8b633;
+}
+
+.demofour-flex-container {
   display: flex;
   height: 100%;
-  min-height: 600px; /* 可根据实际页面高度调整 */
+  min-height: 600px;
   background: none;
 }
 
-.demoone-chat-area {
+.demofour-chat-area {
   flex: 1;
-  /* 保持原有聊天区样式 */
   position: relative;
   display: flex;
   align-items: stretch;
 }
 
-.demoone-left-float {
+.demofour-left-float {
   position: absolute;
-  left: -170px; /* 可根据实际调整 */
+  left: -170px;
   top: 0;
   bottom: 0;
-  width: 350px; /* 可根据实际调整 */
+  width: 350px;
   height: 100%;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
- 
-  background: url('../../../assets/demotwo.png') center center / cover no-repeat;
+  background: url('../../../assets/demothree.png') center center / cover no-repeat;
   border-radius: 16px 0 0 16px;
-  box-shadow: 2px 0 8px #bfa76a33;
+  box-shadow: 2px 0 8px rgba(139, 69, 19, 0.3);
   opacity: 0;
 }
 
-.demoone-history-area {
-  width: 200px;
-  background: #e5d7b5;
-  border-left: 3px solid #bfa76a;
+/* 历史记录区域 - 采用淡雅的色调 */
+.demofour-history-area {
+  margin: 15px 0 0 0;
+  width: 220px;
+  background: rgba(44, 36, 24, 0.72);
+  border-radius: 14px 0 0 14px;
+  box-shadow: -2px 0 16px #bfa76a33;
+  min-width: 180px;
+  color: #f5ecd7;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 10px 0;
-  box-shadow: -2px 0 8px #bfa76a33;
-  min-width: 180px;
+  backdrop-filter: blur(1.5px);
+  transition: backdrop-filter 0.3s, background 0.3s;
+  opacity: 1;
 }
 
-.history-header {
+.demofour-history-area:hover,
+.demofour-history-area:focus {
+  background: rgba(44, 36, 24, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.demofour-history-header {
   font-size: 20px;
-  color: #7c5c2b;
+  color: #666666;
   text-align: center;
   margin-bottom: 10px;
   font-family: 'FZKai-Z03', '楷体', serif;
   letter-spacing: 2px;
   font-weight: bold;
   padding-bottom: 6px;
-  border-bottom: 1.5px solid #bfa76a;
+  border-bottom: 1px solid #c0c0c0;
 }
 
-.history-list {
+.demofour-history-list {
   flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 0 6px;
+  max-height: 70vh;
 }
 
-.history-item {
-  background: #f5ecd7;
-  border: 2px solid #bfa76a;
+.demofour-history-item {
+  /* 淡米色背景，更加柔和 */
+  background: rgba(245, 248, 250, 0.8);
+  border: 1px solid #d0d0d0;
   border-radius: 8px;
-  color: #7c5c2b;
+  color: #666666;
   font-size: 16px;
   padding: 8px 0;
   margin: 0 4px;
   cursor: pointer;
   font-family: 'FZKai-Z03', '楷体', serif;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: all 0.3s ease;
   outline: none;
-  box-shadow: 0 2px 4px #bfa76a22;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.history-item.active,
-.history-item:hover {
-  background: #e0cfa7;
-  border-color: #a68b4c;
-  color: #a67c2d;
-}
-
-.history-empty {
+.demofour-history-item.active,
+.demofour-history-item:hover {
+  background: rgba(240, 248, 255, 0.9);
+  border-color: #87CEEB;
+  color: #555555;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
   color: #bfa76a;
+  box-shadow: 0 0 8px 2px #ffe9a3aa, 0 2px 8px #e6d8b633;
+
+  transform: translateY(-1px);
+
+}
+
+.demofour-history-empty {
+  color: #999999;
   text-align: center;
   margin-top: 30px;
   font-size: 15px;
@@ -560,8 +380,8 @@
   opacity: 0.7;
 }
 
-/* 开场动画相关样式迁移自demothree.css */
-.demoone-mask {
+/* 开场动画相关样式 */
+.demofour-mask {
   position: fixed;
   inset: 0;
   background: #000;
@@ -573,12 +393,14 @@
   opacity: 1;
   pointer-events: auto;
 }
-.demoone-mask.mask-fadeout {
+
+.demofour-mask.mask-fadeout {
   opacity: 0;
   pointer-events: none;
   transition: opacity 1.2s;
 }
-.demoone-story-text {
+
+.demofour-story-text {
   color: #FFD700;
   font-size: 28px;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
@@ -586,7 +408,7 @@
   max-width: 70vw;
   line-height: 2.2;
   letter-spacing: 2px;
-  text-shadow: 0 2px 8px #bfa76a, 0 0 2px #fffbe6;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 2px #f5f5dc;
   margin: 0 auto;
   white-space: pre-wrap;
   word-break: break-all;
@@ -595,7 +417,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.demoone-start-btn {
+
+.demofour-start-btn {
   position: absolute;
   right: 48px;
   bottom: 48px;
@@ -613,24 +436,29 @@
   opacity: 1;
   z-index: 10;
 }
-.demoone-start-btn:hover {
+
+.demofour-start-btn:hover {
   background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
   transform: scale(1.04);
 }
-.demoone-start-btn.btn-fadeout {
+
+.demofour-start-btn.btn-fadeout {
   opacity: 0;
   transition: opacity 1.2s;
   pointer-events: none;
 }
-.demoone-bg,
-.demoone-content {
+
+.demofour-bg,
+.demofour-content {
   opacity: 0;
   transition: opacity 2s;
 }
+
 .bg-fadein {
   opacity: 1 !important;
   transition: opacity 1s;
 }
+
 .content-fadein {
   opacity: 1 !important;
   transition: opacity 3s 0.8s;

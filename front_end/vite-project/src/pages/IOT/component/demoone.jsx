@@ -4,14 +4,14 @@ import "./demoone.css";
 
 
 
-const openingText = "  异世里的普通高中生，追随恋人而来无意间混进了采选队伍，于是就这么莫名其妙地入了皇宫，后被安排至干穗身边当了侍女为人单纯善良、富有同情心，即便干穗被打入冷宫，亦不离不弃。";
+const openingText = "  凌霜妃，南楚王的宠妃，出身江南名门世家，自幼修习琴艺与剑术，优雅端庄、清冷高贵。";
 
 const DemoOne = () => {
   const location = useLocation();
   const [messages, setMessages] = useState([
     {
       type: "ai",
-      content:'欢迎来到锦桦的异世界',
+      content:'欢迎来到红绡仙的异世界',
       // timeStamp:new Date().toLocaleTimeString()
     }
   ]);
@@ -472,7 +472,7 @@ const DemoOne = () => {
                   <div key={idx} className={`demoone-chat-row demoone-chat-row-${msg.type}`}>
                     {msg.type === 'ai' && (
                       <div className="demoone-avatar demoone-avatar-ai">
-                        <img src="../../../../public/ttst.png" alt="AI头像" />
+                        <img src="../../../../public/one.png" alt="AI头像" />
                         <div className="demoone-name">锦桦</div>
                       </div>
                     )}
@@ -482,7 +482,7 @@ const DemoOne = () => {
                     />
                     {msg.type === 'user' && (
                       <div className="demoone-avatar demoone-avatar-user">
-                        <img src="../../../../public/hailuo.jpg" alt="用户头像" />
+                        <img src="../../../../public/my.jpg" alt="用户头像" />
                         <div className="demoone-name">您</div>
                       </div>
                     )}

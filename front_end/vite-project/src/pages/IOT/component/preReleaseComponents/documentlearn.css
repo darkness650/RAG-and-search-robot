@@ -1,0 +1,223 @@
+.doclearn-root {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+}
+.doclearn-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.doclearn-desc {
+  color: #888;
+  text-align: center;
+  margin-bottom: 32px;
+}
+.doclearn-upload-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.doclearn-upload-box {
+  background: #f7faff;
+  border: 1.5px dashed #b2c7e6;
+  border-radius: 16px;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 340px;
+}
+.doclearn-upload-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.doclearn-upload-btns {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.doclearn-upload-btns button {
+  background: #fff;
+  border: 1.5px solid #b2c7e6;
+  border-radius: 12px;
+  padding: 8px 20px;
+  color: #1976d2;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+}
+.doclearn-upload-btns button:hover {
+  background: #e3f1ff;
+  border-color: #1976d2;
+}
+.doclearn-upload-tip {
+  color: #aaa;
+  font-size: 13px;
+}
+.doclearn-section {
+  margin-top: 32px;
+}
+.doclearn-section h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+.doclearn-example-list, .doclearn-recent-list {
+  display: flex;
+  gap: 18px;
+}
+.doclearn-example-item, .doclearn-recent-item {
+  background: #f7faff;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 15px;
+  color: #1976d2;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
+  min-width: 120px;
+  text-align: center;
+}
+.doclearn-fullscreen {
+  min-height: 100vh;
+  width: 100vw;
+  background: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 48px;
+  transition: padding-bottom 0.3s;
+}
+.doclearn-fullscreen.has-msg {
+  padding-bottom: 110px;
+}
+.doclearn-chat-area {
+  width: 600px;
+  min-height: 220px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+  margin-bottom: 36px;
+  padding: 32px 28px 18px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: min-height 0.3s, height 0.3s;
+}
+.doclearn-chat-area-large {
+  min-height: 60vh;
+  height: 60vh;
+  margin-bottom: 0;
+}
+.doclearn-chat-empty {
+  color: #aaa;
+  font-size: 20px;
+  text-align: center;
+  margin: 48px 0;
+}
+.doclearn-chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+.doclearn-chat-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.doclearn-chat-row-user {
+  align-items: flex-end;
+}
+.doclearn-bubble {
+  max-width: 420px;
+  padding: 12px 22px;
+  border-radius: 18px;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  word-break: break-all;
+}
+.doclearn-bubble-user {
+  background: #1976d2;
+  color: #fff;
+  margin-left: auto;
+}
+.doclearn-bubble-ai {
+  background: #f0f0f0;
+  color: #333;
+  margin-right: auto;
+}
+.doclearn-timestamp {
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 4px;
+  align-self: flex-end;
+}
+.doclearn-bottom-bar {
+  width: 600px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  padding: 18px 28px;
+  gap: 16px;
+  margin-bottom: 32px;
+  position: static;
+  left: 0;
+  bottom: auto;
+  transition: position 0.3s, left 0.3s, bottom 0.3s, margin-bottom 0.3s;
+}
+.doclearn-bottom-bar-fixed {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  margin-bottom: 0;
+  z-index: 100;
+}
+.doclearn-upload-btn {
+  background: #f7faff;
+  border: 1.5px solid #b2c7e6;
+  border-radius: 12px;
+  padding: 8px 18px;
+  color: #1976d2;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+  margin-right: 8px;
+}
+.doclearn-upload-btn:hover {
+  background: #e3f1ff;
+  border-color: #1976d2;
+}
+.doclearn-file-name {
+  color: #888;
+  font-size: 14px;
+  margin-right: 12px;
+}
+.doclearn-input {
+  flex: 1;
+  font-size: 16px;
+  padding: 10px 16px;
+  border: 1.5px solid #b2c7e6;
+  border-radius: 12px;
+  margin-right: 8px;
+}
+.doclearn-submit-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.doclearn-submit-btn:hover {
+  background: #125ea7;
+} 

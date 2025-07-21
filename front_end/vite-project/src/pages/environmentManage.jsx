@@ -546,10 +546,8 @@ const ChatWidget = () => {
 
   return (
     <div className="chat-widget">
-      
-      
-       {/* 模型选择按钮及下拉菜单 */}
-       <div className="model-selector" ref={modelRef}>
+      {/* 模型选择按钮及下拉菜单 */}
+      <div className="model-selector" ref={modelRef}>
         <button 
           className='selectbutton'
           onClick={() => setIsModelOpen(!isModelOpen)}
@@ -578,7 +576,7 @@ const ChatWidget = () => {
       </div>
 
       
-{/*       
+  {/*       
       <div className="topbar">这是个神秘对话框
        
       </div> */}
@@ -590,8 +588,7 @@ const ChatWidget = () => {
       <div
         id="chat-container"
         className={`result${messages.length === 0 ? ' result-initial' : ''}`}
-      
-        style={messages.length === 0 ? { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 } : {}}
+        style={messages.length === 0 ? { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180, flexDirection: 'column' } : {}}
       >
         {messages.length === 0 ? (
           <ChatInitialTip key={chatId || 'no-chat'} />
@@ -702,6 +699,17 @@ const ChatWidget = () => {
           </button>
         </div>
       </div>
+      {/* 按钮区紧跟在聊天框下方，仅无消息时显示 */}
+      {messages.length === 0 && (
+        <div className="feature-buttons-outer">
+          <div className="feature-buttons-grid">
+            <button onClick={() => navigate('/IOTDetails')}>剧情对话</button>
+            <button onClick={() => navigate('/IOT/documentlearn')}>文档处理</button>
+            <button onClick={() => navigate('/IOT/picturemaking')}>图片生成</button>
+            <button onClick={() => navigate('/IOT/videosummary')}>视频总结</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
