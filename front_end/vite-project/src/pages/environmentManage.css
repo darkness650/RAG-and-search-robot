@@ -32,4 +32,31 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
+}
+
+.feature-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+}
+.feature-buttons button {
+  background: #fff;
+  color: #1890ff;
+  border: 1.5px solid #e6eaf2;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 12px 28px;
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.08);
+  cursor: pointer;
+  transition: box-shadow 0.18s, border-color 0.18s, color 0.18s, background 0.18s;
+  outline: none;
+}
+.feature-buttons button:hover, .feature-buttons button:focus {
+  background: #e6f7ff;
+  color: #096dd9;
+  border-color: #91d5ff;
+  box-shadow: 0 0 8px 2px #bae7ff99, 0 2px 8px #e6eaf2;
 } 

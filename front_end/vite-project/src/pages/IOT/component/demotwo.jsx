@@ -4,14 +4,14 @@ import "./demotwo.css";
 
 
 
-const openingText = "  异世里的普通高中生，追随恋人而来无意间混进了采选队伍，于是就这么莫名其妙地入了皇宫，后被安排至干穗身边当了侍女为人单纯善良、富有同情心，即便干穗被打入冷宫，亦不离不弃。";
+const openingText = "  红绡仙，烟雨楼第一花魁，亦是玄阴教安插的密探。风情万种，艳若桃李，";
 
 const DemoOne = () => {
   const location = useLocation();
   const [messages, setMessages] = useState([
     {
       type: "ai",
-      content:'欢迎来到锦桦的异世界',
+      content:'欢迎来到红绡仙的异世界',
       // timeStamp:new Date().toLocaleTimeString()
     }
   ]);
@@ -111,7 +111,7 @@ const DemoOne = () => {
   const fetchHistoryList = async () => {
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/chat_list/role5', {
+      const res = await fetch('http://10.158.36.225:8080/chat_list/role2', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -202,7 +202,7 @@ const DemoOne = () => {
         formData.append('chat_id', chatId);
       }
 
-      const res = await fetch('http://10.158.36.225:8080/ai/chat/role/role5', {
+      const res = await fetch('http://10.158.36.225:8080/ai/chat/role/role2', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
@@ -375,7 +375,7 @@ const DemoOne = () => {
     const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
     try {
       const formData = new FormData();
-      formData.append('role', 'role5');
+      formData.append('role', 'role2');
       const res = await fetch('http://10.158.36.225:8080/ai/newchat', {
         method: 'POST',
         headers: {
@@ -400,7 +400,7 @@ const DemoOne = () => {
         setMessages([
           {
             type: "ai",
-            content: "欢迎来到锦桦的异世界",
+            content: "欢迎来到红绡仙的异世界",
           }
         ]);
         await fetchHistoryList(); // 新建对话后强制刷新历史记录
@@ -415,8 +415,8 @@ const DemoOne = () => {
     <>
       {/* 开场黑幕+打字机+继续按钮 */}
       {opening && (
-        <div className={`demoone-mask${!showButton ? ' mask-fadeout' : ''}`}>
-          <div className="demoone-story-text">
+        <div className={`demotwo-mask${!showButton ? ' mask-fadeout' : ''}`}>
+          <div className="demotwo-story-text">
             {openingText.split("").map((char, idx) => (
               <span
                 key={idx}
@@ -430,14 +430,14 @@ const DemoOne = () => {
             ))}
           </div>
           {showButton && (
-            <button className={`demoone-start-btn${!showButton ? ' btn-fadeout' : ''}`} onClick={handleStart}>
+            <button className={`demotwo-start-btn${!showButton ? ' btn-fadeout' : ''}`} onClick={handleStart}>
               继续
             </button>
           )}
         </div>
       )}
       {/* 主内容，只有开场动画结束后才显示 */}
-      <div className={`demoone-bg${!opening ? ' bg-fadein' : ''}`}>
+      <div className={`demotwo-bg${!opening ? ' bg-fadein' : ''}`}>
       <video
           autoPlay
           loop
@@ -448,7 +448,7 @@ const DemoOne = () => {
         />
       </div>
       <div
-        className={`demoone-content${!opening ? ' content-fadein' : ''}`}
+        className={`demotwo-content${!opening ? ' content-fadein' : ''}`}
         style={opening ? { visibility: 'hidden', pointerEvents: 'none' } : {}}
       >
         {/* 原有内容 */}
@@ -461,66 +461,66 @@ const DemoOne = () => {
           // </div> */}
         
 
-        <div className="demoone-flex-container">
-          <div className="demoone-chat-area" style={{position: "relative"}}>
-            <div className="demoone-left-float">
+        <div className="demotwo-flex-container">
+          <div className="demotwo-chat-area" style={{position: "relative"}}>
+            <div className="demotwo-left-float">
               {/* 这里放你想要的内容，比如图片、角色、装饰等 */}
             </div>
-            <div className="demoone-chat-box">
-              <div className="demoone-chat-messages">
+            <div className="demotwo-chat-box">
+              <div className="demotwo-chat-messages">
                 {messages.map((msg, idx) => (
-                  <div key={idx} className={`demoone-chat-row demoone-chat-row-${msg.type}`}>
+                  <div key={idx} className={`demotwo-chat-row demotwo-chat-row-${msg.type}`}>
                     {msg.type === 'ai' && (
-                      <div className="demoone-avatar demoone-avatar-ai">
-                        <img src="../../../../public/ttst.png" alt="AI头像" />
-                        <div className="demoone-name">锦桦</div>
+                      <div className="demotwo-avatar demotwo-avatar-ai">
+                        <img src="../../../../public/two.png" alt="AI头像" />
+                        <div className="demotwo-name">锦桦</div>
                       </div>
                     )}
                     <div
-                      className={`demoone-bubble demoone-bubble-${msg.type}`}
+                      className={`demotwo-bubble demotwo-bubble-${msg.type}`}
                       dangerouslySetInnerHTML={{ __html: msg.content }}
                     />
                     {msg.type === 'user' && (
-                      <div className="demoone-avatar demoone-avatar-user">
-                        <img src="../../../../public/hailuo.jpg" alt="用户头像" />
-                        <div className="demoone-name">您</div>
+                      <div className="demotwo-avatar demotwo-avatar-user">
+                        <img src="../../../../public/my.jpg" alt="用户头像" />
+                        <div className="demotwo-name">您</div>
                       </div>
                     )}
                   </div>
                 ))}
                 <div ref={chatEndRef}></div>
               </div>
-              <div className="demoone-chat-input-area">
+              <div className="demotwo-chat-input-area">
                 <input
                   ref={inputRef}
-                  className="demoone-chat-input"
+                  className="demotwo-chat-input"
                   type="text"
                   placeholder="请输入..."
                   value={inputValue}
                   onChange={e => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
                 />
-                <button className="demoone-chat-send" onClick={handleSend} disabled={isLoading}>
+                <button className="demotwo-chat-send" onClick={handleSend} disabled={isLoading}>
                   发送
                 </button>
               </div>
-              <div className="demoone-bottom-btns">
-                <button className="demoone-btn-main" onClick={console.log(chatId)}>继 续</button>
-                <button className="demoone-btn-skip">跳过</button>
+              <div className="demotwo-bottom-btns">
+                <button className="demotwo-btn-main" onClick={console.log(chatId)}>继 续</button>
+                <button className="demotwo-btn-skip">跳过</button>
               </div>
             </div>
           </div>
-          <div className="demoone-history-area">
-            <button className="history-item new-chat-btn" onClick={handleNewChat} style={{marginBottom: '10px', fontWeight: 'bold'}}>
+          <div className="demotwo-history-area">
+            <button className="demotwo-history-item new-chat-btn" onClick={handleNewChat} style={{marginBottom: '10px', fontWeight: 'bold'}}>
               + 新建对话
             </button>
-            <div className="history-header">历史对话</div>
-            <div className="history-list">
-              {historyList.length === 0 && <div className="history-empty">暂无历史</div>}
+            <div className="demotwo-history-header">历史对话</div>
+            <div className="demotwo-history-list">
+              {historyList.length === 0 && <div className="demotwo-history-empty">暂无历史</div>}
               {historyList.map(item => (
                 <button
                   key={item.chat_id}
-                  className={`history-item${item.chat_id === chatId ? ' active' : ''}`}
+                  className={`demotwo-history-item${item.chat_id === chatId ? ' active' : ''}`}
                   onClick={() => handleSelectHistory(item.chat_id)}
                 >
                   {item.chat_name || `对话${item.chat_id.slice(0, 6)}`}

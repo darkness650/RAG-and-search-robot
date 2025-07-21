@@ -1,5 +1,5 @@
 /* 古风对话框核心样式 */
-.demoone-bg {
+.demotwo-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   margin: 0 !important;
@@ -17,7 +17,7 @@
   pointer-events: none;
   background: #000;
 }
-.demoone-content {
+.demotwo-content {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -26,7 +26,7 @@
   
   z-index: 1;
 }
-.demoone-chat-box {
+.demotwo-chat-box {
   width: 820px;
   min-height: 95vh;
   margin: 15px 0 0px 170px;
@@ -41,31 +41,31 @@
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
   
 }
-.demoone-chat-messages {
+.demotwo-chat-messages {
   max-height: 600px;
   overflow-y: auto;
   padding-bottom: 12px;
   opacity: 0.79;
 }
-.demoone-chat-row {
+.demotwo-chat-row {
   display: flex;
   align-items: flex-start;
   margin-bottom: 18px;
 }
-.demoone-chat-row-ai {
+.demotwo-chat-row-ai {
   justify-content: flex-start;
 }
-.demoone-chat-row-user {
+.demotwo-chat-row-user {
   justify-content: flex-end;
 }
-.demoone-avatar {
+.demotwo-avatar {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 8px;
   align-self: flex-start;
 }
-.demoone-avatar img {
+.demotwo-avatar img {
   width: 54px;
   height: 54px;
   border-radius: 50%;
@@ -74,14 +74,14 @@
   box-shadow: 0 2px 8px #bfa76a88;
   background: #fffbe6;
 }
-.demoone-name {
+.demotwo-name {
   font-size: 15px;
   color: #fffbe6;
   margin-top: 2px;
   text-shadow: 0 1px 4px #bfa76a, 0 0 2px #fffbe6;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
 }
-.demoone-bubble {
+.demotwo-bubble {
   max-width: 400px;
   padding: 12px 22px;
   border-radius: 16px;
@@ -95,19 +95,19 @@
 }
 
 /* 下面是对话的颜色和背景 */
-.demoone-bubble-ai {
+.demotwo-bubble-ai {
   background: #e0edf5;
   color: #7c5a1a;
   border: 2.5px solid #c9dff0;
   margin-left: 8px;
 }
-.demoone-bubble-user {
+.demotwo-bubble-user {
   background: #e0edf5;
   color: #7c5a1a;
   border: 2.5px solid #c9dff0;
   margin-right: 8px;
 }
-.demoone-bubble-ai:after {
+.demotwo-bubble-ai:after {
   content: '';
   position: absolute;
   left: -18px;
@@ -120,7 +120,7 @@
   border-bottom-left-radius: 12px;
   transform: rotate(-30deg);
 }
-.demoone-bubble-user:after {
+.demotwo-bubble-user:after {
   content: '';
   position: absolute;
   right: -18px;
@@ -133,7 +133,7 @@
   border-bottom-right-radius: 12px;
   transform: rotate(30deg);
 }
-.demoone-chat-input-area {
+.demotwo-chat-input-area {
   display: flex;
   align-items: center;
   margin-top: 18px;
@@ -147,7 +147,7 @@
   right: 24px;
   bottom: 80px;
 }
-.demoone-chat-input {
+.demotwo-chat-input {
   flex: 1;
   font-size: 18px;
   border: none;
@@ -156,7 +156,7 @@
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
   color: #7c5a1a;
 }
-.demoone-chat-send {
+.demotwo-chat-send {
   margin-left: 18px;
   font-size: 18px;
   background: linear-gradient(90deg, #bdd8ed 0%, #e8f3f7 100%);
@@ -169,10 +169,10 @@
   box-shadow: 0 2px 8px #bfa76a33;
   transition: background 0.2s;
 }
-.demoone-chat-send:hover {
+.demotwo-chat-send:hover {
   background: linear-gradient(90deg, #e8f3f7 0%, #bdd8ed 100%);
 }
-.demoone-bottom-btns {
+.demotwo-bottom-btns {
   position: absolute;
   left: 0; right: 0; bottom: 0;
   display: flex;
@@ -181,7 +181,7 @@
   padding: 16px 0 18px 0;
   background: none;
 }
-.demoone-btn-main {
+.demotwo-btn-main {
   font-size: 26px;
   color: #7c5a1a;
   background:linear-gradient(90deg, #bdd8ed 0%, #e8f3f7 100%);
@@ -195,41 +195,37 @@
   margin-right: 12px;
   transition: background 0.2s;
 }
-.demoone-btn-main:hover {
-  background: #e6d8b6;
-  color: #bfa76a;
-  /* color: #7c5a1a; */
-  background:linear-gradient(90deg, #e8f3f7 0%, #bdd8ed 100%);
+.demotwo-btn-main:hover {
+  background: linear-gradient(90deg, #e8f3f7 0%, #bdd8ed 100%);
+  color: #7c5a1a;
 }
-.demoone-btn-skip {
+.demotwo-btn-skip {
   font-size: 20px;
   color: #7c5a1a;
-  background:linear-gradient(90deg,#e8f3f7   0%,#bdd8ed 100%);
-  /* border: 2px solid #bfa76a; */
-  border:none;
+  background: linear-gradient(90deg, #bdd8ed 0%, #e8f3f7 100%);
+  border: none;
   border-radius: 10px;
   padding: 8px 28px;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
   letter-spacing: 3px;
-  box-shadow: 0 2px 8px #bfa76a33;
+  box-shadow: 0 2px 8px #bfa76a99;
   cursor: pointer;
   transition: background 0.2s;
 }
-.demoone-btn-skip:hover {
-  background: #bfa76a;
-  color: #bfa76a;
-  background:linear-gradient(90deg,#e8f3f7   0%,#bdd8ed 100%);
+.demotwo-btn-skip:hover {
+  background: linear-gradient(90deg, #e8f3f7 0%, #bdd8ed 100%);
+  color: #7c5a1a;
 }
 
   
-.demoone-flex-container {
+.demotwo-flex-container {
   display: flex;
   height: 100%;
   min-height: 600px; /* 可根据实际页面高度调整 */
   background: none;
 }
 
-.demoone-chat-area {
+.demotwo-chat-area {
   flex: 1;
   /* 保持原有聊天区样式 */
   position: relative;
@@ -237,7 +233,7 @@
   align-items: stretch;
 }
 
-.demoone-left-float {
+.demotwo-left-float {
   position: absolute;
   left: -170px; /* 可根据实际调整 */
   top: 0;
@@ -254,7 +250,8 @@
   box-shadow: 2px 0 8px #bfa76a33;
   opacity: 0;
 }
-.demoone-history-area {
+
+.demotwo-history-area {
   margin:15px 0 0 0 ;
   width: 200px;
   /* background: #e5d7b5; */
@@ -270,13 +267,13 @@
   border-radius: 1px;
   transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1);
 }
-.demoone-history-area:hover,
-.demoone-history-area:focus {
+.demotwo-history-area:hover,
+.demotwo-history-area:focus {
   box-shadow: -4px 0 16px #b9d4f0 !important;
   opacity: 1;
 }
 
-.history-header {
+.demotwo-history-header {
   font-size: 20px;
   color: #7c5c2b;
   text-align: center;
@@ -285,19 +282,20 @@
   letter-spacing: 2px;
   font-weight: bold;
   padding-bottom: 6px;
-  border-bottom: 1.5px solid #e0fbff;
+  border-bottom: 1.5px solid #bfa76a;
 }
 
-.history-list {
+.demotwo-history-list {
   flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 0 6px;
+  max-height: 70vh;
 }
 
-.history-item {
+.demotwo-history-item {
   background: #eaf4fb;
   border: 2px solid #b9d4f0;
   border-radius: 10px;
@@ -312,14 +310,14 @@
   box-shadow: 0 2px 4px #bfa76a22;
 }
 
-.history-item.active,
-.history-item:hover {
+.demotwo-history-item.active,
+.demotwo-history-item:hover {
   background: #d0e6f7;
   border-color: #7bb6e5;
   color: #2d5c88;
 }
 
-.history-empty {
+.demotwo-history-empty {
   color: #bfa76a;
   text-align: center;
   margin-top: 30px;
@@ -329,7 +327,7 @@
 }
 
 /* 开场动画相关样式迁移自demothree.css */
-.demoone-mask {
+.demotwo-mask {
   position: fixed;
   inset: 0;
   background: #000;
@@ -341,12 +339,12 @@
   opacity: 1;
   pointer-events: auto;
 }
-.demoone-mask.mask-fadeout {
+.demotwo-mask.mask-fadeout {
   opacity: 0;
   pointer-events: none;
   transition: opacity 1.2s;
 }
-.demoone-story-text {
+.demotwo-story-text {
   color: #FFD700;
   font-size: 28px;
   font-family: 'STKaiti', 'KaiTi', 'FZShuTi', serif;
@@ -363,7 +361,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.demoone-start-btn {
+.demotwo-start-btn {
   position: absolute;
   right: 48px;
   bottom: 48px;
@@ -381,18 +379,17 @@
   opacity: 1;
   z-index: 10;
 }
-.demoone-start-btn:hover {
+.demotwo-start-btn:hover {
   background: linear-gradient(90deg, #bfa76a 0%, #e6d8b6 100%);
   transform: scale(1.04);
-  
 }
-.demoone-start-btn.btn-fadeout {
+.demotwo-start-btn.btn-fadeout {
   opacity: 0;
   transition: opacity 1.2s;
   pointer-events: none;
 }
-.demoone-bg,
-.demoone-content {
+.demotwo-bg,
+.demotwo-content {
   opacity: 0;
   transition: opacity 2s;
 }

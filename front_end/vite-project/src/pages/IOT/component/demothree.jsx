@@ -1,102 +1,17 @@
-// import { useEffect, useRef, useState } from "react";
-// import "./demothree.css"
-
-// const DemoOne = () => {
-//   const storyText = "  异世里的普通高中生，追随恋人而来无意间混进了采选队伍，于是就这么莫名其妙地入了皇宫，后被安排至干穗身边当了侍女为人单纯善良、富有同情心，即便干穗被打入冷宫，亦不离不弃。";
-//   const [visibleCount, setVisibleCount] = useState(0);
-//   const [started, setStarted] = useState(false);
-//   const [showButton, setShowButton] = useState(true);
-//   const typingTimer = useRef(null);
-
-//   useEffect(() => {
-//     document.body.classList.add('demoone-hide-toggle');
-//     return () => {
-//       document.body.classList.remove('demoone-hide-toggle');
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     setVisibleCount(0);
-//     if (typingTimer.current) clearTimeout(typingTimer.current);
-//     if (!started) {
-//       const type = () => {
-//         setVisibleCount(count => {
-//           if (count < storyText.length) {
-//             typingTimer.current = setTimeout(type, 100);
-//             return count + 1;
-//           }
-//           return count;
-//         });
-//       };
-//       type();
-//     }
-//     return () => {
-//       if (typingTimer.current) clearTimeout(typingTimer.current);
-//     };
-//   }, [storyText, started]);
-
-//   const handleStart = () => {
-//     setStarted(true);
-//     setTimeout(() => {
-//       setShowButton(false);
-//     }, 1200);
-//   };
-
-//   return (
-//     <>
-//       <div className={`demoone-bg ${started ? 'bg-fadein' : ''}`}>
-//         <video
-//           autoPlay
-//           loop
-//           muted
-//           playsInline
-//           className="bg-video"
-//           src="/three.mp4" // 这里填写你的视频路径
-//         />
-//       </div>
-//       <div className={`demoone-mask${started ? ' mask-fadeout' : ''}`}>
-//         <div className="demoone-story-text">
-//           {storyText.split("").map((char, idx) => (
-//             <span
-//               key={idx}
-//               style={{
-//                 visibility: idx < visibleCount ? "visible" : "hidden",
-//                 transition: "visibility 0s"
-//               }}
-//             >
-//               {char}
-//             </span>
-//           ))}
-//         </div>
-//         {showButton && (
-//           <button className={`demoone-start-btn${started ? ' btn-fadeout' : ''}`} onClick={handleStart}>
-//             继续
-//           </button>
-//         )}
-//       </div>
-//       <div className={`demoone-content${started ? ' content-fadein' : ''}`}></div>
-//     </>
-//   )
-// }
-
-// export default DemoOne;
-
-
-
-
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import "./demothree.css";
 
 
-const openingText = "  异世里的普通高中生，追随恋人而来无意间混进了采选队伍，于是就这么莫名其妙地入了皇宫，后被安排至干穗身边当了侍女为人单纯善良、富有同情心，即便干穗被打入冷宫，亦不离不弃。";
+
+const openingText = "  瑶姬，现为凌霜妃侍女，天真烂漫，清丽如兰。虽身处宫廷，却始终保有少女的羞涩与幻想。";
 
 const DemoOne = () => {
   const location = useLocation();
   const [messages, setMessages] = useState([
     {
       type: "ai",
-      content:'欢迎来到锦桦的异世界',
+      content:'欢迎来到瑶姬的异世界',
       // timeStamp:new Date().toLocaleTimeString()
     }
   ]);
@@ -144,6 +59,7 @@ const DemoOne = () => {
     setTimeout(() => {
       setOpening(false);
     }, 1200); // 与css动画时长一致
+    
   };
 
   // 每次消息更新都滚动到底部
@@ -195,7 +111,7 @@ const DemoOne = () => {
   const fetchHistoryList = async () => {
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/chat_list/', {
+      const res = await fetch('http://10.158.36.225:8080/chat_list/role3', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -231,6 +147,43 @@ const DemoOne = () => {
   //   }
   //   fetchHistoryList();
   // }, []);
+  
+  // const handleNewChat = async () => {
+  //   const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+  
+  //   try {
+  //     // 1. 创建新会话，注意 URL 是 /newchat（没有 model 参数）
+  //     const createChatRes = await fetch('http://10.158.36.225:8080/ai/newchat', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type':'application/json'
+  //       }
+        
+  //     });
+  //     // const  data = await createChatRes.json();
+  //     const chatId = createChatRes.headers.get("X-Chat-Id");
+  //     if (!chatId) throw new Error("未能获取 chat_id");
+  
+  //     // 2. 存储 chat_id
+  //     setChatId(String(chatId));
+  //     localStorage.setItem("current_chat_id", String(chatId));
+  //     setMessages([
+  //       {
+  //         type: "ai",
+  //         content: '欢迎来到锦桦的异世界',
+  //       }
+  //     ]);
+  //     setInputValue(""); // 清空输入框
+  //   }
+  //     catch(e){
+  //       console.error("创建新对话失败",e);
+  //     }
+     
+  //   };
+
+
+
 
   const handleSend = async () => {
     const msg = inputValue.trim();
@@ -249,7 +202,7 @@ const DemoOne = () => {
         formData.append('chat_id', chatId);
       }
 
-      const res = await fetch('http://10.158.36.225:8080/ai/chat/qwen-max', {
+      const res = await fetch('http://10.158.36.225:8080/ai/chat/role/role3', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
@@ -325,6 +278,8 @@ const DemoOne = () => {
         fetchHistoryList();
       }
 
+      await fetchHistoryList(); // 每次发送消息后强制刷新历史记录
+
     } catch (e) {
       setMessages(prev => [...prev, {
         type: 'ai',
@@ -351,7 +306,15 @@ const DemoOne = () => {
 
   // 只保留 GET /ai/ 的 useEffect。
   useEffect(() => {
+    const storedChatId = localStorage.getItem('current_chat_id');
+    if (storedChatId) {
+      setChatId(storedChatId);
+      handleSelectHistory(storedChatId); // 拉取该chatId的历史消息
+    } else {
+      handleNewChat(); // 自动新建
+    }
     fetchHistoryList();
+    // eslint-disable-next-line
   }, []);
 
   // 切换历史会话（POST /ai/history?chat_id=xxx）
@@ -380,40 +343,80 @@ const DemoOne = () => {
     }
   };
 
-  // 新建对话逻辑
+ 
+  // const handleNewChat = async () => {
+  //   const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+  //   try {
+  //     const res = await fetch('http://10.158.36.225:8080/ai/newchat', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
+  //     const data = await res.json();
+  //     if (data && data.chat_id) {
+  //       setChatId(String(data.chat_id));
+  //       localStorage.setItem('current_chat_id', String(data.chat_id));
+  //       setMessages([
+  //         {
+  //           type: "ai",
+  //           content: '欢迎来到锦桦的异世界',
+  //         }
+  //       ]);
+  //       setInputValue(""); 
+  //     }
+  //   } catch (e) {
+      
+  //   }
+  // };
+ 
   const handleNewChat = async () => {
     const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
     try {
-      const res = await fetch('http://10.158.36.225:8080/ai/new_chat_id', {
+      const formData = new FormData();
+      formData.append('role', 'role3');
+      const res = await fetch('http://10.158.36.225:8080/ai/newchat', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+        },
+        body: formData,
       });
-      const data = await res.json();
-      if (data && data.chat_id) {
-        setChatId(String(data.chat_id));
-        localStorage.setItem('current_chat_id', String(data.chat_id));
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let responseText = "";
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          responseText += decoder.decode(value);
+        }
+        const chatId = res.headers.get("X-Chat-Id");
+        if (chatId) {
+          setChatId(chatId);
+          localStorage.setItem("current_chat_id", chatId);
+        }
         setMessages([
           {
             type: "ai",
-            content: '欢迎来到锦桦的异世界',
+            content: "欢迎来到瑶姬的异世界",
           }
         ]);
-        setInputValue(""); // 清空输入框
+        await fetchHistoryList(); // 新建对话后强制刷新历史记录
       }
     } catch (e) {
-      // 可选：错误提示
+      console.error("对话出错:", e);
     }
   };
+
 
   return (
     <>
       {/* 开场黑幕+打字机+继续按钮 */}
       {opening && (
-        <div className={`demoone-mask${!showButton ? ' mask-fadeout' : ''}`}>
-          <div className="demoone-story-text">
+        <div className={`demothree-mask${!showButton ? ' mask-fadeout' : ''}`}>
+          <div className="demothree-story-text">
             {openingText.split("").map((char, idx) => (
               <span
                 key={idx}
@@ -427,25 +430,25 @@ const DemoOne = () => {
             ))}
           </div>
           {showButton && (
-            <button className={`demoone-start-btn${!showButton ? ' btn-fadeout' : ''}`} onClick={handleStart}>
+            <button className={`demothree-start-btn${!showButton ? ' btn-fadeout' : ''}`} onClick={handleStart}>
               继续
             </button>
           )}
         </div>
       )}
       {/* 主内容，只有开场动画结束后才显示 */}
-      <div className={`demoone-bg${!opening ? ' bg-fadein' : ''}`}>
+      <div className={`demothree-bg${!opening ? ' bg-fadein' : ''}`}>
       <video
           autoPlay
           loop
           muted
           playsInline
           className="bg-video"
-          src="/one.mp4" // 这里填写你的视频路径
+          src="/three.mp4" // 这里填写你的视频路径
         />
       </div>
       <div
-        className={`demoone-content${!opening ? ' content-fadein' : ''}`}
+        className={`demothree-content${!opening ? ' content-fadein' : ''}`}
         style={opening ? { visibility: 'hidden', pointerEvents: 'none' } : {}}
       >
         {/* 原有内容 */}
@@ -458,66 +461,66 @@ const DemoOne = () => {
           // </div> */}
         
 
-        <div className="demoone-flex-container">
-          <div className="demoone-chat-area" style={{position: "relative"}}>
-            <div className="demoone-left-float">
+        <div className="demothree-flex-container">
+          <div className="demothree-chat-area" style={{position: "relative"}}>
+            <div className="demothree-left-float">
               {/* 这里放你想要的内容，比如图片、角色、装饰等 */}
             </div>
-            <div className="demoone-chat-box">
-              <div className="demoone-chat-messages">
+            <div className="demothree-chat-box">
+              <div className="demothree-chat-messages">
                 {messages.map((msg, idx) => (
-                  <div key={idx} className={`demoone-chat-row demoone-chat-row-${msg.type}`}>
+                  <div key={idx} className={`demothree-chat-row demothree-chat-row-${msg.type}`}>
                     {msg.type === 'ai' && (
-                      <div className="demoone-avatar demoone-avatar-ai">
-                        <img src="../../../../public/ttst.png" alt="AI头像" />
-                        <div className="demoone-name">锦桦</div>
+                      <div className="demothree-avatar demothree-avatar-ai">
+                        <img src="../../../../public/three.png" alt="AI头像" />
+                        <div className="demothree-name">锦桦</div>
                       </div>
                     )}
                     <div
-                      className={`demoone-bubble demoone-bubble-${msg.type}`}
+                      className={`demothree-bubble demothree-bubble-${msg.type}`}
                       dangerouslySetInnerHTML={{ __html: msg.content }}
                     />
                     {msg.type === 'user' && (
-                      <div className="demoone-avatar demoone-avatar-user">
-                        <img src="../../../../public/hailuo.jpg" alt="用户头像" />
-                        <div className="demoone-name">您</div>
+                      <div className="demothree-avatar demothree-avatar-user">
+                        <img src="../../../../public/my.jpg" alt="用户头像" />
+                        <div className="demothree-name">您</div>
                       </div>
                     )}
                   </div>
                 ))}
                 <div ref={chatEndRef}></div>
               </div>
-              <div className="demoone-chat-input-area">
+              <div className="demothree-chat-input-area">
                 <input
                   ref={inputRef}
-                  className="demoone-chat-input"
+                  className="demothree-chat-input"
                   type="text"
                   placeholder="请输入..."
                   value={inputValue}
                   onChange={e => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
                 />
-                <button className="demoone-chat-send" onClick={handleSend} disabled={isLoading}>
+                <button className="demothree-chat-send" onClick={handleSend} disabled={isLoading}>
                   发送
                 </button>
               </div>
-              <div className="demoone-bottom-btns">
-                <button className="demoone-btn-main">继 续</button>
-                <button className="demoone-btn-skip">跳过</button>
+              <div className="demothree-bottom-btns">
+                <button className="demothree-btn-main" onClick={console.log(chatId)}>继 续</button>
+                <button className="demothree-btn-skip">跳过</button>
               </div>
             </div>
           </div>
-          <div className="demoone-history-area">
-            <button className="history-item new-chat-btn" onClick={handleNewChat} style={{marginBottom: '10px', fontWeight: 'bold'}}>
+          <div className="demothree-history-area">
+            <button className="demothree-history-item new-chat-btn" onClick={handleNewChat} style={{marginBottom: '10px', fontWeight: 'bold'}}>
               + 新建对话
             </button>
-            <div className="history-header">历史对话</div>
-            <div className="history-list">
-              {historyList.length === 0 && <div className="history-empty">暂无历史</div>}
+            <div className="demothree-history-header">历史对话</div>
+            <div className="demothree-history-list">
+              {historyList.length === 0 && <div className="demothree-history-empty">暂无历史</div>}
               {historyList.map(item => (
                 <button
                   key={item.chat_id}
-                  className={`history-item${item.chat_id === chatId ? ' active' : ''}`}
+                  className={`demothree-history-item${item.chat_id === chatId ? ' active' : ''}`}
                   onClick={() => handleSelectHistory(item.chat_id)}
                 >
                   {item.chat_name || `对话${item.chat_id.slice(0, 6)}`}
@@ -532,11 +535,6 @@ const DemoOne = () => {
 };
 
 export default DemoOne;
-
-
-
-
-
 
 
 

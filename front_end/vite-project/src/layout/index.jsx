@@ -437,6 +437,30 @@ export default function BasicLayout() {
     }
   }, [location.pathname, isIotDetails]);
 
+  // 退出登录逻辑
+  const handleLogout = async () => {
+    const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+    if (!token) return;
+    try {
+      const res = await fetch('http://10.158.36.225:8080/logout/', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!res.ok) throw new Error('退出登录失败');
+      // 清除本地 token
+      localStorage.removeItem('auth_token');
+      sessionStorage.removeItem('auth_token');
+      // 跳转到登录页
+      navigate('/');
+    } catch (e) {
+      // 可选：提示错误
+      alert(e.message || '退出登录失败');
+    }
+  };
+
   return (
     <Layout style={{ minHeight: '100vh', minWidth: '100vw' }}>
       {/* 顶部导航栏 - 只在非iotDetails页面渲染 */}
@@ -453,6 +477,7 @@ export default function BasicLayout() {
             >
               <div className="right-title">这是一个神奇的海螺吆</div>
             </div>
+            <button className="logout-btn" onClick={handleLogout}>退出</button>
           </Header>
         )
       )}

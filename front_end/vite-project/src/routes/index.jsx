@@ -10,9 +10,15 @@ const IOTDemoone = lazy(() => import("@/pages/IOT/component/demoone"));
 const IOTDemotwo = lazy(() => import("@/pages/IOT/component/demotwo"));
 const IOTDemothree = lazy(() => import("@/pages/IOT/component/demothree"));
 const IOTDemofour = lazy(() => import("@/pages/IOT/component/demofour"));
+
+const DocumentLearn = lazy(() => import("@/pages/IOT/component/preReleaseComponents/documentlearn"));
+const VideoSummary = lazy(() => import("@/pages/IOT/component/preReleaseComponents/videosummary"));
+const PictureMaking = lazy(() => import("@/pages/IOT/component/preReleaseComponents/picturemaking"))
+const Dialog = lazy(() => import("@/pages/IOT/component/preReleaseComponents/dialog"));
+
 const IOTTypeServiceList = lazy(() => import("@/pages/IOT/component/typeServiceList"));
 
-const IOTTypePreReleaseArea = lazy(() => import("@/pages/IOT/component/preReleaseComponents/areaPage"));
+
 const IOTTypeVerify = lazy(() => import("@/pages/IOT/component/typeVerify"));
 
 const EnvironmentManage = lazy(() => import("@/pages/environmentManage"));
@@ -68,6 +74,22 @@ const routes =[
 						name: "IOT发布详情页面",
 						element: <IOTDetails />,
 					},
+				
+					{
+						path: 'videosummary',
+						name: "IOT发布详情页面",
+						element: <VideoSummary />,
+					},
+					{
+						path: 'picturemaking',
+						name: "IOT发布详情页面",
+						element: <PictureMaking />,
+					},
+					{
+						path: 'dialog',
+						name: "IOT发布详情页面",
+						element: <Dialog />,
+					},
 					
 					{
 						path: 'IOTtype_ServiceList/:id',
@@ -76,9 +98,9 @@ const routes =[
 					},
 			
 					{
-						path: `IOTtype_PreRelease/:id/area`,
+						path: `documentlearn`,
 						name: "IOT发布—预发布状态页面",
-						element: <IOTTypePreReleaseArea />,
+						element: <DocumentLearn />,
 					},
 					{
 						path: 'IOTType_Verify/:id',
