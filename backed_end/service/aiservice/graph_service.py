@@ -1,6 +1,5 @@
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
-from langgraph.constants import END
 from langgraph_supervisor import create_supervisor
 
 from backed_end.config.api_key import OPEN_API_KEY
@@ -9,16 +8,13 @@ from backed_end.service.agents.RAG_agent import get_rag_agent
 from backed_end.service.agents.bilibili_agent import get_biliili_agent
 from backed_end.service.agents.coder_agent import get_coder_agent
 from backed_end.service.agents.document_translation_agent import get_document_translation_agent
-from backed_end.service.agents.generate_picture_agent import get_generate_picture_agent
 from backed_end.service.agents.internet_agent import get_internet_agent
 from backed_end.service.agents.plan_agent import get_plan_agent
 from backed_end.service.agents.summary_agent import get_summary_agent
 from backed_end.service.checkpointer.AsyncStartEndCheckpointer import AsyncStartEndCheckpointer
-from backed_end.service.state.state import State
-from backed_end.service.tools.handle_file import handle_file
 
 
-async def service(question: str, thread_id: str, model:str,internet: bool, RAG: bool,email:str) -> str:
+async def chat_service(question: str, thread_id: str,model:str,internet: bool, RAG: bool,email:str) -> str:
     # if RAG:
     #     handle_file(thread_id,True)
 
@@ -43,8 +39,7 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
 
         plan_agent = get_plan_agent()
         agents.append(plan_agent)
-        generator_picture_agent=get_generate_picture_agent()
-        agents.append(generator_picture_agent)
+
         coder_agent=get_coder_agent()
         agents.append(coder_agent)
         bilibili_agent=get_biliili_agent()
@@ -54,7 +49,7 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
             model=ChatOpenAI(
                 api_key=OPEN_API_KEY,
                 base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-                model=model,
+                model="qwen-max",
                 temperature=0,
             ),
             prompt="""
@@ -71,7 +66,6 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
                 if user want to translate his article,please call translation monitor,if user want to summary the article,please call summary_agent
                 if user want to know something about article,please call rag_agent
                 you can use the internet_agent to search the internet for information.
-                you can use the generator_picture_agent to generate a picture
                 you can use the coder_agent to write code
                 you can't answer the question by yourself if you can get information from other agents.
                 the information you get from the RAG agent is more reliable than the information you get from the internet agent.
@@ -93,7 +87,7 @@ async def service(question: str, thread_id: str, model:str,internet: bool, RAG: 
                 config=config,
                 stream_mode="values"
         ):
-            if event["event"] == "on_chat_model_stream" and event["metadata"]["ls_model_name"]==model:# and event["data"]["chunk"].response_metadata["model_name"]=="qwen-plus":
+            if event["event"] == "on_chat_model_stream" and event["metadata"]["ls_model_name"]=="qwen-max":# and event["data"]["chunk"].response_metadata["model_name"]=="qwen-plus":
                 for chunk in event["data"]["chunk"].content:
                     # yield f"data: {chunk}\n\n"
                     print(chunk,end="",flush=True)
@@ -129,4 +123,4 @@ if __name__ == "__main__":
         if question.lower() == "exit":
             break
         thread_id = "4"
-        asyncio.run(service(question, thread_id, "qwen-max",True, True,"873319973@qq.com"))
+        asyncio.run(chat_service(question, thread_id,"quen-max",True, True,"873319973@qq.com"))
