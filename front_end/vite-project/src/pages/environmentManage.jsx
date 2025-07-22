@@ -705,8 +705,8 @@ const ChatWidget = () => {
           <div className="feature-buttons-grid">
             <button onClick={() => navigate('/IOTDetails')}>剧情对话</button>
             <button onClick={() => navigate('/IOT/documentlearn')}>文档处理</button>
-            <button onClick={() => navigate('/IOT/picturemaking')}>图片生成</button>
-            <button onClick={() => navigate('/IOT/videosummary')}>视频总结</button>
+            <button onClick={() => navigate('/IOT/picturemaking')}>图片视频生成</button>
+            <button onClick={() => navigate('/IOT/videosummary')}>多模态</button>
           </div>
         </div>
       )}

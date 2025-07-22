@@ -1,5 +1,5 @@
 .videosum-root {
-  max-width: 900px;
+  min-width: 900px;
   margin: 40px auto;
   padding: 32px 24px;
   background: #fff;
@@ -26,7 +26,7 @@
 }
 .videosum-input {
   flex: 1;
-  min-width: 220px;
+  min-width: 680px;
   max-width: 400px;
   padding: 12px 18px;
   font-size: 17px;
