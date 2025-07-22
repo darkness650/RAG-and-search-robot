@@ -60,9 +60,14 @@ async def generate_service(thread_id:str,question:str):
                         """,
             checkpointer=checkpointer
         )
-        output=await generate_agent.ainvoke({"messages":question},config=config)
-        print(output["messages"][-1].content)
-        return output["messages"][-1].content
+        async for event in generate_agent.astream_events({"messages":question},config=config):
+            if event["event"] == "on_chat_model_stream":
+                for chunk in event["data"]["chunk"].content:
+                    yield f"data: {chunk}\n\n"
+                    #print(chunk, end="", flush=True)
+        # output=await generate_agent.ainvoke()
+        # print(output["messages"][-1].content)
+        # return output["messages"][-1].content
 
 if __name__ == '__main__':
     asyncio.run(generate_service("1","帮我生成一段小狗在阳光下奔跑的视频"))

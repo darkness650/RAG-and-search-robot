@@ -123,4 +123,4 @@ if __name__ == "__main__":
         if question.lower() == "exit":
             break
         thread_id = "4"
-        asyncio.run(chat_service(question, thread_id,"quen-max",True, True,"873319973@qq.com"))
+        asyncio.run(chat_service(question, thread_id,"quen-max",True, False,"873319973@qq.com"))

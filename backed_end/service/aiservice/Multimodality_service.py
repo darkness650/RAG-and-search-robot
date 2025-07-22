@@ -10,7 +10,7 @@ def encode_file(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 
-def mutimodaity_service(thread_id: str, question: str, audio:bool=False):
+async def mutimodaity_service(thread_id: str, question: str, audio:bool=False):
     client = OpenAI(
         api_key=WANX_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
@@ -82,13 +82,16 @@ def mutimodaity_service(thread_id: str, question: str, audio:bool=False):
         for chunk in completion:
             if chunk.choices and hasattr(chunk.choices[0].delta, "audio"):
                 if chunk.choices[0].delta.audio:
-                    output += (chunk.choices[0].delta.audio["transcript"])
-        return output
+                    output=chunk.choices[0].delta.audio["transcript"]
+                    yield  f"data: {output}\n\n"
+                    #output += (chunk.choices[0].delta.audio["transcript"])
+        #return output
     else:
         for chunk in completion:
             if chunk.choices:
                 if hasattr(chunk.choices[0].delta, "audio"):
                     try:
+                        yield chunk.choices[0].delta.audio["data"]
                         output += chunk.choices[0].delta.audio["data"]
                     except Exception as e:
                         print(chunk.choices[0].delta.audio["transcript"])
