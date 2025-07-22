@@ -95,8 +95,8 @@
   padding-bottom: 110px;
 }
 .doclearn-chat-area {
-  width: 600px;
-  min-height: 220px;
+  width: 1000px;
+  min-height: 100px;
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.06);
