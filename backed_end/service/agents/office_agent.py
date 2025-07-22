@@ -13,7 +13,7 @@ def get_office_agent():
     llm = ChatOpenAI(
         api_key=OPEN_API_KEY,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        model="qwen-max-latest",
+        model="qwen-max",
         temperature=0
     )
     tools=[OfficeWriterTool(),
