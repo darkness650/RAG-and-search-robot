@@ -13,9 +13,12 @@ from backed_end.pojo.User import User
 from backed_end.config.user_mannage import get_current_active_user
 from typing import Annotated, Optional, List
 import re
+
+from backed_end.service.aiservice.Multimodality_service import mutimodaity_service
 from backed_end.service.aiservice.ai_summary import ai_summary
 from backed_end.service.aiservice.chat_with_roles import chat_with_roles
-from backed_end.service.aiservice.graph_service import service
+from backed_end.service.aiservice.generate_service import generate_service
+from backed_end.service.aiservice.graph_service import  chat_service
 from backed_end.service.aiservice.history_message import show_history_message
 from backed_end.service.userservice import upload_service
 
@@ -70,8 +73,15 @@ async def ai(question: Annotated[str, Form()], user: Annotated[User, Depends(get
 
         # response_text = await service(question, str(chat_id), model, web_search, has_file)
         async def event_generator():
-            async for chunk in service(question, str(chat_id), model, web_search, has_file,user.email):
-                yield chunk  # 每个 chunk 是一段文本
+            if model == "chat":
+                async for chunk in chat_service(question, str(chat_id), web_search, has_file,user.email):
+                    yield chunk  # 每个 chunk 是一段文本
+            elif model == "generate":
+                async for chunk in generate_service(str(chat_id), question):
+                    yield chunk
+            else:
+                async for chunk in mutimodaity_service(str(chat_id), question):
+                    yield chunk
 
         return StreamingResponse(event_generator(), media_type="text/event-stream", headers={
             "X-Chat-Id": chat_id
