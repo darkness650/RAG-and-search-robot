@@ -1,10 +1,9 @@
 from langchain_community.document_loaders import BiliBiliLoader
 
 
-sessdata="4669bfdc%2C1768306980%2Cf2968%2A72CjCdJ_L1VKkMBNayrmjHip9mQnhGKCm6LxnABqbE3sLQlJDATFi3uCk2WepwinyqC0USVkFtQ1hROFpCREs1aXhsR0ZEaW5LZ05tMUprM2R4Nmh5bkhVLVNuTVJsV1kwWjJROTV3RzNOR3prR1ZEemNuWndwY0JGMklqbjlDQkh6d0xNSlViSjF3IIEC"
-bili_jct="1106c30b86621da284e749c49aea0a6a"
+sessdata="86590dce%2C1768576781%2C265b6%2A72CjBbgceNLQDFXd0vxCAlD34iPgNFLjNGYo7Ed6cdNqAbLm7nKjpkiRvFL_vx2t2kD18SVlZKREhWNHpVc0I0Ni05UFdaSHpiSTNHNm1kdXVQbXBTQ1ZjdUtCM20yUWNGZHBuLWcxeGNoaUhfWUZLR19aOVZYeUJfZVRXYTlXN2V1dG1XSnptYk5RIIEC"
+bili_jct="0bdfcf33353d35cc283b5d7f48071325"
 buvid3="3CEE98D8-4E95-7C42-B186-979DDFBFCC3B64960infoc"
-
 def get_bilibili_tool(url:str):
     """加载Bilibili视频字幕/内容。输入应为视频URL。"""
     loader = BiliBiliLoader(video_urls=[url],

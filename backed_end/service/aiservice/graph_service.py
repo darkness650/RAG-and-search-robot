@@ -16,8 +16,8 @@ from backed_end.service.tools.handle_file import handle_file
 
 
 async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,email:str) -> str:
-    # if RAG:
-    #     handle_file(thread_id,True)
+    if RAG:
+        handle_file(thread_id,True)
 
     config = {"configurable": {"thread_id": thread_id}}
 
@@ -112,7 +112,7 @@ async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,e
             supervisor_name="monitor"
         ).compile(checkpointer=checkpointer)
 
-        # yield f"data: __chat_id__:{thread_id}\n\n"
+        yield f"data: __chat_id__:{thread_id}\n\n"
 
         async for event in supervisor.astream_events(
                 {
@@ -123,8 +123,8 @@ async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,e
         ):
             if event["event"] == "on_chat_model_stream" and event["metadata"]["ls_model_name"]=="qwen-max":# and event["data"]["chunk"].response_metadata["model_name"]=="qwen-plus":
                 for chunk in event["data"]["chunk"].content:
-                    # yield f"data: {chunk}\n\n"
-                    print(chunk,end="",flush=True)
+                    yield f"data: {chunk}\n\n"
+
 
         #     elif event["event"] == "on_tool_start":
         #         tool_name = event["name"]
