@@ -16,8 +16,8 @@ from backed_end.service.tools.handle_file import handle_file
 
 
 async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,email:str) -> str:
-    if RAG:
-        handle_file(thread_id,True)
+    # if RAG:
+    #     handle_file(thread_id,True)
 
     config = {"configurable": {"thread_id": thread_id}}
 
@@ -55,23 +55,56 @@ async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,e
             ),
             prompt="""
                 你是一个智能体管理者，你需要根据用户的问题来分配任务给不同的智能体。
-                you must use agent to solve user's question.you mustn't answer the question by yourself.
-                if you use an agent,you must wait for the agent to finish its work.
-                if you think the question is too complex,you can use the plan_agent to divide the question into smaller tasks.
-                you must use agents to complete these tasks.
-                if user ask you to summary a document,you must use summary_agent to get the summary.
-                you can use bilibili_agent to get video information from bilibili url
-                you can use the translation monitor to finish translation task,if you use it,when you get his answer,you can return directly.
-                you can use the summary_agent to get summary about an article.
-                you can use the RAG_agent to answer questions based on the provided documents.
-                if user want to translate his article,please call translation monitor,if user want to summary the article,please call summary_agent
-                if user want to know something about article,please call rag_agent
-                you can use the internet_agent to search the internet for information.
-                you can use the coder_agent to write code
-                you can't answer the question by yourself if you can get information from other agents.
-                the information you get from the RAG agent is more reliable than the information you get from the internet agent.
-                at last,you must conclude the answer and return the final answer to the user in Chinese.
-                must in Chinese!
+
+你必须使用智能体来解决用户的问题。你绝对禁止自己直接回答问题。
+
+如果你使用一个智能体，你必须等待该智能体完成其工作。
+
+如果你认为问题过于复杂，你可以使用 plan_agent（规划智能体）将问题拆分成更小的任务。
+
+你必须使用智能体来完成这些拆分后的任务。
+
+特定任务强制调用规则：
+
+如果用户要求你翻译一个文档，你必须调用 translation monitor（翻译主管）。
+
+禁止你要求用户提供文档或目标语言。
+
+总之，一句话：如果要翻译文档，调用就完事了！
+
+如果用户要求你总结一个文档，你必须使用 summary_agent（摘要智能体）来获取摘要。
+
+如果用户想要翻译他的文章，你必须调用 translation monitor（翻译主管），无论他是否已将文档提供给你。
+
+如果用户想要总结文章，请调用 summary_agent（摘要智能体）。
+
+如果用户想了解关于文章的一些信息，请调用 rag_agent（RAG智能体）。
+
+可选智能体：
+
+你可以使用 bilibili_agent（哔哩哔哩智能体）来从哔哩哔哩链接获取视频信息。
+
+你可以使用 translation monitor（翻译主管）来完成翻译任务。如果你使用了它，当你得到它的回答后，可以直接返回（给用户）。
+
+你可以使用 summary_agent（摘要智能体）来获取关于一篇文章的摘要。
+
+你可以使用 RAG_agent（RAG智能体）来基于提供的文档回答问题。
+
+你可以使用 internet_agent（联网智能体）在互联网上搜索信息。
+
+你可以使用 coder_agent（编程智能体）来编写代码。
+
+核心原则：
+
+如果你可以从其他智能体获取信息，你就不能自己回答问题。
+
+从 RAG_agent（RAG智能体）获取的信息比从 internet_agent（联网智能体）获取的信息更可靠。
+
+最终要求：
+
+最后，你必须汇总答案，并将最终答案以中文返回给用户。
+
+必须使用中文！
             """,
             include_agent_name='inline',
             output_mode="last_message",
@@ -79,7 +112,7 @@ async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,e
             supervisor_name="monitor"
         ).compile(checkpointer=checkpointer)
 
-        yield f"data: __chat_id__:{thread_id}\n\n"
+        # yield f"data: __chat_id__:{thread_id}\n\n"
 
         async for event in supervisor.astream_events(
                 {
@@ -90,8 +123,8 @@ async def chat_service(question: str, thread_id: str,internet: bool, RAG: bool,e
         ):
             if event["event"] == "on_chat_model_stream" and event["metadata"]["ls_model_name"]=="qwen-max":# and event["data"]["chunk"].response_metadata["model_name"]=="qwen-plus":
                 for chunk in event["data"]["chunk"].content:
-                    yield f"data: {chunk}\n\n"
-                    # print(chunk,end="",flush=True)
+                    # yield f"data: {chunk}\n\n"
+                    print(chunk,end="",flush=True)
 
         #     elif event["event"] == "on_tool_start":
         #         tool_name = event["name"]
@@ -123,5 +156,5 @@ if __name__ == "__main__":
         question = input("请输入问题：")
         if question.lower() == "exit":
             break
-        thread_id = "4"
-        asyncio.run(chat_service(question, thread_id,"quen-max",True, False,"873319973@qq.com"))
+        thread_id = "1"
+        asyncio.run(chat_service(question, thread_id,True, True,"873319973@qq.com"))

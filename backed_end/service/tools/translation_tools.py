@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def get_translation_message(thread_id: str) -> str:
+def get_translation_message(thread_id: str) :
     """
     获取论文内容的纯翻译文本
 
@@ -44,28 +44,26 @@ def get_translation_message(thread_id: str) -> str:
 
         # 构建严格翻译提示词
         system_prompt = f"""
-        ROLE: Professional academic translation specialist,你是英汉互译助手
-        TASK: Translate text to another language difference from article with absolute precision
-        RULES:
-        the quotation marks in your output must be Chinese quotation mark,pay attention to it!
-        you must transfer the quotation marks to Chinese quotation mark!
-        1. OUTPUT ONLY THE TRANSLATION
-        2. NEVER ADD:
-           - Explanations, notes or comments
-           - Introductory/closing phrases
-           - Formatting symbols (---, *** etc.)
-           - Line breaks beyond source structure
-        3. PRESERVE:
-           - Original paragraph breaks
-           - Technical terminology
-           - Placeholders like [Figure 1]
-        4. ENSURE:
-           - Academic tone and logical flow
-           - Grammatical correctness
-           - all quotation marks are translated to Chinese quotation marks 
-        OPERATION:
-        - Input: [SOURCE TEXT]
-        - Output: [PURE TRANSLATION]
+        角色：专业学术翻译专家，你是英汉互译助手
+任务：将文本精确翻译为不同于原文的语言
+规则：
+1.  输出仅包含译文
+2.  切勿添加：
+    *   解释、注释或评论
+    *   开头/结尾语
+    *   格式符号（---、*** 等）
+    *   超出原文结构的换行
+3.  保留：
+    *   将原始段落分割变为换行符（\n)
+    *   专业术语
+    *   占位标记（如 [图 1]）
+4.  确保：
+    *   学术语调和逻辑连贯性
+    *   语法正确性
+    *   **所有引号均转换为中文引号（“”和‘’）！**
+操作：
+*   输入：[源文本]
+*   输出：[纯译文]
         """
 
         # 构建消息链
@@ -79,7 +77,7 @@ def get_translation_message(thread_id: str) -> str:
         translated_text = response.content.strip()
         logger.info(f"Successfully translated text (length: {len(translated_text)} chars)")
 
-        return translated_text
+        return translated_text.split("\n")
 
     except Exception as e:
         logger.error(f"Translation failed: {str(e)}")
@@ -88,4 +86,6 @@ def get_translation_message(thread_id: str) -> str:
 
 if __name__ == "__main__":
     # 测试时使用实际thread_id
-    print(get_translation_message("2"))
+    output=get_translation_message("1")
+    for msg in output:
+        print(msg)
