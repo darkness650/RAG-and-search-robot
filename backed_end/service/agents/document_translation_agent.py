@@ -35,7 +35,7 @@ async def get_document_translation_agent(thread_id:str,target_email:str):
 
 强制调用流程：
 
-如果上级监控（monitor）给你分配任务（尤其是翻译任务），你绝对禁止要求用户提供文档或目标语言。
+如果上级监控（monitor）给你分配任务（尤其是翻译任务），你绝对禁止要求用户提供文档或目标语言。你绝对禁止在没调用agent的时候就返回，你绝对禁止在未完成下面的流程的时候就返回
 
 你必须调用 translation agent（翻译智能体）来翻译文档。
 

@@ -8,7 +8,7 @@
       <jdbc-url>jdbc:aws-wrapper:mysql://localhost:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="checkpoints" uuid="5111359c-8706-4ee8-9e89-46208f8642ac">
+    <data-source source="LOCAL" name="checkpoints" uuid="1e3037b3-5c45-4e73-8632-180af7abc9d3">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
