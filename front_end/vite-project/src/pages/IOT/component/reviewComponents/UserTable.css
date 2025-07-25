@@ -1,0 +1,171 @@
+.table-wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  overflow-x: auto; /* 响应式滚动 */
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.user-table thead {
+  background-color: #f5f7fa;
+}
+
+.user-table th,
+.user-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e5eaf2;
+}
+
+.user-table th {
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap; /* 表头不换行 */
+}
+
+/* 奇偶行区分 */
+.row-even {
+  background-color: #fcfdfe;
+}
+.row-odd {
+  background-color: #fff;
+}
+
+/* 悬停高亮 */
+.user-table tr:hover {
+  background-color: #f9fbff;
+  transition: background 0.2s ease;
+}
+
+/* 密码列特殊处理（长文本省略） */
+.hash-column {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .table-wrapper {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 0;
+  }
+  .user-table th,
+  .user-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+}
+.table-wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.user-table thead {
+  background-color: #f5f7fa;
+}
+
+.user-table th,
+.user-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e5eaf2;
+}
+
+.user-table th {
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.row-even {
+  background-color: #fcfdfe;
+}
+.row-odd {
+  background-color: #fff;
+}
+
+.user-table tr:hover {
+  background-color: #f9fbff;
+  transition: background 0.2s ease;
+}
+
+.hash-column {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========== 操作列样式 ========== */
+.action-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* 按钮间距 */
+}
+
+/* 修改按钮 */
+.edit-btn {
+  background-color: #409eff;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.edit-btn:hover {
+  background-color: #66b1ff;
+}
+
+/* 删除按钮 */
+.delete-btn {
+  background-color: #f56c6c;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.delete-btn:hover {
+  background-color: #ff8787;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .table-wrapper {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 0;
+  }
+  .user-table th,
+  .user-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+}

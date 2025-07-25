@@ -84,7 +84,7 @@ const RegisterPage = () => {
     
     try {
       // 后端接口地址（用户后续需替换为实际地址）
-      const backendUrl = 'http://10.158.36.225:8080/sign_up/'; // 后端注册接口占位符
+      const backendUrl = 'http://localhost:8080/sign_up/'; // 后端注册接口占位符
       
       // 发送注册请求
       const response = await fetch(backendUrl, {
@@ -165,7 +165,7 @@ const RegisterPage = () => {
     if (!validateEmailForm()) return;
     setEmailLoading(true);
     try {
-      const response = await fetch('http://10.158.36.225:8080/by_code', {
+      const response = await fetch('http://localhost:8080/by_code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -194,7 +194,7 @@ const RegisterPage = () => {
     setCodeSending(true);
     setEmailErrors(prev => ({ ...prev, code: '' }));
     try {
-      const response = await fetch('http://10.158.36.225:8080/send_verification_code', {
+      const response = await fetch('http://localhost:8080/send_verification_code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailForm.email })

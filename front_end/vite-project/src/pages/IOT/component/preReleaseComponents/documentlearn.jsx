@@ -65,7 +65,7 @@ const DocumentLearn = () => {
         throw new Error('未找到认证信息，请重新登录');
       }
 
-      const res = await fetch('http://10.158.36.225:8080/ai/chat/chat', {
+      const res = await fetch('http://localhost:8080/ai/chat/chat', {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
