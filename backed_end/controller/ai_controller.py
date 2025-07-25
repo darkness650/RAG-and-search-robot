@@ -159,12 +159,10 @@ async def newai(user: Annotated[User, Depends(get_current_active_user)],
         chat_name = f"{user.username}的对话({chat_count})"
     else:
         role_names = {
-            "role1": "凌霜妃",
-            "role2": "红绡仙",
-            "role3": "瑶姬",
-            "role4": "铃兰",
-            "role5": "云娘",
-            "role6": "云蝶",
+            "role1": "霜妃",
+            "role2": "红绡",
+            "role3": "瑶瑶",
+            "role4": "铃兰"
         }
         chat_name = f"与{role_names.get(role, '神秘角色')}的对话({chat_count})"
 

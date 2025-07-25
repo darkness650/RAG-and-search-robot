@@ -18,12 +18,10 @@ with open(prompt_path, "r", encoding="utf-8") as f:
 def get_personality_by_role(role: str) -> str:
     # role1~role4 映射到角色名
     role_map = {
-        "role1": "凌霜妃",
-        "role2": "红绡仙",
-        "role3": "瑶姬",
-        "role4": "铃兰",
-        "role5": "云娘",
-        "role6": "云蝶",
+        "role1": "霜妃",
+        "role2": "红绡",
+        "role3": "瑶瑶",
+        "role4": "铃兰"
     }
     target_name = role_map.get(role, "")
     for item in character_data:
