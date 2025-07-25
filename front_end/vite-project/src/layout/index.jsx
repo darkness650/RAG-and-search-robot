@@ -59,7 +59,7 @@ export default function BasicLayout() {
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
       console.log({
-        url: 'http://10.158.36.225:8080/chat_list/rename',
+        url: 'http://localhost:8080/chat_list/rename',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ export default function BasicLayout() {
         })
       });
 
-      const res = await fetch('http://10.158.36.225:8080/chat_list/rename', {
+      const res = await fetch('http://localhost:8080/chat_list/rename', {
        
         method: 'PATCH',
         headers: {
@@ -115,7 +115,7 @@ export default function BasicLayout() {
     if (!deleteTarget) return;
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/chat_list/delete', {
+      const res = await fetch('http://localhost:8080/chat_list/delete', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -158,7 +158,7 @@ export default function BasicLayout() {
     if (!starTarget) return;
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/chat_list/star', {
+      const res = await fetch('http://localhost:8080/chat_list/star', {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -283,7 +283,7 @@ export default function BasicLayout() {
       
       console.log('开始调用API获取历史列表...');
       // TODO: 替换为你的API地址
-      const res = await fetch('http://10.158.36.225:8080/chat_list/user', {
+      const res = await fetch('http://localhost:8080/chat_list/user', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -442,7 +442,7 @@ export default function BasicLayout() {
     const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
     if (!token) return;
     try {
-      const res = await fetch('http://10.158.36.225:8080/logout/', {
+      const res = await fetch('http://localhost:8080/logout/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -516,7 +516,7 @@ export default function BasicLayout() {
                   // 新对话逻辑：先请求chatId再跳转
                   const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
                   try {
-                    const res = await fetch('http://10.158.36.225:8080/ai/newchat', {
+                    const res = await fetch('http://localhost:8080/ai/newchat', {
                       method: 'POST',
                       headers: { 'Authorization': `Bearer ${token}` }
                     });

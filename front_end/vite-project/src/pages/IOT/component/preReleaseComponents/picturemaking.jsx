@@ -31,7 +31,7 @@ const DocumentLearn = () => {
       if (file) formData.append('files', file);
       formData.append('web_search', false);
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/ai/chat/generate', {
+      const res = await fetch('http://localhost:8080/ai/chat/generate', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData

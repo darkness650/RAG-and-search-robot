@@ -299,8 +299,8 @@ const ChatWidget = () => {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
 
        // 动态拼接URL - 核心修改点
-       const baseUrl = 'http://10.158.36.225:8080/ai/chat';
-      const res = await fetch(`${baseUrl}/${modelUrlSuffix}`, {
+       const baseUrl = 'http://localhost:8080/ai/chat/chat';
+      const res = await fetch(`${baseUrl}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -459,8 +459,8 @@ const ChatWidget = () => {
             return;
           }
           
-          console.log('开始请求API: http://10.158.36.225:8080/ai/history');
-          const res = await fetch(`http://10.158.36.225:8080/ai/history?chat_id=${chatId}`, {
+          console.log('开始请求API: http://localhost:8080/ai/history');
+          const res = await fetch(`http://localhost:8080/ai/history?chat_id=${chatId}`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${token}`,

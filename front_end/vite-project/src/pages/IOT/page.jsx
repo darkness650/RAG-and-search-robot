@@ -114,7 +114,7 @@ const loginAPI = async (email, password) => {
     formData.append('username', email);
     formData.append('password', password);
     
-    const response = await fetch('http://10.158.36.225:8080/token/', {
+    const response = await fetch('http://localhost:8080/token/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded' // 重要：使用 form-urlencoded

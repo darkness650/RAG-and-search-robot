@@ -89,7 +89,7 @@ const DemoOne = () => {
   // useEffect(() => {
   //   if (!chatId) {
   //     const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-  //     fetch('http://10.158.36.225:8080/ai/new_chat_id', {
+  //     fetch('http://localhost:8080/ai/new_chat_id', {
   //       method: 'POST',
   //       headers: {
   //         'Authorization': `Bearer ${token}`,
@@ -111,7 +111,7 @@ const DemoOne = () => {
   const fetchHistoryList = async () => {
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch('http://10.158.36.225:8080/chat_list/role3', {
+      const res = await fetch('http://localhost:8080/chat_list/role3', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -131,7 +131,7 @@ const DemoOne = () => {
   //   async function fetchHistoryList() {
   //     try {
   //       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-  //       const res = await fetch('http://10.158.36.225:8080/ai/', {
+  //       const res = await fetch('http://localhost:8080/ai/', {
   //         method: 'GET',
   //         headers: {
   //           'Authorization': `Bearer ${token}`,
@@ -153,7 +153,7 @@ const DemoOne = () => {
   
   //   try {
   //     // 1. 创建新会话，注意 URL 是 /newchat（没有 model 参数）
-  //     const createChatRes = await fetch('http://10.158.36.225:8080/ai/newchat', {
+  //     const createChatRes = await fetch('http://localhost:8080/ai/newchat', {
   //       method: 'POST',
   //       headers: {
   //         'Authorization': `Bearer ${token}`,
@@ -202,7 +202,7 @@ const DemoOne = () => {
         formData.append('chat_id', chatId);
       }
 
-      const res = await fetch('http://10.158.36.225:8080/ai/chat/role/role3', {
+      const res = await fetch('http://localhost:8080/ai/chat/role/role3', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
@@ -323,7 +323,7 @@ const DemoOne = () => {
     localStorage.setItem('current_chat_id', String(id));
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const res = await fetch(`http://10.158.36.225:8080/ai/history?chat_id=${id}`, {
+      const res = await fetch(`http://localhost:8080/ai/history?chat_id=${id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -347,7 +347,7 @@ const DemoOne = () => {
   // const handleNewChat = async () => {
   //   const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
   //   try {
-  //     const res = await fetch('http://10.158.36.225:8080/ai/newchat', {
+  //     const res = await fetch('http://localhost:8080/ai/newchat', {
   //       method: 'POST',
   //       headers: {
   //         'Authorization': `Bearer ${token}`,
@@ -376,7 +376,7 @@ const DemoOne = () => {
     try {
       const formData = new FormData();
       formData.append('role', 'role3');
-      const res = await fetch('http://10.158.36.225:8080/ai/newchat', {
+      const res = await fetch('http://localhost:8080/ai/newchat', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
