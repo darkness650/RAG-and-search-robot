@@ -23,6 +23,7 @@ const IOTTypeVerify = lazy(() => import("@/pages/IOT/component/typeVerify"));
 
 const EnvironmentManage = lazy(() => import("@/pages/environmentManage"));
 
+const Guanli = lazy(()=> import("@/pages/IOT/component/reviewComponents/testForms"));
 const routes =[
 	{
 		paths:'/',
@@ -37,6 +38,10 @@ const routes =[
 					{
 						index:true,
 						element:<Navigate to="IOTPage" replace/>,
+					},
+					{
+						path:'guanli',
+						element:<Guanli/>
 					},
 					{
 						path: 'IOTPage',
